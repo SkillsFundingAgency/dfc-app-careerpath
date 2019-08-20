@@ -1,23 +1,37 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using DFC.App.CareerPath.Data.Contracts;
+using DFC.App.CareerPath.Data.Models;
+using DFC.App.CareerPath.DraftSegmentService;
+using DFC.App.CareerPath.Repository.CosmosDb;
+
+using DFC.App.CareerPath.Repository.SitefinityApi;
+using DFC.App.CareerPath.SegmentService;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace DFC.App.CareerPath
 {
     public class Startup
     {
+        public const string CosmosDbConfigAppSettings = "Configuration:CosmosDbConnections:JobProfileSegment";
+        public const string SitefinityApiAppSettings = "SitefinityApi";
+
+        private readonly IConfiguration configuration;
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
-        public static void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -26,11 +40,23 @@ namespace DFC.App.CareerPath
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            var cosmosDbConnection = configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
+            var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey);
+            var sitefinityApiConnection = configuration.GetSection(SitefinityApiAppSettings).Get<SitefinityAPIConnectionSettings>();
+
+            services.AddSingleton(sitefinityApiConnection ?? new SitefinityAPIConnectionSettings());
+            services.AddSingleton(cosmosDbConnection);
+            services.AddSingleton<IDocumentClient>(documentClient);
+            services.AddSingleton<ICosmosRepository<CareerPathSegmentModel>, CosmosRepository<CareerPathSegmentModel>>();
+            services.AddScoped<ICareerPathSegmentService, CareerPathSegmentService>();
+            services.AddScoped<ICareerPathDraftSegmentService, CareerPathDraftSegmentService>();
+            services.AddAutoMapper(typeof(Startup).Assembly);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IMapper mapper)
         {
             if (env.IsDevelopment())
             {
@@ -52,8 +78,10 @@ namespace DFC.App.CareerPath
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Error}");
+                    template: "{controller=Segment}/{action=Index}");
             });
+
+            mapper?.ConfigurationProvider.AssertConfigurationIsValid();
         }
     }
 }
