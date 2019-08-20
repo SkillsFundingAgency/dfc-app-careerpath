@@ -33,15 +33,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{C5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{CE3F6AEA-D471-453B-8E72-2045F92CC004}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.CareerPath.SegmentService", "DFC.App.CareerPath.SegmentService\DFC.App.CareerPath.SegmentService.csproj", "{9E0C5383-A098-47BC-8826-FCFC0B4F788E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.CareerPath.SegmentService", "DFC.App.CareerPath.SegmentService\DFC.App.CareerPath.SegmentService.csproj", "{9E0C5383-A098-47BC-8826-FCFC0B4F788E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.CareerPath.Repository.CosmosDb", "DFC.App.CareerPath.Repository.CosmosDb\DFC.App.CareerPath.Repository.CosmosDb.csproj", "{332B1D03-9067-43F1-B3D0-6779C5B0EBF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.CareerPath.Repository.CosmosDb", "DFC.App.CareerPath.Repository.CosmosDb\DFC.App.CareerPath.Repository.CosmosDb.csproj", "{332B1D03-9067-43F1-B3D0-6779C5B0EBF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.CareerPath.Repository.SitefinityApi", "DFC.App.CareerPath.Repository.SitefinityApi\DFC.App.CareerPath.Repository.SitefinityApi.csproj", "{EAC0222D-D5BD-4DFC-AB62-FF71CA996AE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.CareerPath.Repository.SitefinityApi", "DFC.App.CareerPath.Repository.SitefinityApi\DFC.App.CareerPath.Repository.SitefinityApi.csproj", "{EAC0222D-D5BD-4DFC-AB62-FF71CA996AE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.CareerPath.DraftSegmentService", "DFC.App.CareerPath.DraftSegmentService\DFC.App.CareerPath.DraftSegmentService.csproj", "{EF2E9810-2CC8-41D5-9520-C91DBABF908C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.CareerPath.DraftSegmentService", "DFC.App.CareerPath.DraftSegmentService\DFC.App.CareerPath.DraftSegmentService.csproj", "{EF2E9810-2CC8-41D5-9520-C91DBABF908C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.CareerPath.Data", "DFC.App.CareerPath.Data\DFC.App.CareerPath.Data.csproj", "{E7E60475-9323-4112-B0B0-3698F3153EF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.CareerPath.Data", "DFC.App.CareerPath.Data\DFC.App.CareerPath.Data.csproj", "{E7E60475-9323-4112-B0B0-3698F3153EF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.CareerPath.IntegrationTests", "DFC.App.CareerPath.IntegrationTests\DFC.App.CareerPath.IntegrationTests.csproj", "{33B139E1-D469-413B-B29A-2E8DAC7B2D6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.CareerPath.DraftSegmentService.UnitTests", "DFC.App.CareerPath.DraftSegmentService.UnitTests\DFC.App.CareerPath.DraftSegmentService.UnitTests.csproj", "{688EF7D2-996A-4BFC-9EBD-604DFD7A6403}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.CareerPath.SegmentService.UnitTests", "DFC.App.CareerPath.SegmentService.UnitTests\DFC.App.CareerPath.SegmentService.UnitTests.csproj", "{75DCDB6E-8009-4628-980A-F27159CBFBF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.CareerPath.UnitTests", "DFC.App.CareerPath.UnitTests\DFC.App.CareerPath.UnitTests.csproj", "{B8E4D6D8-3591-40A2-AC62-D003F69E8492}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +81,22 @@ Global
 		{E7E60475-9323-4112-B0B0-3698F3153EF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7E60475-9323-4112-B0B0-3698F3153EF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7E60475-9323-4112-B0B0-3698F3153EF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33B139E1-D469-413B-B29A-2E8DAC7B2D6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33B139E1-D469-413B-B29A-2E8DAC7B2D6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33B139E1-D469-413B-B29A-2E8DAC7B2D6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33B139E1-D469-413B-B29A-2E8DAC7B2D6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{688EF7D2-996A-4BFC-9EBD-604DFD7A6403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{688EF7D2-996A-4BFC-9EBD-604DFD7A6403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{688EF7D2-996A-4BFC-9EBD-604DFD7A6403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{688EF7D2-996A-4BFC-9EBD-604DFD7A6403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75DCDB6E-8009-4628-980A-F27159CBFBF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75DCDB6E-8009-4628-980A-F27159CBFBF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75DCDB6E-8009-4628-980A-F27159CBFBF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75DCDB6E-8009-4628-980A-F27159CBFBF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8E4D6D8-3591-40A2-AC62-D003F69E8492}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8E4D6D8-3591-40A2-AC62-D003F69E8492}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8E4D6D8-3591-40A2-AC62-D003F69E8492}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8E4D6D8-3591-40A2-AC62-D003F69E8492}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +112,10 @@ Global
 		{EAC0222D-D5BD-4DFC-AB62-FF71CA996AE8} = {FDAE3E0F-7BD5-4933-A441-C02B3F8AA117}
 		{EF2E9810-2CC8-41D5-9520-C91DBABF908C} = {B7ADEE25-AD70-499B-8134-443462A914F3}
 		{E7E60475-9323-4112-B0B0-3698F3153EF9} = {9C0C79D9-672E-46F9-9C7C-59F88E9A63A3}
+		{33B139E1-D469-413B-B29A-2E8DAC7B2D6B} = {D8CC9252-3E73-4416-B587-2952B0AB0A2A}
+		{688EF7D2-996A-4BFC-9EBD-604DFD7A6403} = {C579A314-4026-412B-819F-3DC5F277016C}
+		{75DCDB6E-8009-4628-980A-F27159CBFBF0} = {C579A314-4026-412B-819F-3DC5F277016C}
+		{B8E4D6D8-3591-40A2-AC62-D003F69E8492} = {CE3F6AEA-D471-453B-8E72-2045F92CC004}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB344B23-83C8-4BA8-BBB9-EAB2A2608E4C}
