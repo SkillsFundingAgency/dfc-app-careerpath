@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.CareerPath", "DFC.App.CareerPath\DFC.App.CareerPath.csproj", "{49341995-51ED-48E1-8335-8515247D6EF1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{88107DDA-6412-4E47-9239-E54C54841ECE}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		DFC.Digital.CodeAnalysis.ruleset = DFC.Digital.CodeAnalysis.ruleset
+		LICENSE = LICENSE
+		README.md = README.md
+		stylecop.json = stylecop.json
+		UnitTests.CodeAnalysis.ruleset = UnitTests.CodeAnalysis.ruleset
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{9C0C79D9-672E-46F9-9C7C-59F88E9A63A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{FDAE3E0F-7BD5-4933-A441-C02B3F8AA117}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{B7ADEE25-AD70-499B-8134-443462A914F3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B6859F0D-42B3-440B-BDF2-A18DEF8A67BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{24AA3709-D5FF-4902-8FE2-A885FBAB1E9E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{E3D30C85-E0B8-40C6-94A9-78746367713E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{D8CC9252-3E73-4416-B587-2952B0AB0A2A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{C579A314-4026-412B-819F-3DC5F277016C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{CE3F6AEA-D471-453B-8E72-2045F92CC004}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49341995-51ED-48E1-8335-8515247D6EF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49341995-51ED-48E1-8335-8515247D6EF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49341995-51ED-48E1-8335-8515247D6EF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49341995-51ED-48E1-8335-8515247D6EF1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{24AA3709-D5FF-4902-8FE2-A885FBAB1E9E} = {B6859F0D-42B3-440B-BDF2-A18DEF8A67BB}
+		{E3D30C85-E0B8-40C6-94A9-78746367713E} = {B6859F0D-42B3-440B-BDF2-A18DEF8A67BB}
+		{D8CC9252-3E73-4416-B587-2952B0AB0A2A} = {24AA3709-D5FF-4902-8FE2-A885FBAB1E9E}
+		{C579A314-4026-412B-819F-3DC5F277016C} = {E3D30C85-E0B8-40C6-94A9-78746367713E}
+		{CE3F6AEA-D471-453B-8E72-2045F92CC004} = {E3D30C85-E0B8-40C6-94A9-78746367713E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DB344B23-83C8-4BA8-BBB9-EAB2A2608E4C}
+	EndGlobalSection
+EndGlobal
