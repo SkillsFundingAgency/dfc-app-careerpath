@@ -36,4 +36,11 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\DFC.App.CareerPath.Data\DFC.App.CareerPath.Data.csproj" />
+    <ProjectReference Include="..\DFC.App.CareerPath.DraftSegmentService\DFC.App.CareerPath.DraftSegmentService.csproj" />
+    <ProjectReference Include="..\DFC.App.CareerPath.SegmentService\DFC.App.CareerPath.SegmentService.csproj" />
+  </ItemGroup>
+
 </Project>
