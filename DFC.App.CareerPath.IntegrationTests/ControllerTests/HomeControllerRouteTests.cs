@@ -7,7 +7,7 @@ using Xunit;
 
 namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 {
-    [Trait("Category", "Integration")]
+    [Trait("Integration Tests", "Home Controller Tests")]
     public class HomeControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.CareerPath.Startup>>
     {
         private const string DefaultArticleName = "home-article";

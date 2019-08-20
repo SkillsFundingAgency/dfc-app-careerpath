@@ -5,7 +5,7 @@ using Xunit;
 
 namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 {
-    [Trait("Category", "Integration")]
+    [Trait("Integration Tests", "AutoMapper Tests")]
     public class AutoMapperProfileTests : IClassFixture<CustomWebApplicationFactory<DFC.App.CareerPath.Startup>>
     {
 

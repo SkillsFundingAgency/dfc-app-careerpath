@@ -8,7 +8,7 @@ using Xunit;
 
 namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 {
-    [Trait("Category", "Integration")]
+    [Trait("Integration Tests", "Segment Controller Tests")]
     public class SegmentControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.CareerPath.Startup>>
     {
         private const string DefaultArticleName = "segment-article";

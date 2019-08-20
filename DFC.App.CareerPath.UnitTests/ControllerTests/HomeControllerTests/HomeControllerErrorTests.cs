@@ -1,7 +1,8 @@
 using Xunit;
 
-namespace DFC.App.CareerPath.UnitTests
+namespace DFC.App.CareerPath.UnitTests.HomeControllerTests
 {
+    [Trait("Home Controller", "Error Tests")]
     public class HomeControllerErrorTests
     {
         [Fact]
