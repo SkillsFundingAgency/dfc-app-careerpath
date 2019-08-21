@@ -3,6 +3,7 @@ using DFC.App.CareerPath.Data.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
@@ -13,6 +14,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
     {
         public BaseSegmentController()
         {
+            FakeLogger = A.Fake<ILogger<SegmentController>>();
             FakeCareerPathSegmentService = A.Fake<ICareerPathSegmentService>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
         }
@@ -22,6 +24,8 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             new string[] { "*/*" },
             new string[] { MediaTypeNames.Text.Html },
         };
+
+        protected ILogger<SegmentController> FakeLogger { get; }
 
         protected ICareerPathSegmentService FakeCareerPathSegmentService { get; }
 
@@ -33,7 +37,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new SegmentController(FakeCareerPathSegmentService, FakeMapper)
+            var controller = new SegmentController(FakeLogger, FakeCareerPathSegmentService, FakeMapper)
             {
                 ControllerContext = new ControllerContext()
                 {
