@@ -18,8 +18,6 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
         public SegmentControllerRouteTests(CustomWebApplicationFactory<DFC.App.CareerPath.Startup> factory)
         {
             this.factory = factory;
-
-            DataSeeding.SeedDefaultArticle(factory, DefaultArticleName);
         }
 
         public static IEnumerable<object[]> SegmentContentRouteData => new List<object[]>

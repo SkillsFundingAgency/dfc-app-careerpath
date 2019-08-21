@@ -10,15 +10,11 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
     [Trait("Integration Tests", "Home Controller Tests")]
     public class HomeControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.CareerPath.Startup>>
     {
-        private const string DefaultArticleName = "home-article";
-
         private readonly CustomWebApplicationFactory<DFC.App.CareerPath.Startup> factory;
 
         public HomeControllerRouteTests(CustomWebApplicationFactory<DFC.App.CareerPath.Startup> factory)
         {
             this.factory = factory;
-
-            DataSeeding.SeedDefaultArticle(factory, DefaultArticleName);
         }
 
         public static IEnumerable<object[]> HomeContentRouteData => new List<object[]>
