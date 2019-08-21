@@ -8,7 +8,6 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
     [Trait("Integration Tests", "AutoMapper Tests")]
     public class AutoMapperProfileTests : IClassFixture<CustomWebApplicationFactory<DFC.App.CareerPath.Startup>>
     {
-
         private readonly CustomWebApplicationFactory<DFC.App.CareerPath.Startup> factory;
 
         public AutoMapperProfileTests(CustomWebApplicationFactory<DFC.App.CareerPath.Startup> factory)
