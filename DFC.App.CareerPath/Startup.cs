@@ -3,7 +3,6 @@ using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.DraftSegmentService;
 using DFC.App.CareerPath.Repository.CosmosDb;
-
 using DFC.App.CareerPath.Repository.SitefinityApi;
 using DFC.App.CareerPath.SegmentService;
 using Microsoft.AspNetCore.Builder;
