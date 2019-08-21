@@ -13,7 +13,7 @@ This Career Path and Progression app runs in two flavours:
 
 ## Getting Started
 
-This is a self-contained Visual Studio 2019 solution containing a number of projects (web application, service and repository layes, with associated unit test and integration test projects).
+This is a self-contained Visual Studio 2019 solution containing a number of projects (web application, service and repository layers, with associated unit test and integration test projects).
 
 ### Installing
 

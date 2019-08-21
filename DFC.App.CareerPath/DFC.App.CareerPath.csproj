@@ -4,7 +4,6 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <CodeAnalysisRuleSet>../DFC.Digital.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
-    <AssemblyName>DFC.App.CareerPath</AssemblyName>
   </PropertyGroup>
   
   <ItemGroup>
@@ -33,7 +32,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Views\Home\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
