@@ -8,11 +8,11 @@ using Xunit;
 namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 {
     [Trait("Integration Tests", "Home Controller Tests")]
-    public class HomeControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.CareerPath.Startup>>
+    public class HomeControllerRouteTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        private readonly CustomWebApplicationFactory<DFC.App.CareerPath.Startup> factory;
+        private readonly CustomWebApplicationFactory<Startup> factory;
 
-        public HomeControllerRouteTests(CustomWebApplicationFactory<DFC.App.CareerPath.Startup> factory)
+        public HomeControllerRouteTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
         }

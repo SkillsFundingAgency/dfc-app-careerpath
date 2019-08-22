@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DFC.App.CareerPath.DraftSegmentService
 {
-    public class CareerPathDraftSegmentService : ICareerPathDraftSegmentService
+    public class DraftCareerPathSegmentService : IDraftCareerPathSegmentService
     {
         public Task<CareerPathSegmentModel> GetSitefinityData(string canonicalName)
         {

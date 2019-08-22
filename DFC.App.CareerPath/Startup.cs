@@ -48,7 +48,7 @@ namespace DFC.App.CareerPath
             services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<ICosmosRepository<CareerPathSegmentModel>, CosmosRepository<CareerPathSegmentModel>>();
             services.AddScoped<ICareerPathSegmentService, CareerPathSegmentService>();
-            services.AddScoped<ICareerPathDraftSegmentService, CareerPathDraftSegmentService>();
+            services.AddScoped<IDraftCareerPathSegmentService, DraftCareerPathSegmentService>();
             services.AddAutoMapper(typeof(Startup).Assembly);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

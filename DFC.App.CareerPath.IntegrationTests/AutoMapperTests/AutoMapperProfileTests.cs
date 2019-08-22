@@ -6,11 +6,11 @@ using Xunit;
 namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 {
     [Trait("Integration Tests", "AutoMapper Tests")]
-    public class AutoMapperProfileTests : IClassFixture<CustomWebApplicationFactory<DFC.App.CareerPath.Startup>>
+    public class AutoMapperProfileTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        private readonly CustomWebApplicationFactory<DFC.App.CareerPath.Startup> factory;
+        private readonly CustomWebApplicationFactory<Startup> factory;
 
-        public AutoMapperProfileTests(CustomWebApplicationFactory<DFC.App.CareerPath.Startup> factory)
+        public AutoMapperProfileTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
         }
