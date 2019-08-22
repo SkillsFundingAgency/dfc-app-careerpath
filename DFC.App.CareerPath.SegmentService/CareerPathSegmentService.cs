@@ -9,12 +9,12 @@ namespace DFC.App.CareerPath.SegmentService
     public class CareerPathSegmentService : ICareerPathSegmentService
     {
         private readonly ICosmosRepository<CareerPathSegmentModel> repository;
-        private readonly ICareerPathDraftSegmentService careerPathDraftSegmentService;
+        private readonly IDraftCareerPathSegmentService draftCareerPathSegmentService;
 
-        public CareerPathSegmentService(ICosmosRepository<CareerPathSegmentModel> repository, ICareerPathDraftSegmentService careerPathDraftSegmentService)
+        public CareerPathSegmentService(ICosmosRepository<CareerPathSegmentModel> repository, IDraftCareerPathSegmentService draftCareerPathSegmentService)
         {
             this.repository = repository;
-            this.careerPathDraftSegmentService = careerPathDraftSegmentService;
+            this.draftCareerPathSegmentService = draftCareerPathSegmentService;
         }
 
         public async Task<IEnumerable<CareerPathSegmentModel>> GetAllAsync()
@@ -35,7 +35,7 @@ namespace DFC.App.CareerPath.SegmentService
             }
 
             return isDraft
-                ? await careerPathDraftSegmentService.GetSitefinityData(canonicalName.ToLowerInvariant()).ConfigureAwait(false)
+                ? await draftCareerPathSegmentService.GetSitefinityData(canonicalName.ToLowerInvariant()).ConfigureAwait(false)
                 : await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
         }
     }

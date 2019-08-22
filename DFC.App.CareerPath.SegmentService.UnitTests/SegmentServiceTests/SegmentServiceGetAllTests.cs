@@ -12,14 +12,14 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
     public class SegmentServiceGetAllTests
     {
         private readonly ICosmosRepository<CareerPathSegmentModel> repository;
-        private readonly ICareerPathDraftSegmentService careerPathDraftSegmentService;
+        private readonly IDraftCareerPathSegmentService draftCareerPathSegmentService;
         private readonly ICareerPathSegmentService careerPathSegmentService;
 
         public SegmentServiceGetAllTests()
         {
             repository = A.Fake<ICosmosRepository<CareerPathSegmentModel>>();
-            careerPathDraftSegmentService = A.Fake<CareerPathDraftSegmentService>();
-            careerPathSegmentService = new CareerPathSegmentService(repository, careerPathDraftSegmentService);
+            draftCareerPathSegmentService = A.Fake<DraftCareerPathSegmentService>();
+            careerPathSegmentService = new CareerPathSegmentService(repository, draftCareerPathSegmentService);
         }
 
         [Fact]

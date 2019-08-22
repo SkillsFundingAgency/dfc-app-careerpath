@@ -9,13 +9,13 @@ using Xunit;
 namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 {
     [Trait("Integration Tests", "Segment Controller Tests")]
-    public class SegmentControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.CareerPath.Startup>>
+    public class SegmentControllerRouteTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private const string DefaultArticleName = "segment-article";
 
-        private readonly CustomWebApplicationFactory<DFC.App.CareerPath.Startup> factory;
+        private readonly CustomWebApplicationFactory<Startup> factory;
 
-        public SegmentControllerRouteTests(CustomWebApplicationFactory<DFC.App.CareerPath.Startup> factory)
+        public SegmentControllerRouteTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
         }
