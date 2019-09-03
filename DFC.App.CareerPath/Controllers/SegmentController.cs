@@ -4,6 +4,7 @@ using DFC.App.CareerPath.Extensions;
 using DFC.App.CareerPath.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,7 +24,6 @@ namespace DFC.App.CareerPath.Controllers
         }
 
         [HttpGet]
-        [Route("segment")]
         public async Task<IActionResult> Index()
         {
             logger.LogInformation($"{nameof(Index)} has been called");
@@ -64,6 +64,28 @@ namespace DFC.App.CareerPath.Controllers
             }
 
             logger.LogWarning($"{nameof(Document)} has returned no content for: {article}");
+
+            return NoContent();
+        }
+
+        [HttpGet]
+        [Route("segment/{article}/contents")]
+        public async Task<IActionResult> Body(string article)
+        {
+            logger.LogInformation($"{nameof(Body)} has been called with: {article}");
+
+            var careerPathSegmentModel = await careerPathSegmentService.GetByNameAsync(article, Request.IsDraftRequest()).ConfigureAwait(false);
+
+            if (careerPathSegmentModel != null)
+            {
+                var viewModel = mapper.Map<BodyViewModel>(careerPathSegmentModel);
+
+                logger.LogInformation($"{nameof(Body)} has succeeded for: {article}");
+
+                return this.NegotiateContentResult(viewModel);
+            }
+
+            logger.LogWarning($"{nameof(Body)} has returned no content for: {article}");
 
             return NoContent();
         }
