@@ -25,8 +25,8 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 
         public static IEnumerable<object[]> SegmentContentRouteData => new List<object[]>
         {
-            //new object[] { "/Segment" },
-            //new object[] { $"/Segment/{DefaultArticleName}" },
+            new object[] { "/Segment" },
+            new object[] { $"/Segment/{DefaultArticleName}" },
             new object[] { $"/Segment/{DefaultArticleName}/contents" },
         };
 
