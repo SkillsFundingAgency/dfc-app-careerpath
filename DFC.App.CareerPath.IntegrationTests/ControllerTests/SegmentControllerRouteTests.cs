@@ -25,8 +25,9 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 
         public static IEnumerable<object[]> SegmentContentRouteData => new List<object[]>
         {
-            new object[] { "/Segment" },
-            new object[] { $"/Segment/{DefaultArticleName}" },
+            //new object[] { "/Segment" },
+            //new object[] { $"/Segment/{DefaultArticleName}" },
+            new object[] { $"/Segment/{DefaultArticleName}/contents" },
         };
 
         public static IEnumerable<object[]> MissingSegmentContentRouteData => new List<object[]>
@@ -42,6 +43,7 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Text.Html));
 
             // Act
             var response = await client.GetAsync(uri).ConfigureAwait(false);
