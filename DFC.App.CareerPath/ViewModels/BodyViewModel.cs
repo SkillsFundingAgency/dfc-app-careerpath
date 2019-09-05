@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Html;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.CareerPath.ViewModels
@@ -12,9 +11,8 @@ namespace DFC.App.CareerPath.ViewModels
         [Display(Name = "Canonical Name")]
         public string CanonicalName { get; set; }
 
-        public string Content { get; set; }
+        public string Markup { get; set; }
 
-        [Display(Name = "Last Reviewed")]
-        public DateTime LastReviewed { get; set; }
+        public BodyDataViewModel Data { get; set; }
     }
 }

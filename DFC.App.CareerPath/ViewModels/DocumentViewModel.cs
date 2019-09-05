@@ -12,7 +12,7 @@ namespace DFC.App.CareerPath.ViewModels
         [Display(Name = "Canonical Name")]
         public string CanonicalName { get; set; }
 
-        public HtmlString Content { get; set; }
+        public HtmlString Markup { get; set; }
 
         [Display(Name = "Last Reviewed")]
         public DateTime LastReviewed { get; set; }

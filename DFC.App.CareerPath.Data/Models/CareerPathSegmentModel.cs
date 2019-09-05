@@ -11,11 +11,12 @@ namespace DFC.App.CareerPath.Data.Models
         public Guid DocumentId { get; set; }
 
         [Required]
+   //     [JsonProperty(PropertyName = "canonicalName")]
         public string CanonicalName { get; set; }
 
-        public string Content { get; set; }
+        public string Markup { get; set; }
 
-        [Display(Name = "Last Reviewed")]
-        public DateTime LastReviewed { get; set; }
+     //   [JsonProperty(PropertyName = "data")]
+        public CareerPathSegmentDataModel Data { get; set; }
     }
 }
