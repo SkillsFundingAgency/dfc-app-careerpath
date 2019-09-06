@@ -12,18 +12,22 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
     public class SegmentControllerRouteTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private const string DefaultArticleName = "segment-article";
+        private readonly Guid defaultArticleGuid = Guid.Parse("63DEA97E-B61C-4C14-15DC-1BD08EA20DC8");
 
         private readonly CustomWebApplicationFactory<Startup> factory;
 
         public SegmentControllerRouteTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
+
+            DataSeeding.SeedDefaultArticle(factory, defaultArticleGuid, DefaultArticleName);
         }
 
         public static IEnumerable<object[]> SegmentContentRouteData => new List<object[]>
         {
             new object[] { "/Segment" },
             new object[] { $"/Segment/{DefaultArticleName}" },
+            new object[] { $"/Segment/{DefaultArticleName}/contents" },
         };
 
         public static IEnumerable<object[]> MissingSegmentContentRouteData => new List<object[]>
@@ -39,6 +43,7 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Text.Html));
 
             // Act
             var response = await client.GetAsync(uri).ConfigureAwait(false);

@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Html;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.CareerPath.ViewModels
 {
-    public class DocumentViewModel
+    public class BodyViewModel
     {
         [Display(Name = "Document Id")]
         public Guid? DocumentId { get; set; }
@@ -12,9 +11,8 @@ namespace DFC.App.CareerPath.ViewModels
         [Display(Name = "Canonical Name")]
         public string CanonicalName { get; set; }
 
-        public HtmlString Markup { get; set; }
+        public string Markup { get; set; }
 
-        [Display(Name = "Last Reviewed")]
-        public DateTime LastReviewed { get; set; }
+        public BodyDataViewModel Data { get; set; }
     }
 }

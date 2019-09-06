@@ -51,6 +51,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
             // Assert
             A.CallTo(() => FakeCareerPathSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<CareerPathSegmentModel>.Ignored)).MustNotHaveHappened();
 
             var statusResult = Assert.IsType<NoContentResult>(result);
 
