@@ -68,6 +68,28 @@ namespace DFC.App.CareerPath.Controllers
             return NoContent();
         }
 
+        [HttpDelete]
+        [Route("segment/{documentId}")]
+        public async Task<IActionResult> Delete(Guid documentId)
+        {
+            logger.LogInformation($"{nameof(Delete)} has been called");
+
+            var careerPathSegmentModel = await careerPathSegmentService.GetByIdAsync(documentId).ConfigureAwait(false);
+
+            if (careerPathSegmentModel == null)
+            {
+                logger.LogWarning($"{nameof(Document)} has returned no content for: {documentId}");
+
+                return NotFound();
+            }
+
+            await careerPathSegmentService.DeleteAsync(documentId).ConfigureAwait(false);
+
+            logger.LogInformation($"{nameof(Delete)} has deleted content for: {careerPathSegmentModel.CanonicalName}");
+
+            return Ok();
+        }
+
         [HttpGet]
         [Route("segment/{article}/contents")]
         public async Task<IActionResult> Body(string article)

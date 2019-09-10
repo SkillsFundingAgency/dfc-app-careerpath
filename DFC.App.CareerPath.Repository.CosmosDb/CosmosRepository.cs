@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace DFC.App.CareerPath.Repository.CosmosDb
@@ -31,6 +32,15 @@ namespace DFC.App.CareerPath.Repository.CosmosDb
         }
 
         private Uri DocumentCollectionUri => UriFactory.CreateDocumentCollectionUri(cosmosDbConnection.DatabaseId, cosmosDbConnection.CollectionId);
+
+        public async Task<HttpStatusCode> DeleteAsync(Guid documentId)
+        {
+            var documentUri = CreateDocumentUri(documentId);
+
+            var result = await documentClient.DeleteDocumentAsync(documentUri, new RequestOptions() { PartitionKey = new PartitionKey(Undefined.Value) }).ConfigureAwait(false);
+
+            return result.StatusCode;
+        }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {

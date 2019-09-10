@@ -1,3 +1,4 @@
+using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -67,6 +68,22 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 
             // Assert
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task DeleteSegmentEndpointsReturnNotFound()
+        {
+            // Arrange
+            var uri = new Uri($"/segment/{Guid.NewGuid()}", UriKind.Relative);
+            var client = factory.CreateClient();
+
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            // Act
+            var response = await client.DeleteAsync(uri).ConfigureAwait(false);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }

@@ -2,6 +2,7 @@
 using DFC.App.CareerPath.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace DFC.App.CareerPath.SegmentService
@@ -37,6 +38,13 @@ namespace DFC.App.CareerPath.SegmentService
             return isDraft
                 ? await draftCareerPathSegmentService.GetSitefinityData(canonicalName.ToLowerInvariant()).ConfigureAwait(false)
                 : await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
+        }
+
+        public async Task<bool> DeleteAsync(Guid documentId)
+        {
+            var result = await repository.DeleteAsync(documentId).ConfigureAwait(false);
+
+            return result == HttpStatusCode.NoContent;
         }
     }
 }
