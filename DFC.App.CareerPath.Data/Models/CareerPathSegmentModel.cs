@@ -11,12 +11,16 @@ namespace DFC.App.CareerPath.Data.Models
         public Guid DocumentId { get; set; }
 
         [Required]
-   //     [JsonProperty(PropertyName = "canonicalName")]
         public string CanonicalName { get; set; }
+
+        public DateTime Created { get; set; } = DateTime.UtcNow;
+
+        public int PartitionKey => Created.Second;
+
+        public DateTime Updated { get; set; }
 
         public string Markup { get; set; }
 
-     //   [JsonProperty(PropertyName = "data")]
         public CareerPathSegmentDataModel Data { get; set; }
     }
 }

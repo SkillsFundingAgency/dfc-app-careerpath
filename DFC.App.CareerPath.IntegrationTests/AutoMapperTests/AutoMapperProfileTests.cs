@@ -30,20 +30,6 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public void AutoMapperProfileConfigurationForCareerPathSegmentDataModelProfileReturnSuccess()
-        {
-            // Arrange
-            _ = factory.CreateClient();
-            var mapper = factory.Server.Host.Services.GetRequiredService<IMapper>();
-
-            // Act
-            mapper.ConfigurationProvider.AssertConfigurationIsValid<CareerPathSegmentDataModelProfile>();
-
-            // Assert
-            Assert.True(true);
-        }
-
-        [Fact]
         public void AutoMapperProfileConfigurationForAllProfilesReturnSuccess()
         {
             // Arrange

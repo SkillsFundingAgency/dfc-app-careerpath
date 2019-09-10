@@ -10,11 +10,12 @@ namespace DFC.App.CareerPath.AutoMapperProfiles
         public CareerPathSegmentModelProfile()
         {
             CreateMap<CareerPathSegmentModel, BodyViewModel>()
+                .ForMember(d => d.Markup, s => s.MapFrom(a => new HtmlString(a.Markup)))
                 ;
 
             CreateMap<CareerPathSegmentModel, DocumentViewModel>()
                 .ForMember(d => d.Markup, s => s.MapFrom(a => new HtmlString(a.Markup)))
-                .ForMember(d => d.LastReviewed, s => s.MapFrom(a => a.Data.LastReviewed))
+                .ForMember(d => d.Updated, s => s.MapFrom(a => a.Data.Updated))
                 ;
 
             CreateMap<CareerPathSegmentModel, IndexDocumentViewModel>()
