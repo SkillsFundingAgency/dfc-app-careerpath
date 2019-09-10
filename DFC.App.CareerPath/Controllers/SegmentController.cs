@@ -68,6 +68,43 @@ namespace DFC.App.CareerPath.Controllers
             return NoContent();
         }
 
+        [HttpPut]
+        [HttpPost]
+        [Route("segment")]
+        public async Task<IActionResult> CreateOrUpdate([FromBody]CareerPathSegmentModel createOrUpdateCareerPathSegmentModel)
+        {
+            logger.LogInformation($"{nameof(CreateOrUpdate)} has been called");
+
+            if (createOrUpdateCareerPathSegmentModel == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingCareerPathSegmentModel = await careerPathSegmentService.GetByIdAsync(createOrUpdateCareerPathSegmentModel.DocumentId).ConfigureAwait(false);
+
+            if (existingCareerPathSegmentModel == null)
+            {
+                var createdResponse = await careerPathSegmentService.CreateAsync(createOrUpdateCareerPathSegmentModel).ConfigureAwait(false);
+
+                logger.LogInformation($"{nameof(CreateOrUpdate)} has created content for: {createOrUpdateCareerPathSegmentModel.CanonicalName}");
+
+                return new CreatedAtActionResult(nameof(Document), "Segment", new { article = createdResponse.CanonicalName }, createdResponse);
+            }
+            else
+            {
+                var updatedResponse = await careerPathSegmentService.ReplaceAsync(createOrUpdateCareerPathSegmentModel).ConfigureAwait(false);
+
+                logger.LogInformation($"{nameof(CreateOrUpdate)} has updated content for: {createOrUpdateCareerPathSegmentModel.CanonicalName}");
+
+                return new OkObjectResult(updatedResponse);
+            }
+        }
+
         [HttpDelete]
         [Route("segment/{documentId}")]
         public async Task<IActionResult> Delete(Guid documentId)

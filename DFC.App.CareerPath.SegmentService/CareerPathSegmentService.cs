@@ -40,6 +40,48 @@ namespace DFC.App.CareerPath.SegmentService
                 : await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
         }
 
+        public async Task<CareerPathSegmentModel> CreateAsync(CareerPathSegmentModel careerPathSegmentModel)
+        {
+            if (careerPathSegmentModel == null)
+            {
+                throw new ArgumentNullException(nameof(careerPathSegmentModel));
+            }
+
+            if (careerPathSegmentModel.Data == null)
+            {
+                careerPathSegmentModel.Data = new CareerPathSegmentDataModel();
+            }
+
+            careerPathSegmentModel.Updated = DateTime.UtcNow;
+
+            var result = await repository.CreateAsync(careerPathSegmentModel).ConfigureAwait(false);
+
+            return result == HttpStatusCode.Created
+                ? await GetByIdAsync(careerPathSegmentModel.DocumentId).ConfigureAwait(false)
+                : null;
+        }
+
+        public async Task<CareerPathSegmentModel> ReplaceAsync(CareerPathSegmentModel careerPathSegmentModel)
+        {
+            if (careerPathSegmentModel == null)
+            {
+                throw new ArgumentNullException(nameof(careerPathSegmentModel));
+            }
+
+            if (careerPathSegmentModel.Data == null)
+            {
+                careerPathSegmentModel.Data = new CareerPathSegmentDataModel();
+            }
+
+            careerPathSegmentModel.Updated = DateTime.UtcNow;
+
+            var result = await repository.UpdateAsync(careerPathSegmentModel.DocumentId, careerPathSegmentModel).ConfigureAwait(false);
+
+            return result == HttpStatusCode.OK
+                ? await GetByIdAsync(careerPathSegmentModel.DocumentId).ConfigureAwait(false)
+                : null;
+        }
+
         public async Task<bool> DeleteAsync(Guid documentId)
         {
             var result = await repository.DeleteAsync(documentId).ConfigureAwait(false);

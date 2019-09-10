@@ -13,6 +13,10 @@ namespace DFC.App.CareerPath.Data.Contracts
 
         Task<CareerPathSegmentModel> GetByNameAsync(string canonicalName, bool isDraft = false);
 
+        Task<CareerPathSegmentModel> CreateAsync(CareerPathSegmentModel careerPathSegmentModel);
+
+        Task<CareerPathSegmentModel> ReplaceAsync(CareerPathSegmentModel careerPathSegmentModel);
+
         Task<bool> DeleteAsync(Guid documentId);
     }
 }

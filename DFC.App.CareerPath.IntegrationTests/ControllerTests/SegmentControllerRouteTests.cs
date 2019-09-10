@@ -1,7 +1,10 @@
+using DFC.App.CareerPath.Data.Models;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +17,7 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
     {
         private const string DefaultArticleName = "segment-article";
         private readonly Guid defaultArticleGuid = Guid.Parse("63DEA97E-B61C-4C14-15DC-1BD08EA20DC8");
+        private readonly DateTime defaultArticleCreated = new DateTime(2019, 09, 01, 12, 0, 0);
 
         private readonly CustomWebApplicationFactory<Startup> factory;
 
@@ -21,7 +25,7 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
         {
             this.factory = factory;
 
-            DataSeeding.SeedDefaultArticle(factory, defaultArticleGuid, DefaultArticleName);
+            DataSeeding.SeedDefaultArticle(factory, defaultArticleGuid, DefaultArticleName, defaultArticleCreated);
         }
 
         public static IEnumerable<object[]> SegmentContentRouteData => new List<object[]>
@@ -68,6 +72,92 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 
             // Assert
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task PostSegmentEndpointsReturnCreated()
+        {
+            // Arrange
+            const string url = "/segment";
+            var documentId = Guid.NewGuid();
+            var careerPathSegmentModel = new CareerPathSegmentModel()
+            {
+                DocumentId = documentId,
+                CanonicalName = documentId.ToString().ToLowerInvariant(),
+                Markup = "<div>some markup</div>",
+                Data = new CareerPathSegmentDataModel
+                {
+                    Updated = DateTime.UtcNow,
+                },
+            };
+            var client = factory.CreateClient();
+
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            // Act
+            var response = await client.PostAsync(url, careerPathSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
+        }
+
+        [Fact]
+        public async Task PostSegmentEndpointsForDefaultArticleRefreshAllReturnOk()
+        {
+            // Arrange
+            const string url = "/segment";
+            var careerPathSegmentModel = new CareerPathSegmentModel()
+            {
+                DocumentId = defaultArticleGuid,
+                CanonicalName = DefaultArticleName,
+                Created = defaultArticleCreated,
+                Markup = "<div>some markup</div>",
+                Data = new CareerPathSegmentDataModel
+                {
+                    Updated = DateTime.UtcNow,
+                },
+            };
+            var client = factory.CreateClient();
+
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            // Act
+            var response = await client.PostAsync(url, careerPathSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task PutSegmentEndpointsReturnOk()
+        {
+            // Arrange
+            const string url = "/segment";
+            var documentId = Guid.NewGuid();
+            var careerPathSegmentModel = new CareerPathSegmentModel()
+            {
+                DocumentId = documentId,
+                CanonicalName = documentId.ToString().ToLowerInvariant(),
+                Markup = "<div>some markup</div>",
+                Data = new CareerPathSegmentDataModel
+                {
+                    Updated = DateTime.UtcNow,
+                },
+            };
+            var client = factory.CreateClient();
+
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            _ = await client.PostAsync(url, careerPathSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
+
+            // Act
+            var response = await client.PutAsync(url, careerPathSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Fact]
