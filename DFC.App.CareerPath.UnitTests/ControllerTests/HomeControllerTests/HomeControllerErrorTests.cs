@@ -13,7 +13,6 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.HomeControllerTests
         public void HomeControllerErrorHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var expectedResult = A.Fake<ErrorViewModel>();
             var controller = BuildHomeController(mediaTypeName);
 
             // Act
@@ -21,7 +20,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.HomeControllerTests
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<ErrorViewModel>(viewResult.ViewData.Model);
+            _ = Assert.IsAssignableFrom<ErrorViewModel>(viewResult.ViewData.Model);
 
             controller.Dispose();
         }
