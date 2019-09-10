@@ -14,7 +14,8 @@ namespace DFC.App.CareerPath.ViewModels
 
         public HtmlString Markup { get; set; }
 
-        [Display(Name = "Last Reviewed")]
-        public DateTime LastReviewed { get; set; }
+        public DateTime Created { get; set; }
+
+        public DateTime Updated { get; set; }
     }
 }

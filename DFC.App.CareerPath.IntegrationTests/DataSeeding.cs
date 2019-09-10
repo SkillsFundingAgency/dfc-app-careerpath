@@ -18,21 +18,30 @@ namespace DFC.App.CareerPath.IntegrationTests
                     DocumentId = articleGuid,
                     CanonicalName = article,
                     Markup = "<p>some content</p>",
-                    LastReviewed = DateTime.UtcNow,
+                    Data = new CareerPathSegmentDataModel
+                    {
+                        Updated = DateTime.UtcNow,
+                    },
                 },
                 new CareerPathSegmentModel()
                 {
                     DocumentId = Guid.Parse("C16B389D-91AD-4F3D-2485-9F7EE953AFE4"),
                     CanonicalName = "in-sitemap",
                     Markup = "<p>some content</p>",
-                    LastReviewed = DateTime.UtcNow,
+                    Data = new CareerPathSegmentDataModel
+                    {
+                        Updated = DateTime.UtcNow,
+                    },
                 },
                 new CareerPathSegmentModel()
                 {
                     DocumentId = Guid.Parse("C0103C26-E7C9-4008-3F66-1B2DB192177E"),
                     CanonicalName = "not-in-sitemap",
                     Markup = "<p>some content</p>",
-                    LastReviewed = DateTime.UtcNow,
+                    Data = new CareerPathSegmentDataModel
+                    {
+                        Updated = DateTime.UtcNow,
+                    },
                 },
             };
 
