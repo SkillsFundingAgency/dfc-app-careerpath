@@ -8,7 +8,7 @@ namespace DFC.App.CareerPath.IntegrationTests
 {
     public static class DataSeeding
     {
-        public static void SeedDefaultArticle(CustomWebApplicationFactory<Startup> factory, Guid articleGuid, string article)
+        public static void SeedDefaultArticle(CustomWebApplicationFactory<Startup> factory, Guid articleGuid, string article, DateTime created)
         {
             const string url = "/segment";
             var models = new List<CareerPathSegmentModel>()
@@ -17,6 +17,7 @@ namespace DFC.App.CareerPath.IntegrationTests
                 {
                     DocumentId = articleGuid,
                     CanonicalName = article,
+                    Created = created,
                     Markup = "<p>some content</p>",
                     Data = new CareerPathSegmentDataModel
                     {
@@ -26,7 +27,7 @@ namespace DFC.App.CareerPath.IntegrationTests
                 new CareerPathSegmentModel()
                 {
                     DocumentId = Guid.Parse("C16B389D-91AD-4F3D-2485-9F7EE953AFE4"),
-                    CanonicalName = "in-sitemap",
+                    CanonicalName = $"{article}-2",
                     Markup = "<p>some content</p>",
                     Data = new CareerPathSegmentDataModel
                     {
@@ -36,7 +37,7 @@ namespace DFC.App.CareerPath.IntegrationTests
                 new CareerPathSegmentModel()
                 {
                     DocumentId = Guid.Parse("C0103C26-E7C9-4008-3F66-1B2DB192177E"),
-                    CanonicalName = "not-in-sitemap",
+                    CanonicalName = $"{article}-3",
                     Markup = "<p>some content</p>",
                     Data = new CareerPathSegmentDataModel
                     {

@@ -1,4 +1,5 @@
 ﻿using DFC.App.CareerPath.Controllers;
+using DFC.App.CareerPath.Data.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,8 +12,11 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.HealthControllerTests
     {
         public BaseHealthController()
         {
+            FakeCareerPathSegmentService = A.Fake<ICareerPathSegmentService>();
             FakeLogger = A.Fake<ILogger<HealthController>>();
         }
+
+        protected ICareerPathSegmentService FakeCareerPathSegmentService { get; }
 
         protected ILogger<HealthController> FakeLogger { get; }
 
@@ -22,7 +26,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.HealthControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HealthController(FakeLogger)
+            var controller = new HealthController(FakeLogger, FakeCareerPathSegmentService)
             {
                 ControllerContext = new ControllerContext()
                 {

@@ -6,7 +6,7 @@ using Xunit;
 
 namespace DFC.App.CareerPath.UnitTests.ControllerTests.HealthControllerTests
 {
-    [Trait("Health Controller", "ping Tests")]
+    [Trait("Health Controller", "Ping Tests")]
     public class HealthControllerPingTests : BaseHealthController
     {
         [Fact]
