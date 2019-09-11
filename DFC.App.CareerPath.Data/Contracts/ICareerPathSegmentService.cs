@@ -7,6 +7,8 @@ namespace DFC.App.CareerPath.Data.Contracts
 {
     public interface ICareerPathSegmentService
     {
+        Task<bool> PingAsync();
+
         Task<IEnumerable<CareerPathSegmentModel>> GetAllAsync();
 
         Task<CareerPathSegmentModel> GetByIdAsync(Guid documentId);

@@ -18,6 +18,11 @@ namespace DFC.App.CareerPath.SegmentService
             this.draftCareerPathSegmentService = draftCareerPathSegmentService;
         }
 
+        public async Task<bool> PingAsync()
+        {
+            return await repository.PingAsync().ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<CareerPathSegmentModel>> GetAllAsync()
         {
             return await repository.GetAllAsync().ConfigureAwait(false);

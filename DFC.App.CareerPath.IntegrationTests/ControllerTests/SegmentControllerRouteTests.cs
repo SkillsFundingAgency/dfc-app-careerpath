@@ -13,19 +13,15 @@ using Xunit;
 namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 {
     [Trait("Integration Tests", "Segment Controller Tests")]
-    public class SegmentControllerRouteTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class SegmentControllerRouteTests : BaseControllerRouteTests, IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        private const string DefaultArticleName = "segment-article";
-        private readonly Guid defaultArticleGuid = Guid.Parse("63DEA97E-B61C-4C14-15DC-1BD08EA20DC8");
-        private readonly DateTime defaultArticleCreated = new DateTime(2019, 09, 01, 12, 0, 0);
-
         private readonly CustomWebApplicationFactory<Startup> factory;
 
         public SegmentControllerRouteTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
 
-            DataSeeding.SeedDefaultArticle(factory, defaultArticleGuid, DefaultArticleName, defaultArticleCreated);
+            DataSeeding.SeedDefaultArticle(factory, DefaultArticleGuid, DefaultArticleName, DefaultArticleCreated);
         }
 
         public static IEnumerable<object[]> SegmentContentRouteData => new List<object[]>
@@ -109,9 +105,9 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             const string url = "/segment";
             var careerPathSegmentModel = new CareerPathSegmentModel()
             {
-                DocumentId = defaultArticleGuid,
+                DocumentId = DefaultArticleGuid,
                 CanonicalName = DefaultArticleName,
-                Created = defaultArticleCreated,
+                Created = DefaultArticleCreated,
                 Markup = "<div>some markup</div>",
                 Data = new CareerPathSegmentDataModel
                 {

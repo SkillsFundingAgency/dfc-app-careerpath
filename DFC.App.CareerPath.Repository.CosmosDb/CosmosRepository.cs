@@ -33,6 +33,22 @@ namespace DFC.App.CareerPath.Repository.CosmosDb
 
         private Uri DocumentCollectionUri => UriFactory.CreateDocumentCollectionUri(cosmosDbConnection.DatabaseId, cosmosDbConnection.CollectionId);
 
+        public async Task<bool> PingAsync()
+        {
+            var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { MaxItemCount = 1, EnableCrossPartitionQuery = true })
+                                       .AsDocumentQuery();
+
+            if (query == null)
+            {
+                return false;
+            }
+
+            var models = await query.ExecuteNextAsync<T>().ConfigureAwait(false);
+            var firstModel = models.FirstOrDefault();
+
+            return firstModel != null;
+        }
+
         public async Task<HttpStatusCode> CreateAsync(T model)
         {
             var result = await documentClient.CreateDocumentAsync(DocumentCollectionUri, model).ConfigureAwait(false);
