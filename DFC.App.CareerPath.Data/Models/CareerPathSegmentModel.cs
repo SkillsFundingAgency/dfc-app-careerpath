@@ -19,8 +19,6 @@ namespace DFC.App.CareerPath.Data.Models
 
         public DateTime Updated { get; set; }
 
-        public string Markup { get; set; }
-
         public CareerPathSegmentDataModel Data { get; set; }
     }
 }

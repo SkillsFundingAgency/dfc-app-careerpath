@@ -80,10 +80,10 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             {
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
-                Markup = "<div>some markup</div>",
                 Data = new CareerPathSegmentDataModel
                 {
                     Updated = DateTime.UtcNow,
+                    Markup = "<div>some markup</div>",
                 },
             };
             var client = factory.CreateClient();
@@ -108,10 +108,10 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
                 DocumentId = DefaultArticleGuid,
                 CanonicalName = DefaultArticleName,
                 Created = DefaultArticleCreated,
-                Markup = "<div>some markup</div>",
                 Data = new CareerPathSegmentDataModel
                 {
                     Updated = DateTime.UtcNow,
+                    Markup = "<div>some markup</div>",
                 },
             };
             var client = factory.CreateClient();
@@ -136,10 +136,10 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             {
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
-                Markup = "<div>some markup</div>",
                 Data = new CareerPathSegmentDataModel
                 {
                     Updated = DateTime.UtcNow,
+                    Markup = "<div>some markup</div>",
                 },
             };
             var client = factory.CreateClient();
