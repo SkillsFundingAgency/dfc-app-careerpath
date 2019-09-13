@@ -65,11 +65,11 @@ namespace DFC.App.CareerPath.Repository.CosmosDb
             return result.StatusCode;
         }
 
-        public async Task<HttpStatusCode> DeleteAsync(Guid documentId)
+        public async Task<HttpStatusCode> DeleteAsync(Guid documentId, int partitionKey)
         {
             var documentUri = CreateDocumentUri(documentId);
 
-            var result = await documentClient.DeleteDocumentAsync(documentUri, new RequestOptions() { PartitionKey = new PartitionKey(Undefined.Value) }).ConfigureAwait(false);
+            var result = await documentClient.DeleteDocumentAsync(documentUri, new RequestOptions { PartitionKey = new PartitionKey(partitionKey) }).ConfigureAwait(false);
 
             return result.StatusCode;
         }
