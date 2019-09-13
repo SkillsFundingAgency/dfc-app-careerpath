@@ -22,7 +22,7 @@ namespace DFC.App.CareerPath.Controllers
         }
 
         [HttpGet]
-        [Route("segment/health")]
+        [Route("health")]
         public async Task<IActionResult> Health()
         {
             string resourceName = typeof(Program).Namespace;
