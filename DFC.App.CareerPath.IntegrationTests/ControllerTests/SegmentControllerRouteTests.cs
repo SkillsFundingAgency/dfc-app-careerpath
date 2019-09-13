@@ -157,16 +157,46 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
         }
 
         [Fact]
+        public async Task DeleteSegmentEndpointsReturnSuccessWhenFound()
+        {
+            // Arrange
+            var documentId = Guid.NewGuid();
+            const string postUrl = "/segment";
+            var deleteUri = new Uri($"/segment/{documentId}", UriKind.Relative);
+            var careerPathSegmentModel = new CareerPathSegmentModel()
+            {
+                DocumentId = documentId,
+                CanonicalName = documentId.ToString().ToLowerInvariant(),
+                Data = new CareerPathSegmentDataModel
+                {
+                    Updated = DateTime.UtcNow,
+                    Markup = "<div>some markup</div>",
+                },
+            };
+            var client = factory.CreateClient();
+
+            client.DefaultRequestHeaders.Accept.Clear();
+
+            _ = await client.PostAsync(postUrl, careerPathSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
+
+            // Act
+            var response = await client.DeleteAsync(deleteUri).ConfigureAwait(false);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
         public async Task DeleteSegmentEndpointsReturnNotFound()
         {
             // Arrange
-            var uri = new Uri($"/segment/{Guid.NewGuid()}", UriKind.Relative);
+            var deleteUri = new Uri($"/segment/{Guid.NewGuid()}", UriKind.Relative);
             var client = factory.CreateClient();
 
             client.DefaultRequestHeaders.Accept.Clear();
 
             // Act
-            var response = await client.DeleteAsync(uri).ConfigureAwait(false);
+            var response = await client.DeleteAsync(deleteUri).ConfigureAwait(false);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);

@@ -19,6 +19,6 @@ namespace DFC.App.CareerPath.Data.Contracts
 
         Task<CareerPathSegmentModel> ReplaceAsync(CareerPathSegmentModel careerPathSegmentModel);
 
-        Task<bool> DeleteAsync(Guid documentId);
+        Task<bool> DeleteAsync(Guid documentId, int partitionKey);
     }
 }

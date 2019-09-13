@@ -120,7 +120,7 @@ namespace DFC.App.CareerPath.Controllers
                 return NotFound();
             }
 
-            await careerPathSegmentService.DeleteAsync(documentId).ConfigureAwait(false);
+            await careerPathSegmentService.DeleteAsync(documentId, careerPathSegmentModel.PartitionKey).ConfigureAwait(false);
 
             logger.LogInformation($"{nameof(Delete)} has deleted content for: {careerPathSegmentModel.CanonicalName}");
 
