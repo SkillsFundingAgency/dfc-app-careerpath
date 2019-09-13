@@ -8,7 +8,7 @@ using Xunit;
 namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 {
     [Trait("Integration Tests", "Health Controller Tests")]
-    public class HealthControllerRouteTests : BaseControllerRouteTests, IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class HealthControllerRouteTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> factory;
 
@@ -16,7 +16,7 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
         {
             this.factory = factory;
 
-            DataSeeding.SeedDefaultArticle(factory, DefaultArticleGuid, DefaultArticleName, DefaultArticleCreated);
+            DataSeeding.SeedDefaultArticle(factory);
         }
 
         public static IEnumerable<object[]> HealthContentRouteData => new List<object[]>

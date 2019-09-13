@@ -8,16 +8,22 @@ namespace DFC.App.CareerPath.IntegrationTests
 {
     public static class DataSeeding
     {
-        public static void SeedDefaultArticle(CustomWebApplicationFactory<Startup> factory, Guid articleGuid, string article, DateTime created)
+        public const string DefaultArticleName = "segment-article";
+
+        public static Guid DefaultArticleGuid => Guid.Parse("63DEA97E-B61C-4C14-15DC-1BD08EA20DC8");
+
+        public static DateTime DefaultArticleCreated => new DateTime(2019, 09, 01, 12, 13, 14);
+
+        public static void SeedDefaultArticle(CustomWebApplicationFactory<Startup> factory)
         {
             const string url = "/segment";
             var models = new List<CareerPathSegmentModel>()
             {
                 new CareerPathSegmentModel()
                 {
-                    DocumentId = articleGuid,
-                    CanonicalName = article,
-                    Created = created,
+                    DocumentId = DefaultArticleGuid,
+                    CanonicalName = DefaultArticleName,
+                    Created = DefaultArticleCreated,
                     Data = new CareerPathSegmentDataModel
                     {
                         Updated = DateTime.UtcNow,
@@ -27,7 +33,8 @@ namespace DFC.App.CareerPath.IntegrationTests
                 new CareerPathSegmentModel()
                 {
                     DocumentId = Guid.Parse("C16B389D-91AD-4F3D-2485-9F7EE953AFE4"),
-                    CanonicalName = $"{article}-2",
+                    CanonicalName = $"{DefaultArticleName}-2",
+                    Created = new DateTime(2019, 09, 02, 12, 13, 24),
                     Data = new CareerPathSegmentDataModel
                     {
                         Updated = DateTime.UtcNow,
@@ -37,7 +44,8 @@ namespace DFC.App.CareerPath.IntegrationTests
                 new CareerPathSegmentModel()
                 {
                     DocumentId = Guid.Parse("C0103C26-E7C9-4008-3F66-1B2DB192177E"),
-                    CanonicalName = $"{article}-3",
+                    CanonicalName = $"{DefaultArticleName}-3",
+                    Created = new DateTime(2019, 09, 03, 12, 13, 34),
                     Data = new CareerPathSegmentDataModel
                     {
                         Updated = DateTime.UtcNow,
@@ -50,7 +58,7 @@ namespace DFC.App.CareerPath.IntegrationTests
 
             client.DefaultRequestHeaders.Accept.Clear();
 
-            models.ForEach(f => client.PostAsync(url, f, new JsonMediaTypeFormatter()).Wait());
+            models.ForEach(f => client.PostAsync(url, f, new JsonMediaTypeFormatter()).GetAwaiter().GetResult());
         }
     }
 }

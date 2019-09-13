@@ -13,7 +13,7 @@ using Xunit;
 namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 {
     [Trait("Integration Tests", "Segment Controller Tests")]
-    public class SegmentControllerRouteTests : BaseControllerRouteTests, IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class SegmentControllerRouteTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> factory;
 
@@ -21,14 +21,14 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
         {
             this.factory = factory;
 
-            DataSeeding.SeedDefaultArticle(factory, DefaultArticleGuid, DefaultArticleName, DefaultArticleCreated);
+            DataSeeding.SeedDefaultArticle(factory);
         }
 
         public static IEnumerable<object[]> SegmentContentRouteData => new List<object[]>
         {
             new object[] { "/Segment" },
-            new object[] { $"/Segment/{DefaultArticleName}" },
-            new object[] { $"/Segment/{DefaultArticleName}/contents" },
+            new object[] { $"/Segment/{DataSeeding.DefaultArticleName}" },
+            new object[] { $"/Segment/{DataSeeding.DefaultArticleName}/contents" },
         };
 
         public static IEnumerable<object[]> MissingSegmentContentRouteData => new List<object[]>
@@ -105,9 +105,9 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             const string url = "/segment";
             var careerPathSegmentModel = new CareerPathSegmentModel()
             {
-                DocumentId = DefaultArticleGuid,
-                CanonicalName = DefaultArticleName,
-                Created = DefaultArticleCreated,
+                DocumentId = DataSeeding.DefaultArticleGuid,
+                CanonicalName = DataSeeding.DefaultArticleName,
+                Created = DataSeeding.DefaultArticleCreated,
                 Data = new CareerPathSegmentDataModel
                 {
                     Updated = DateTime.UtcNow,
