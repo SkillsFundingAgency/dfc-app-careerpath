@@ -2,9 +2,5 @@
 
 @if (Model.Markup != null)
 {
-    <div class="govuk-width-container">
-        <a id="CareerPathAndProgression" />
-
-        @Html.Raw(Model.Markup.Value)
-    </div>
+    @Html.Raw(Model.Markup.Value)
 }
