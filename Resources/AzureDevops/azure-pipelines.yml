@@ -52,15 +52,3 @@ jobs:
       BuildPlatform: $(BuildPlatform)
       BuildConfiguration: $(BuildConfiguration)
       TestSuffix: UnitTests      
-  # Test DFC.App.CareerPath.Data (an artifact will be built but isn't consumed in the release) 
-  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build-notests.yml@dfc-devops
-    parameters:
-      SolutionBaseName: $(SolutionBaseName).Data
-      BuildPlatform: $(BuildPlatform)
-      BuildConfiguration: $(BuildConfiguration)   
-  # Test DFC.App.CareerPath.Repository.CosmosDb (an artifact will be built but isn't consumed in the release) 
-  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build-notests.yml@dfc-devops
-    parameters:
-      SolutionBaseName: $(SolutionBaseName).Repository.CosmosDb
-      BuildPlatform: $(BuildPlatform)
-      BuildConfiguration: $(BuildConfiguration) 
