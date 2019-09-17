@@ -40,9 +40,6 @@
         "cosmosDbResourceGroup": {
             "type": "string"
         },
-        "environment": {
-            "type": "string"
-        },
         "sharedAppServicePlanName": {
             "type": "string",
             "defaultValue": ""
@@ -57,9 +54,9 @@
         "appServicePlanName": "[if(greater(length(parameters('sharedAppServicePlanName')), 0), parameters('sharedAppServicePlanName'), concat(parameters('resourcePrefix'), '-asp'))]",
         "appServicePlanResourceGroup": "[if(greater(length(parameters('SharedAppServicePlanResourceGroup')), 0), parameters('SharedAppServicePlanResourceGroup'), resourceGroup().name)]",
         "buildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
-        "cosmosDbCollectionName": "careerPath",
+        "cosmosDbCollectionName": "careerPathSegments",
         "cosmosDbCollectionPartitionKey": "/PartitionKey",
-        "cosmosDbDatabaseName": "dfc-app-careerpath",
+        "cosmosDbDatabaseName": "dfc-app-jobprofiles",
         "cosmosDbEndpoint": "[concat('https://', parameters('cosmosDbName'), '.documents.azure.com:443/')]",
         "webAppName": "[concat(parameters('resourcePrefix'), '-as')]"
     },
@@ -158,23 +155,23 @@
                                 "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',parameters('appSharedStorageAccountName'),';AccountKey=',listKeys(resourceId(parameters('appSharedResourceGroup'), 'Microsoft.Storage/storageAccounts', parameters('appSharedStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ';EndpointSuffix=core.windows.net')]"
                             },
                             {
-                                "name": "Configuration__CosmosDbConnections__JobProfile__AccessKey",
+                                "name": "Configuration__CosmosDbConnections__JobProfileSegment__AccessKey",
                                 "value": "[parameters('cosmosDbKey')]"
                             },
                             {
-                                "name": "Configuration__CosmosDbConnections__JobProfile__EndpointUrl",
+                                "name": "Configuration__CosmosDbConnections__JobProfileSegment__EndpointUrl",
                                 "value": "[variables('cosmosDbEndpoint')]"
                             },
                             {
-                                "name": "Configuration__CosmosDbConnections__JobProfile__DatabaseId",
+                                "name": "Configuration__CosmosDbConnections__JobProfileSegment__DatabaseId",
                                 "value": "[variables('cosmosDbDatabaseName')]"
                             },
                             {
-                                "name": "Configuration__CosmosDbConnections__JobProfile__CollectionId",
+                                "name": "Configuration__CosmosDbConnections__JobProfileSegment__CollectionId",
                                 "value": "[variables('cosmosDbCollectionName')]"
                             },
                             {
-                                "name": "Configuration__CosmosDbConnections__JobProfile__PartitionKey",
+                                "name": "Configuration__CosmosDbConnections__JobProfileSegment__PartitionKey",
                                 "value": "[variables('cosmosDbCollectionPartitionKey')]"
                             }
                         ]
