@@ -141,7 +141,7 @@ namespace DFC.App.CareerPath.Controllers
 
                 logger.LogInformation($"{nameof(Body)} has succeeded for: {article}");
 
-                return this.NegotiateContentResult(viewModel);
+                return this.NegotiateContentResult(viewModel, careerPathSegmentModel.Data);
             }
 
             logger.LogWarning($"{nameof(Body)} has returned no content for: {article}");
