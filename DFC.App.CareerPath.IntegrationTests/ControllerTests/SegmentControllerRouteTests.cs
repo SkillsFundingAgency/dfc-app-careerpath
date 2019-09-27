@@ -80,9 +80,10 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             {
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
+                SocCodeTwo = "12345",
                 Data = new CareerPathSegmentDataModel
                 {
-                    Updated = DateTime.UtcNow,
+                    LastReviewed = DateTime.UtcNow,
                     Markup = "<div>some markup</div>",
                 },
             };
@@ -107,10 +108,10 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             {
                 DocumentId = DataSeeding.DefaultArticleGuid,
                 CanonicalName = DataSeeding.DefaultArticleName,
-                Created = DataSeeding.DefaultArticleCreated,
+                SocCodeTwo = "12345",
                 Data = new CareerPathSegmentDataModel
                 {
-                    Updated = DateTime.UtcNow,
+                    LastReviewed = DateTime.UtcNow,
                     Markup = "<div>some markup</div>",
                 },
             };
@@ -136,9 +137,10 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             {
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
+                SocCodeTwo = "12345",
                 Data = new CareerPathSegmentDataModel
                 {
-                    Updated = DateTime.UtcNow,
+                    LastReviewed = DateTime.UtcNow,
                     Markup = "<div>some markup</div>",
                 },
             };
@@ -146,7 +148,7 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 
             client.DefaultRequestHeaders.Accept.Clear();
 
-            _ = await client.PostAsync(url, careerPathSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
+            _ = await client.PutAsync(url, careerPathSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
 
             // Act
             var response = await client.PutAsync(url, careerPathSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
@@ -167,9 +169,10 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             {
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
+                SocCodeTwo = "12345",
                 Data = new CareerPathSegmentDataModel
                 {
-                    Updated = DateTime.UtcNow,
+                    LastReviewed = DateTime.UtcNow,
                     Markup = "<div>some markup</div>",
                 },
             };

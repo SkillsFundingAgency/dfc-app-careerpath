@@ -16,23 +16,19 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
         {
             // Arrange
             var careerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
-            CareerPathSegmentModel existingCareerPathSegmentModel = null;
-            var createdCareerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
             var controller = BuildSegmentController(mediaTypeName);
 
-            A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns(existingCareerPathSegmentModel);
-            A.CallTo(() => FakeCareerPathSegmentService.CreateAsync(A<CareerPathSegmentModel>.Ignored)).Returns(createdCareerPathSegmentModel);
+            A.CallTo(() => FakeCareerPathSegmentService.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).Returns(HttpStatusCode.Created);
 
             // Act
             var result = await controller.CreateOrUpdate(careerPathSegmentModel).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeCareerPathSegmentService.CreateAsync(A<CareerPathSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeCareerPathSegmentService.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
 
-            var okResult = Assert.IsType<CreatedAtActionResult>(result);
+            var statusCodeResult = Assert.IsType<StatusCodeResult>(result);
 
-            A.Equals((int)HttpStatusCode.Created, okResult.StatusCode);
+            A.Equals((int)HttpStatusCode.Created, statusCodeResult.StatusCode);
 
             controller.Dispose();
         }
@@ -43,23 +39,19 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
         {
             // Arrange
             var careerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
-            var existingcareerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
-            CareerPathSegmentModel updatedCareerPathSegmentModel = null;
             var controller = BuildSegmentController(mediaTypeName);
 
-            A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns(existingcareerPathSegmentModel);
-            A.CallTo(() => FakeCareerPathSegmentService.ReplaceAsync(A<CareerPathSegmentModel>.Ignored)).Returns(updatedCareerPathSegmentModel);
+            A.CallTo(() => FakeCareerPathSegmentService.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).Returns(HttpStatusCode.OK);
 
             // Act
             var result = await controller.CreateOrUpdate(careerPathSegmentModel).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeCareerPathSegmentService.ReplaceAsync(A<CareerPathSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeCareerPathSegmentService.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
 
-            var okResult = Assert.IsType<OkObjectResult>(result);
+            var statusCodeResult = Assert.IsType<StatusCodeResult>(result);
 
-            A.Equals((int)HttpStatusCode.OK, okResult.StatusCode);
+            A.Equals((int)HttpStatusCode.OK, statusCodeResult.StatusCode);
 
             controller.Dispose();
         }

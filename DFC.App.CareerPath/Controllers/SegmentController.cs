@@ -71,11 +71,11 @@ namespace DFC.App.CareerPath.Controllers
         [HttpPut]
         [HttpPost]
         [Route("segment")]
-        public async Task<IActionResult> CreateOrUpdate([FromBody]CareerPathSegmentModel createOrUpdateCareerPathSegmentModel)
+        public async Task<IActionResult> CreateOrUpdate([FromBody]CareerPathSegmentModel upsertCareerPathSegmentModel)
         {
             logger.LogInformation($"{nameof(CreateOrUpdate)} has been called");
 
-            if (createOrUpdateCareerPathSegmentModel == null)
+            if (upsertCareerPathSegmentModel == null)
             {
                 return BadRequest();
             }
@@ -85,24 +85,11 @@ namespace DFC.App.CareerPath.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existingCareerPathSegmentModel = await careerPathSegmentService.GetByIdAsync(createOrUpdateCareerPathSegmentModel.DocumentId).ConfigureAwait(false);
+            var response = await careerPathSegmentService.UpsertAsync(upsertCareerPathSegmentModel).ConfigureAwait(false);
 
-            if (existingCareerPathSegmentModel == null)
-            {
-                var createdResponse = await careerPathSegmentService.CreateAsync(createOrUpdateCareerPathSegmentModel).ConfigureAwait(false);
+            logger.LogInformation($"{nameof(CreateOrUpdate)} has upserted content for: {upsertCareerPathSegmentModel.CanonicalName}");
 
-                logger.LogInformation($"{nameof(CreateOrUpdate)} has created content for: {createOrUpdateCareerPathSegmentModel.CanonicalName}");
-
-                return new CreatedAtActionResult(nameof(Document), "Segment", new { article = createdResponse.CanonicalName }, createdResponse);
-            }
-            else
-            {
-                var updatedResponse = await careerPathSegmentService.ReplaceAsync(createOrUpdateCareerPathSegmentModel).ConfigureAwait(false);
-
-                logger.LogInformation($"{nameof(CreateOrUpdate)} has updated content for: {createOrUpdateCareerPathSegmentModel.CanonicalName}");
-
-                return new OkObjectResult(updatedResponse);
-            }
+            return new StatusCodeResult((int)response);
         }
 
         [HttpDelete]
@@ -120,7 +107,7 @@ namespace DFC.App.CareerPath.Controllers
                 return NotFound();
             }
 
-            await careerPathSegmentService.DeleteAsync(documentId, careerPathSegmentModel.PartitionKey).ConfigureAwait(false);
+            await careerPathSegmentService.DeleteAsync(careerPathSegmentModel).ConfigureAwait(false);
 
             logger.LogInformation($"{nameof(Delete)} has deleted content for: {careerPathSegmentModel.CanonicalName}");
 

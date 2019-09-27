@@ -49,27 +49,24 @@ namespace DFC.App.CareerPath.Repository.CosmosDb
             return firstModel != null;
         }
 
-        public async Task<HttpStatusCode> CreateAsync(T model)
+        public async Task<HttpStatusCode> UpsertAsync(T model)
         {
-            var result = await documentClient.CreateDocumentAsync(DocumentCollectionUri, model).ConfigureAwait(false);
+            var ac = new AccessCondition { Condition = model.Etag, Type = AccessConditionType.IfMatch };
+            var pk = new PartitionKey(model.PartitionKey);
+
+            var result = await documentClient.UpsertDocumentAsync(DocumentCollectionUri, model, new RequestOptions { AccessCondition = ac, PartitionKey = pk }).ConfigureAwait(false);
 
             return result.StatusCode;
         }
 
-        public async Task<HttpStatusCode> UpdateAsync(Guid documentId, T model)
+        public async Task<HttpStatusCode> DeleteAsync(T model)
         {
-            var documentUri = CreateDocumentUri(documentId);
+            var documentUri = CreateDocumentUri(model.DocumentId);
 
-            var result = await documentClient.ReplaceDocumentAsync(documentUri, model).ConfigureAwait(false);
+            var ac = new AccessCondition { Condition = model.Etag, Type = AccessConditionType.IfMatch };
+            var pk = new PartitionKey(model.PartitionKey);
 
-            return result.StatusCode;
-        }
-
-        public async Task<HttpStatusCode> DeleteAsync(Guid documentId, int partitionKey)
-        {
-            var documentUri = CreateDocumentUri(documentId);
-
-            var result = await documentClient.DeleteDocumentAsync(documentUri, new RequestOptions { PartitionKey = new PartitionKey(partitionKey) }).ConfigureAwait(false);
+            var result = await documentClient.DeleteDocumentAsync(documentUri, new RequestOptions { AccessCondition = ac, PartitionKey = pk }).ConfigureAwait(false);
 
             return result.StatusCode;
         }
