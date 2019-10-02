@@ -1,0 +1,20 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "service-bus-connection-string": "Endpoint=sb://dfc-dev-app-sharedresources-ns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SCSwv/2V0DoiZGXn6fnx77YOeH09nQbIqpk4GIsavgU=",
+    "patch-markup-segment-topic-name": "career-path-markup-segment-topic",
+    "patch-markup-segment-subscription-name": "career-path-markup",
+    "delete-topic-name": "career-path-delete-topic",
+    "delete-subscription-name": "career-path-delete"
+  },
+  "CareerPathSegmentClientOptions": {
+    "Timeout": "00:00:30",
+   // "BaseAddress": "https://dfc-dev-app-carpath-as.azurewebsites.net",
+    "BaseAddress": "https://localhost:44322",
+    "GetEndpoint": "segment/{0}/contents",
+    "PatchEndpoint": "segment/{0}/content-type/markup",
+    "DeleteEndpoint": "segment/{0}"
+  }
+}
