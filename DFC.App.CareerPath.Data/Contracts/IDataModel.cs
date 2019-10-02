@@ -1,13 +1,19 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.CareerPath.Data.Contracts
 {
     public interface IDataModel
     {
+        [Required]
+        [JsonProperty(PropertyName = "id")]
         Guid DocumentId { get; set; }
 
+        [JsonProperty(PropertyName = "_etag")]
         string Etag { get; set; }
 
+        [Required]
         string PartitionKey { get; }
     }
 }

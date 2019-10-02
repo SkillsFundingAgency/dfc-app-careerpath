@@ -18,6 +18,6 @@ namespace DFC.App.CareerPath.Data.Contracts
 
         Task<HttpStatusCode> UpsertAsync(CareerPathSegmentModel careerPathSegmentModel);
 
-        Task<bool> DeleteAsync(CareerPathSegmentModel careerPathSegmentModel);
+        Task<bool> DeleteAsync(Guid documentId);
     }
 }

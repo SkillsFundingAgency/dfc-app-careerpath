@@ -1,8 +1,12 @@
 ﻿using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
+using DFC.App.CareerPath.Data.Models.ServiceBusModels;
+using Microsoft.Azure.ServiceBus;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DFC.App.CareerPath.SegmentService
@@ -11,11 +15,15 @@ namespace DFC.App.CareerPath.SegmentService
     {
         private readonly ICosmosRepository<CareerPathSegmentModel> repository;
         private readonly IDraftCareerPathSegmentService draftCareerPathSegmentService;
+        private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegment> jobProfileSegmentRefreshService;
 
-        public CareerPathSegmentService(ICosmosRepository<CareerPathSegmentModel> repository, IDraftCareerPathSegmentService draftCareerPathSegmentService)
+        public CareerPathSegmentService(ICosmosRepository<CareerPathSegmentModel> repository,
+                                        IDraftCareerPathSegmentService draftCareerPathSegmentService,
+                                        IJobProfileSegmentRefreshService<RefreshJobProfileSegment> jobProfileSegmentRefreshService)
         {
             this.repository = repository;
             this.draftCareerPathSegmentService = draftCareerPathSegmentService;
+            this.jobProfileSegmentRefreshService = jobProfileSegmentRefreshService;
         }
 
         public async Task<bool> PingAsync()
@@ -57,12 +65,25 @@ namespace DFC.App.CareerPath.SegmentService
                 careerPathSegmentModel.Data = new CareerPathSegmentDataModel();
             }
 
-            return await repository.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
+            var result = await repository.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
+
+            if (result == HttpStatusCode.OK || result == HttpStatusCode.Created)
+            {
+                var refreshJobProfileSegment = new RefreshJobProfileSegment
+                {
+                    JobProfileId = careerPathSegmentModel.DocumentId,
+                    Segment = CareerPathSegmentModel.SegmentName,
+                };
+
+                await jobProfileSegmentRefreshService.SendMessageAsync(refreshJobProfileSegment).ConfigureAwait(false);
+            }
+
+            return result;
         }
 
-        public async Task<bool> DeleteAsync(CareerPathSegmentModel careerPathSegmentModel)
+        public async Task<bool> DeleteAsync(Guid documentId)
         {
-            var result = await repository.DeleteAsync(careerPathSegmentModel).ConfigureAwait(false);
+            var result = await repository.DeleteAsync(documentId).ConfigureAwait(false);
 
             return result == HttpStatusCode.NoContent;
         }

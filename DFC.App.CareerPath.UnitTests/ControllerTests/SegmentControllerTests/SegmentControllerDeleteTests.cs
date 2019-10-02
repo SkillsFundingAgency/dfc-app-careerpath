@@ -16,16 +16,16 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
         {
             // Arrange
             Guid documentId = Guid.NewGuid();
-            var expectedResult = A.Fake<CareerPathSegmentModel>();
+            var expectedResult = true;
             var controller = BuildSegmentController(mediaTypeName);
 
-            A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeCareerPathSegmentService.DeleteAsync(A<Guid>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await controller.Delete(documentId).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeCareerPathSegmentService.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
 
             var okResult = Assert.IsType<OkResult>(result);
 
@@ -40,16 +40,16 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
         {
             // Arrange
             Guid documentId = Guid.NewGuid();
-            CareerPathSegmentModel expectedResult = null;
+            var expectedResult = false;
             var controller = BuildSegmentController(mediaTypeName);
 
-            A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeCareerPathSegmentService.DeleteAsync(A<Guid>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await controller.Delete(documentId).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeCareerPathSegmentService.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
 
             var statusResult = Assert.IsType<NotFoundResult>(result);
 

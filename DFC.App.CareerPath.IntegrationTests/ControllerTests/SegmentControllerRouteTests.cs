@@ -28,7 +28,7 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
         {
             new object[] { "/Segment" },
             new object[] { $"/Segment/{DataSeeding.DefaultArticleName}" },
-            new object[] { $"/Segment/{DataSeeding.DefaultArticleName}/contents" },
+            new object[] { $"/Segment/{DataSeeding.DefaultArticleGuid}/contents" },
         };
 
         public static IEnumerable<object[]> MissingSegmentContentRouteData => new List<object[]>
@@ -80,7 +80,8 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             {
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
-                SocCodeTwo = "12345",
+                SocLevelTwo = "12",
+                LastReviewed = DateTime.UtcNow,
                 Data = new CareerPathSegmentDataModel
                 {
                     LastReviewed = DateTime.UtcNow,
@@ -108,7 +109,8 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             {
                 DocumentId = DataSeeding.DefaultArticleGuid,
                 CanonicalName = DataSeeding.DefaultArticleName,
-                SocCodeTwo = "12345",
+                SocLevelTwo = "12",
+                LastReviewed = DateTime.UtcNow,
                 Data = new CareerPathSegmentDataModel
                 {
                     LastReviewed = DateTime.UtcNow,
@@ -137,7 +139,8 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             {
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
-                SocCodeTwo = "12345",
+                SocLevelTwo = "12",
+                LastReviewed = DateTime.UtcNow,
                 Data = new CareerPathSegmentDataModel
                 {
                     LastReviewed = DateTime.UtcNow,
@@ -169,7 +172,8 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             {
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
-                SocCodeTwo = "12345",
+                SocLevelTwo = "12",
+                LastReviewed = DateTime.UtcNow,
                 Data = new CareerPathSegmentDataModel
                 {
                     LastReviewed = DateTime.UtcNow,

@@ -7,6 +7,8 @@ namespace DFC.App.CareerPath.Data.Models
 {
     public class CareerPathSegmentModel : IDataModel
     {
+        public const string SegmentName = "CareerPath";
+
         [Required]
         [JsonProperty(PropertyName = "id")]
         public Guid DocumentId { get; set; }
@@ -15,12 +17,15 @@ namespace DFC.App.CareerPath.Data.Models
         public string Etag { get; set; }
 
         [Required]
-        public string SocCodeTwo { get; set; }
-
-        [Required]
         public string CanonicalName { get; set; }
 
-        public string PartitionKey => SocCodeTwo?.Substring(0, 2);
+        [Required]
+        public string SocLevelTwo { get; set; }
+
+        public string PartitionKey => SocLevelTwo;
+
+        [Required]
+        public DateTime? LastReviewed { get; set; }
 
         public CareerPathSegmentDataModel Data { get; set; }
     }

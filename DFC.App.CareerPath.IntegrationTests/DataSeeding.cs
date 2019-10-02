@@ -21,7 +21,7 @@ namespace DFC.App.CareerPath.IntegrationTests
                 {
                     DocumentId = DefaultArticleGuid,
                     CanonicalName = DefaultArticleName,
-                    SocCodeTwo = "12345",
+                    SocLevelTwo = "12",
                     Data = new CareerPathSegmentDataModel
                     {
                         LastReviewed = DateTime.UtcNow,
@@ -32,7 +32,7 @@ namespace DFC.App.CareerPath.IntegrationTests
                 {
                     DocumentId = Guid.Parse("C16B389D-91AD-4F3D-2485-9F7EE953AFE4"),
                     CanonicalName = $"{DefaultArticleName}-2",
-                    SocCodeTwo = "12345",
+                    SocLevelTwo = "12",
                     Data = new CareerPathSegmentDataModel
                     {
                         LastReviewed = DateTime.UtcNow,
@@ -43,7 +43,7 @@ namespace DFC.App.CareerPath.IntegrationTests
                 {
                     DocumentId = Guid.Parse("C0103C26-E7C9-4008-3F66-1B2DB192177E"),
                     CanonicalName = $"{DefaultArticleName}-3",
-                    SocCodeTwo = "12345",
+                    SocLevelTwo = "12",
                     Data = new CareerPathSegmentDataModel
                     {
                         LastReviewed = DateTime.UtcNow,

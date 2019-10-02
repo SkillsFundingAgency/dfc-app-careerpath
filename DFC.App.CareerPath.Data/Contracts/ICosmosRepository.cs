@@ -17,6 +17,6 @@ namespace DFC.App.CareerPath.Data.Contracts
 
         Task<HttpStatusCode> UpsertAsync(T model);
 
-        Task<HttpStatusCode> DeleteAsync(T model);
+        Task<HttpStatusCode> DeleteAsync(Guid documentId);
     }
 }

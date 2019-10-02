@@ -59,16 +59,23 @@ namespace DFC.App.CareerPath.Repository.CosmosDb
             return result.StatusCode;
         }
 
-        public async Task<HttpStatusCode> DeleteAsync(T model)
+        public async Task<HttpStatusCode> DeleteAsync(Guid documentId)
         {
-            var documentUri = CreateDocumentUri(model.DocumentId);
+            var documentUri = CreateDocumentUri(documentId);
 
-            var ac = new AccessCondition { Condition = model.Etag, Type = AccessConditionType.IfMatch };
-            var pk = new PartitionKey(model.PartitionKey);
+            var model = await GetAsync(d => d.DocumentId == documentId).ConfigureAwait(false);
 
-            var result = await documentClient.DeleteDocumentAsync(documentUri, new RequestOptions { AccessCondition = ac, PartitionKey = pk }).ConfigureAwait(false);
+            if (model != null)
+            {
+                var ac = new AccessCondition { Condition = model.Etag, Type = AccessConditionType.IfMatch };
+                var pk = new PartitionKey(model.PartitionKey);
 
-            return result.StatusCode;
+                var result = await documentClient.DeleteDocumentAsync(documentUri, new RequestOptions { AccessCondition = ac, PartitionKey = pk }).ConfigureAwait(false);
+
+                return result.StatusCode;
+            }
+
+            return HttpStatusCode.NotFound;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()

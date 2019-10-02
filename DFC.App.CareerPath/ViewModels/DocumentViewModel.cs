@@ -14,6 +14,6 @@ namespace DFC.App.CareerPath.ViewModels
 
         public HtmlString Markup { get; set; }
 
-        public string SocCodeTwo { get; set; }
+        public string SocLevelTwo { get; set; }
     }
 }

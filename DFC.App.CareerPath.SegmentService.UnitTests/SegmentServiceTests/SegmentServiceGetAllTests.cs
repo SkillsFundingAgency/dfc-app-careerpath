@@ -1,5 +1,6 @@
 using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
+using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using DFC.App.CareerPath.DraftSegmentService;
 using FakeItEasy;
 using System.Collections.Generic;
@@ -13,13 +14,15 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
     {
         private readonly ICosmosRepository<CareerPathSegmentModel> repository;
         private readonly IDraftCareerPathSegmentService draftCareerPathSegmentService;
+        private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegment> jobProfileSegmentRefreshService;
         private readonly ICareerPathSegmentService careerPathSegmentService;
 
         public SegmentServiceGetAllTests()
         {
             repository = A.Fake<ICosmosRepository<CareerPathSegmentModel>>();
             draftCareerPathSegmentService = A.Fake<DraftCareerPathSegmentService>();
-            careerPathSegmentService = new CareerPathSegmentService(repository, draftCareerPathSegmentService);
+            jobProfileSegmentRefreshService = A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegment>>();
+            careerPathSegmentService = new CareerPathSegmentService(repository, draftCareerPathSegmentService, jobProfileSegmentRefreshService);
         }
 
         [Fact]

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
+using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using DFC.App.CareerPath.DraftSegmentService;
 using DFC.App.CareerPath.Repository.CosmosDb;
-using DFC.App.CareerPath.Repository.SitefinityApi;
 using DFC.App.CareerPath.SegmentService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,8 +19,8 @@ namespace DFC.App.CareerPath
 {
     public class Startup
     {
+        public const string ServiceBusOptionsAppSettings = "ServiceBusOptions";
         public const string CosmosDbConfigAppSettings = "Configuration:CosmosDbConnections:JobProfileSegment";
-        public const string SitefinityApiAppSettings = "SitefinityApi";
 
         private readonly IConfiguration configuration;
 
@@ -39,16 +39,18 @@ namespace DFC.App.CareerPath
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            var serviceBusOptions = configuration.GetSection(ServiceBusOptionsAppSettings).Get<ServiceBusOptions>();
             var cosmosDbConnection = configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
-            var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey);
-            var sitefinityApiConnection = configuration.GetSection(SitefinityApiAppSettings).Get<SitefinityAPIConnectionSettings>();
 
-            services.AddSingleton(sitefinityApiConnection ?? new SitefinityAPIConnectionSettings());
+            var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey);
+
+            services.AddSingleton(serviceBusOptions);
             services.AddSingleton(cosmosDbConnection);
             services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<ICosmosRepository<CareerPathSegmentModel>, CosmosRepository<CareerPathSegmentModel>>();
             services.AddScoped<ICareerPathSegmentService, CareerPathSegmentService>();
             services.AddScoped<IDraftCareerPathSegmentService, DraftCareerPathSegmentService>();
+            services.AddScoped<IJobProfileSegmentRefreshService<RefreshJobProfileSegment>, JobProfileSegmentRefreshService<RefreshJobProfileSegment>>();
             services.AddAutoMapper(typeof(Startup).Assembly);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
