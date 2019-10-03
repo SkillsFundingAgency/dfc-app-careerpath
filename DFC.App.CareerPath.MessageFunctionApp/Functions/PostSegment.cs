@@ -31,7 +31,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Functions
 
             if (segmentModel == null || segmentModel.Data.LastReviewed < serviceBusModel.Data?.LastReviewed)
             {
-                var result = await HttpClientService.PostSegmentAsync(httpClient, segmentClientOptions, serviceBusModel).ConfigureAwait(false);
+                var result = await HttpClientService.PostAsync(httpClient, segmentClientOptions, serviceBusModel).ConfigureAwait(false);
 
                 if (result == HttpStatusCode.OK)
                 {

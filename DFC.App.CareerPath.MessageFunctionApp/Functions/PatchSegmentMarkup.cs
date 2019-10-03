@@ -39,7 +39,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Functions
                     Data = serviceBusModel.Data,
                 };
 
-                var result = await HttpClientService.PatchSegmentAsync(httpClient, segmentClientOptions, careerPathPatchSegmentModel, serviceBusModel.JobProfileId).ConfigureAwait(false);
+                var result = await HttpClientService.PatchAsync(httpClient, segmentClientOptions, careerPathPatchSegmentModel, serviceBusModel.JobProfileId).ConfigureAwait(false);
 
                 if (result == HttpStatusCode.OK)
                 {

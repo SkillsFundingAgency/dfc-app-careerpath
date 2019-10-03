@@ -12,11 +12,11 @@ namespace DFC.App.CareerPath.SegmentService
     {
         private readonly ICosmosRepository<CareerPathSegmentModel> repository;
         private readonly IDraftCareerPathSegmentService draftCareerPathSegmentService;
-        private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegment> jobProfileSegmentRefreshService;
+        private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService;
 
         public CareerPathSegmentService(ICosmosRepository<CareerPathSegmentModel> repository,
                                         IDraftCareerPathSegmentService draftCareerPathSegmentService,
-                                        IJobProfileSegmentRefreshService<RefreshJobProfileSegment> jobProfileSegmentRefreshService)
+                                        IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService)
         {
             this.repository = repository;
             this.draftCareerPathSegmentService = draftCareerPathSegmentService;
@@ -66,7 +66,7 @@ namespace DFC.App.CareerPath.SegmentService
 
             if (result == HttpStatusCode.OK || result == HttpStatusCode.Created)
             {
-                var refreshJobProfileSegment = new RefreshJobProfileSegment
+                var refreshJobProfileSegmentServiceBusModel = new RefreshJobProfileSegmentServiceBusModel
                 {
                     JobProfileId = careerPathSegmentModel.DocumentId,
                     CanonicalName = careerPathSegmentModel.CanonicalName,
@@ -74,7 +74,7 @@ namespace DFC.App.CareerPath.SegmentService
                     Segment = CareerPathSegmentModel.SegmentName,
                 };
 
-                await jobProfileSegmentRefreshService.SendMessageAsync(refreshJobProfileSegment).ConfigureAwait(false);
+                await jobProfileSegmentRefreshService.SendMessageAsync(refreshJobProfileSegmentServiceBusModel).ConfigureAwait(false);
             }
 
             return result;

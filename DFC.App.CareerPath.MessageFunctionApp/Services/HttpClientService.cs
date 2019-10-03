@@ -37,7 +37,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
             return default(CareerPathSegmentModel);
         }
 
-        public static async Task<HttpStatusCode> PatchSegmentAsync(HttpClient httpClient, SegmentClientOptions segmentClientOptions, CareerPathPatchSegmentModel careerPathPatchSegmentModel, Guid documentId)
+        public static async Task<HttpStatusCode> PatchAsync(HttpClient httpClient, SegmentClientOptions segmentClientOptions, CareerPathPatchSegmentModel careerPathPatchSegmentModel, Guid documentId)
         {
             var endpoint = segmentClientOptions.PatchEndpoint.Replace("{0}", documentId.ToString().ToLowerInvariant(), System.StringComparison.OrdinalIgnoreCase);
             var url = $"{segmentClientOptions.BaseAddress}{endpoint}";
@@ -54,7 +54,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
             }
         }
 
-        public static async Task<HttpStatusCode> PostSegmentAsync(HttpClient httpClient, SegmentClientOptions segmentClientOptions, CareerPathSegmentModel careerPathSegmentModel)
+        public static async Task<HttpStatusCode> PostAsync(HttpClient httpClient, SegmentClientOptions segmentClientOptions, CareerPathSegmentModel careerPathSegmentModel)
         {
             var endpoint = segmentClientOptions.PostEndpoint;
             var url = $"{segmentClientOptions.BaseAddress}{endpoint}";

@@ -18,7 +18,7 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
 
             A.CallTo(() => repository.PingAsync()).Returns(expectedResult);
 
-            var careerPathSegmentService = new CareerPathSegmentService(repository, A.Fake<IDraftCareerPathSegmentService>(), A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegment>>());
+            var careerPathSegmentService = new CareerPathSegmentService(repository, A.Fake<IDraftCareerPathSegmentService>(), A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>());
 
             // act
             var result = careerPathSegmentService.PingAsync().Result;
@@ -37,7 +37,7 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
 
             A.CallTo(() => repository.PingAsync()).Returns(expectedResult);
 
-            var careerPathSegmentService = new CareerPathSegmentService(repository, A.Fake<IDraftCareerPathSegmentService>(), A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegment>>());
+            var careerPathSegmentService = new CareerPathSegmentService(repository, A.Fake<IDraftCareerPathSegmentService>(), A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>());
 
             // act
             var result = careerPathSegmentService.PingAsync().Result;

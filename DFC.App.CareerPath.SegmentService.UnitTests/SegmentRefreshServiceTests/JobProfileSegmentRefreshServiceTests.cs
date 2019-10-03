@@ -11,19 +11,19 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentRefreshServiceTests
     public class JobProfileSegmentRefreshServiceTests
     {
         private readonly ServiceBusOptions serviceBusOptions;
-        private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegment> jobProfileSegmentRefreshService;
+        private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService;
 
         public JobProfileSegmentRefreshServiceTests()
         {
             serviceBusOptions = A.Fake<ServiceBusOptions>();
-            jobProfileSegmentRefreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegment>(serviceBusOptions);
+            jobProfileSegmentRefreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(serviceBusOptions);
         }
 
         [Fact]
         public void JobProfileSegmentRefreshServiceTestsSendMessage()
         {
             // arrange
-            var refreshJobProfileSegment = A.Fake<RefreshJobProfileSegment>();
+            var refreshJobProfileSegment = A.Fake<RefreshJobProfileSegmentServiceBusModel>();
 
             // act
             jobProfileSegmentRefreshService.SendMessageAsync(refreshJobProfileSegment);

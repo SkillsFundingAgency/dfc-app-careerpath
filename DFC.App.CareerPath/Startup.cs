@@ -50,7 +50,7 @@ namespace DFC.App.CareerPath
             services.AddSingleton<ICosmosRepository<CareerPathSegmentModel>, CosmosRepository<CareerPathSegmentModel>>();
             services.AddScoped<ICareerPathSegmentService, CareerPathSegmentService>();
             services.AddScoped<IDraftCareerPathSegmentService, DraftCareerPathSegmentService>();
-            services.AddScoped<IJobProfileSegmentRefreshService<RefreshJobProfileSegment>, JobProfileSegmentRefreshService<RefreshJobProfileSegment>>();
+            services.AddScoped<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>, JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
             services.AddAutoMapper(typeof(Startup).Assembly);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
