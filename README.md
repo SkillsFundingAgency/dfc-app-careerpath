@@ -13,7 +13,7 @@ This Career Path and Progression app runs in two flavours:
 
 ## Getting Started
 
-This is a self-contained Visual Studio 2019 solution containing a number of projects (web application, service and repository layers, with associated unit test and integration test projects).
+This is a self-contained Visual Studio 2019 solution containing a number of projects (web application, function application, service and repository layers, with associated unit test and integration test projects).
 
 ### Installing
 
@@ -23,7 +23,7 @@ Clone the project and open the solution in Visual Studio 2019.
 
 |Item	|Purpose|
 |-------|-------|
-|Sitefinity |Content management system |
+|Azure Service Bus |Message handling |
 |Azure Cosmos DB | Document storage |
 
 ## Local Config Files
@@ -32,6 +32,7 @@ Once you have cloned the public repo you need to rename the appsettings files by
 
 | Location | Repo Filename | Rename to |
 |-------|-------|-------|
+| DFC.App.CareerPath.MessageFunctionApp | local.settings-template.json | local.settings.json |
 | DFC.App.CareerPath.IntegrationTests | appsettings-template.json | appsettings.json |
 | DFC.App.CareerPath | appsettings-template.json | appsettings.json |
 

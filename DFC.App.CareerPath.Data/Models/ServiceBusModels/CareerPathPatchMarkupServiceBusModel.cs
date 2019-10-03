@@ -9,9 +9,6 @@ namespace DFC.App.CareerPath.Data.Models.ServiceBusModels
         public Guid JobProfileId { get; set; }
 
         [Required]
-        public string Etag { get; set; }
-
-        [Required]
         public string CanonicalName { get; set; }
 
         [Required]

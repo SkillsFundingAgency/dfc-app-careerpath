@@ -37,9 +37,9 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
             return default(CareerPathSegmentModel);
         }
 
-        public static async Task<HttpStatusCode> PatchSegmentAsync(HttpClient httpClient, SegmentClientOptions segmentClientOptions, CareerPathPatchSegmentModel careerPathPatchSegmentModel)
+        public static async Task<HttpStatusCode> PatchSegmentAsync(HttpClient httpClient, SegmentClientOptions segmentClientOptions, CareerPathPatchSegmentModel careerPathPatchSegmentModel, Guid documentId)
         {
-            var endpoint = segmentClientOptions.PatchEndpoint.Replace("{0}", careerPathPatchSegmentModel.DocumentId.ToString().ToLowerInvariant(), System.StringComparison.OrdinalIgnoreCase);
+            var endpoint = segmentClientOptions.PatchEndpoint.Replace("{0}", documentId.ToString().ToLowerInvariant(), System.StringComparison.OrdinalIgnoreCase);
             var url = $"{segmentClientOptions.BaseAddress}{endpoint}";
 
             using (var request = new HttpRequestMessage(HttpMethod.Patch, url))

@@ -72,11 +72,11 @@ namespace DFC.App.CareerPath.Controllers
         [HttpPut]
         [HttpPost]
         [Route("segment")]
-        public async Task<IActionResult> CreateOrUpdate([FromBody]CareerPathSegmentModel upsertCareerPathSegmentModel)
+        public async Task<IActionResult> CreateOrUpdate([FromBody]CareerPathSegmentModel careerPathSegmentModel)
         {
             logger.LogInformation($"{nameof(CreateOrUpdate)} has been called");
 
-            if (upsertCareerPathSegmentModel == null)
+            if (careerPathSegmentModel == null)
             {
                 return BadRequest();
             }
@@ -86,54 +86,53 @@ namespace DFC.App.CareerPath.Controllers
                 return BadRequest(ModelState);
             }
 
-            var response = await careerPathSegmentService.UpsertAsync(upsertCareerPathSegmentModel).ConfigureAwait(false);
+            var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
-            logger.LogInformation($"{nameof(CreateOrUpdate)} has upserted content for: {upsertCareerPathSegmentModel.CanonicalName}");
+            logger.LogInformation($"{nameof(CreateOrUpdate)} has upserted content for: {careerPathSegmentModel.CanonicalName}");
 
             return new StatusCodeResult((int)response);
         }
 
-        //[HttpPatch]
-        //[Route("segment/{documentId}/content-type/markup")]
-        //public async Task<IActionResult> Patch([FromBody]CareerPathPatchMarkupSegmentModel careerPathPatchMarkupSegmentModel, Guid documentId)
-        //{
-        //    logger.LogInformation($"{nameof(Patch)} has been called");
+        [HttpPatch]
+        [Route("segment/{documentId}/content-type/markup")]
+        public async Task<IActionResult> Patch([FromBody]CareerPathPatchSegmentModel careerPathPatchSegmentModel, Guid documentId)
+        {
+            logger.LogInformation($"{nameof(Patch)} has been called");
 
-        //    if (careerPathPatchMarkupSegmentModel == null)
-        //    {
-        //        return BadRequest();
-        //    }
+            if (careerPathPatchSegmentModel == null)
+            {
+                return BadRequest();
+            }
 
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    var careerPathSegmentModel = await careerPathSegmentService.GetByIdAsync(documentId).ConfigureAwait(false);
+            var careerPathSegmentModel = await careerPathSegmentService.GetByIdAsync(documentId).ConfigureAwait(false);
 
-        //    if (careerPathSegmentModel == null)
-        //    {
-        //        logger.LogWarning($"{nameof(Document)} has returned no content for: {documentId}");
+            if (careerPathSegmentModel == null)
+            {
+                logger.LogWarning($"{nameof(Document)} has returned no content for: {documentId} - creating new document");
 
-        //        careerPathSegmentModel = new CareerPathSegmentModel
-        //        {
-        //            DocumentId = careerPathPatchMarkupSegmentModel.DocumentId,
-        //            SocLevelTwo = careerPathPatchMarkupSegmentModel.SocLevelTwo,
-        //            Data = new CareerPathSegmentDataModel(),
-        //        };
-        //    }
+                careerPathSegmentModel = new CareerPathSegmentModel
+                {
+                    DocumentId = documentId,
+                    SocLevelTwo = careerPathPatchSegmentModel.SocLevelTwo,
+                    Data = new CareerPathSegmentDataModel(),
+                };
+            }
 
-        //    careerPathSegmentModel.Etag = careerPathPatchMarkupSegmentModel.Etag;
-        //    careerPathSegmentModel.CanonicalName = careerPathPatchMarkupSegmentModel.CanonicalName;
-        //    careerPathSegmentModel.Data.LastReviewed = careerPathPatchMarkupSegmentModel.Data.LastReviewed;
-        //    careerPathSegmentModel.Data.Markup = careerPathPatchMarkupSegmentModel.Data.Markup;
+            careerPathSegmentModel.CanonicalName = careerPathPatchSegmentModel.CanonicalName;
+            careerPathSegmentModel.Data.LastReviewed = careerPathPatchSegmentModel.Data.LastReviewed;
+            careerPathSegmentModel.Data.Markup = careerPathPatchSegmentModel.Data.Markup;
 
-        //    var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
+            var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
-        //    logger.LogInformation($"{nameof(Patch)} has patched content for: {careerPathSegmentModel.CanonicalName}");
+            logger.LogInformation($"{nameof(Patch)} has patched content for: {careerPathSegmentModel.CanonicalName}");
 
-        //    return new StatusCodeResult((int)response);
-        //}
+            return new StatusCodeResult((int)response);
+        }
 
         [HttpDelete]
         [Route("segment/{documentId}")]

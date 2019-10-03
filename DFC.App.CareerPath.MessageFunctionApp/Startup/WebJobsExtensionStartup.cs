@@ -27,15 +27,6 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Startup
 
             builder.Services.AddSingleton<SegmentClientOptions>(segmentClientOptions);
             builder.Services.AddSingleton<HttpClient>(new HttpClient());
-
-            //builder.Services.AddSingleton<ILoggerHelper, LoggerHelper>();
-            //builder.Services.AddSingleton<IHttpRequestHelper, HttpRequestHelper>();
-            //builder.Services.AddSingleton<IHttpResponseMessageHelper, HttpResponseMessageHelper>();
-            //builder.Services.AddSingleton<IJsonHelper, JsonHelper>();
-            //builder.Services.AddSingleton<IDocumentDBProvider, DocumentDBProvider>();
-
-            //builder.Services.AddScoped<IRegionService, RegionService>();
-            //builder.Services.AddScoped<ISwaggerDocumentGenerator, SwaggerDocumentGenerator>();
         }
     }
 }

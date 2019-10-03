@@ -34,14 +34,12 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Functions
             {
                 var careerPathPatchSegmentModel = new CareerPathPatchSegmentModel
                 {
-                    DocumentId = serviceBusModel.JobProfileId,
-                    Etag = serviceBusModel.Etag,
                     SocLevelTwo = serviceBusModel.SocLevelTwo,
                     CanonicalName = serviceBusModel.CanonicalName,
                     Data = serviceBusModel.Data,
                 };
 
-                var result = await HttpClientService.PatchSegmentAsync(httpClient, segmentClientOptions, careerPathPatchSegmentModel).ConfigureAwait(false);
+                var result = await HttpClientService.PatchSegmentAsync(httpClient, segmentClientOptions, careerPathPatchSegmentModel, serviceBusModel.JobProfileId).ConfigureAwait(false);
 
                 if (result == HttpStatusCode.OK)
                 {
