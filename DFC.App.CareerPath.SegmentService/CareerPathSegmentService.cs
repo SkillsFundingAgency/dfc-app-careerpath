@@ -1,12 +1,9 @@
 ﻿using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels;
-using Microsoft.Azure.ServiceBus;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DFC.App.CareerPath.SegmentService
@@ -72,6 +69,8 @@ namespace DFC.App.CareerPath.SegmentService
                 var refreshJobProfileSegment = new RefreshJobProfileSegment
                 {
                     JobProfileId = careerPathSegmentModel.DocumentId,
+                    CanonicalName = careerPathSegmentModel.CanonicalName,
+                    SocLevelTwo = careerPathSegmentModel.SocLevelTwo,
                     Segment = CareerPathSegmentModel.SegmentName,
                 };
 

@@ -101,7 +101,7 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task PostSegmentEndpointsForDefaultArticleRefreshAllReturnOk()
+        public async Task PostSegmentEndpointsForDefaultArticleRefreshReturnsOk()
         {
             // Arrange
             const string url = "/segment";

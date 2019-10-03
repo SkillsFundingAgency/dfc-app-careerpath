@@ -16,10 +16,11 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Functions
         private static readonly string ThisClassPath = typeof(DeleteSegment).FullName;
 
         [FunctionName("DeleteSegment")]
-        public static async Task Run([ServiceBusTrigger("%delete-topic-name%", "%delete-subscription-name%", Connection = "service-bus-connection-string")]string serviceBusMessage,
-                                     ILogger log,
-                                     [Inject] SegmentClientOptions segmentClientOptions,
-                                     [Inject] HttpClient httpClient)
+        public static async Task Run(
+                                        [ServiceBusTrigger("%delete-topic-name%", "%delete-subscription-name%", Connection = "service-bus-connection-string")] string serviceBusMessage,
+                                        ILogger log,
+                                        [Inject] SegmentClientOptions segmentClientOptions,
+                                        [Inject] HttpClient httpClient)
         {
             var serviceBusModel = JsonConvert.DeserializeObject<CareerPathDeleteServiceBusModel>(serviceBusMessage);
 

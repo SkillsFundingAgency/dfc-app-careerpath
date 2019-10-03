@@ -13,15 +13,16 @@ using System.Threading.Tasks;
 namespace DFC.App.CareerPath.MessageFunctionApp.Functions
 {
 
-    public static class PatchSegment
+    public static class PatchSegmentMarkup
     {
-        private static readonly string ThisClassPath = typeof(PatchSegment).FullName;
+        private static readonly string ThisClassPath = typeof(PatchSegmentMarkup).FullName;
 
-        [FunctionName("PatchSegment")]
-        public static async Task Run([ServiceBusTrigger("%patch-segment-topic-name%", "%patch-segment-subscription-name%", Connection = "service-bus-connection-string")]string serviceBusMessage,
-                                     ILogger log,
-                                     [Inject] SegmentClientOptions segmentClientOptions,
-                                     [Inject] HttpClient httpClient)
+        [FunctionName("PatchSegmentMarkup")]
+        public static async Task Run(
+                                        [ServiceBusTrigger("%patch-segment-topic-name%", "%patch-segment-subscription-name%", Connection = "service-bus-connection-string")] string serviceBusMessage,
+                                        ILogger log,
+                                        [Inject] SegmentClientOptions segmentClientOptions,
+                                        [Inject] HttpClient httpClient)
         {
             var serviceBusModel = JsonConvert.DeserializeObject<CareerPathPatchMarkupServiceBusModel>(serviceBusMessage);
 

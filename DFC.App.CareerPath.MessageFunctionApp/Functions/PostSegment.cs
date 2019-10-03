@@ -17,10 +17,11 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Functions
         private static readonly string ThisClassPath = typeof(PostSegment).FullName;
 
         [FunctionName("PostSegment")]
-        public static async Task Run([ServiceBusTrigger("%post-segment-topic-name%", "%post-segment-subscription-name%", Connection = "service-bus-connection-string")]string serviceBusMessage,
-                                     ILogger log,
-                                     [Inject] SegmentClientOptions segmentClientOptions,
-                                     [Inject] HttpClient httpClient)
+        public static async Task Run(
+                                        [ServiceBusTrigger("%post-segment-topic-name%", "%post-segment-subscription-name%", Connection = "service-bus-connection-string")] string serviceBusMessage,
+                                        ILogger log,
+                                        [Inject] SegmentClientOptions segmentClientOptions,
+                                        [Inject] HttpClient httpClient)
         {
             var serviceBusModel = JsonConvert.DeserializeObject<CareerPathSegmentModel>(serviceBusMessage);
 
