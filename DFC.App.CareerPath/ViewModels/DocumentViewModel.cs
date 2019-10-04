@@ -14,8 +14,6 @@ namespace DFC.App.CareerPath.ViewModels
 
         public HtmlString Markup { get; set; }
 
-        public DateTime Created { get; set; }
-
-        public DateTime Updated { get; set; }
+        public string SocLevelTwo { get; set; }
     }
 }

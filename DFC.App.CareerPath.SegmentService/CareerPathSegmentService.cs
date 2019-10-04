@@ -1,5 +1,6 @@
 ﻿using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
+using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -11,11 +12,15 @@ namespace DFC.App.CareerPath.SegmentService
     {
         private readonly ICosmosRepository<CareerPathSegmentModel> repository;
         private readonly IDraftCareerPathSegmentService draftCareerPathSegmentService;
+        private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService;
 
-        public CareerPathSegmentService(ICosmosRepository<CareerPathSegmentModel> repository, IDraftCareerPathSegmentService draftCareerPathSegmentService)
+        public CareerPathSegmentService(ICosmosRepository<CareerPathSegmentModel> repository,
+                                        IDraftCareerPathSegmentService draftCareerPathSegmentService,
+                                        IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService)
         {
             this.repository = repository;
             this.draftCareerPathSegmentService = draftCareerPathSegmentService;
+            this.jobProfileSegmentRefreshService = jobProfileSegmentRefreshService;
         }
 
         public async Task<bool> PingAsync()
@@ -45,7 +50,7 @@ namespace DFC.App.CareerPath.SegmentService
                 : await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
         }
 
-        public async Task<CareerPathSegmentModel> CreateAsync(CareerPathSegmentModel careerPathSegmentModel)
+        public async Task<HttpStatusCode> UpsertAsync(CareerPathSegmentModel careerPathSegmentModel)
         {
             if (careerPathSegmentModel == null)
             {
@@ -57,39 +62,27 @@ namespace DFC.App.CareerPath.SegmentService
                 careerPathSegmentModel.Data = new CareerPathSegmentDataModel();
             }
 
-            careerPathSegmentModel.Updated = DateTime.UtcNow;
+            var result = await repository.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
-            var result = await repository.CreateAsync(careerPathSegmentModel).ConfigureAwait(false);
-
-            return result == HttpStatusCode.Created
-                ? await GetByIdAsync(careerPathSegmentModel.DocumentId).ConfigureAwait(false)
-                : null;
-        }
-
-        public async Task<CareerPathSegmentModel> ReplaceAsync(CareerPathSegmentModel careerPathSegmentModel)
-        {
-            if (careerPathSegmentModel == null)
+            if (result == HttpStatusCode.OK || result == HttpStatusCode.Created)
             {
-                throw new ArgumentNullException(nameof(careerPathSegmentModel));
+                var refreshJobProfileSegmentServiceBusModel = new RefreshJobProfileSegmentServiceBusModel
+                {
+                    JobProfileId = careerPathSegmentModel.DocumentId,
+                    CanonicalName = careerPathSegmentModel.CanonicalName,
+                    SocLevelTwo = careerPathSegmentModel.SocLevelTwo,
+                    Segment = CareerPathSegmentModel.SegmentName,
+                };
+
+                await jobProfileSegmentRefreshService.SendMessageAsync(refreshJobProfileSegmentServiceBusModel).ConfigureAwait(false);
             }
 
-            if (careerPathSegmentModel.Data == null)
-            {
-                careerPathSegmentModel.Data = new CareerPathSegmentDataModel();
-            }
-
-            careerPathSegmentModel.Updated = DateTime.UtcNow;
-
-            var result = await repository.UpdateAsync(careerPathSegmentModel.DocumentId, careerPathSegmentModel).ConfigureAwait(false);
-
-            return result == HttpStatusCode.OK
-                ? await GetByIdAsync(careerPathSegmentModel.DocumentId).ConfigureAwait(false)
-                : null;
+            return result;
         }
 
-        public async Task<bool> DeleteAsync(Guid documentId, int partitionKey)
+        public async Task<bool> DeleteAsync(Guid documentId)
         {
-            var result = await repository.DeleteAsync(documentId, partitionKey).ConfigureAwait(false);
+            var result = await repository.DeleteAsync(documentId).ConfigureAwait(false);
 
             return result == HttpStatusCode.NoContent;
         }

@@ -1,5 +1,6 @@
 ﻿using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
+using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using DFC.App.CareerPath.DraftSegmentService;
 using FakeItEasy;
 using System;
@@ -13,30 +14,31 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
     {
         private readonly ICosmosRepository<CareerPathSegmentModel> repository;
         private readonly IDraftCareerPathSegmentService draftCareerPathSegmentService;
+        private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService;
         private readonly ICareerPathSegmentService careerPathSegmentService;
 
         public SegmentServiceDeleteTests()
         {
             repository = A.Fake<ICosmosRepository<CareerPathSegmentModel>>();
             draftCareerPathSegmentService = A.Fake<DraftCareerPathSegmentService>();
-            careerPathSegmentService = new CareerPathSegmentService(repository, draftCareerPathSegmentService);
+            jobProfileSegmentRefreshService = A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
+            careerPathSegmentService = new CareerPathSegmentService(repository, draftCareerPathSegmentService, jobProfileSegmentRefreshService);
         }
 
         [Fact]
         public void CareerPathSegmentServiceDeleteReturnsSuccessWhenSegmentDeleted()
         {
             // arrange
-            Guid documentId = Guid.NewGuid();
-            const int partitionKey = 0;
+            var documentId = Guid.NewGuid();
             var expectedResult = true;
 
-            A.CallTo(() => repository.DeleteAsync(documentId, partitionKey)).Returns(HttpStatusCode.NoContent);
+            A.CallTo(() => repository.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.NoContent);
 
             // act
-            var result = careerPathSegmentService.DeleteAsync(documentId, partitionKey).Result;
+            var result = careerPathSegmentService.DeleteAsync(documentId).Result;
 
             // assert
-            A.CallTo(() => repository.DeleteAsync(documentId, partitionKey)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => repository.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             A.Equals(result, expectedResult);
         }
 
@@ -44,17 +46,16 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
         public void CareerPathSegmentServiceDeleteReturnsNullWhenSegmentNotDeleted()
         {
             // arrange
-            Guid documentId = Guid.NewGuid();
-            const int partitionKey = 0;
+            var documentId = Guid.NewGuid();
             var expectedResult = false;
 
-            A.CallTo(() => repository.DeleteAsync(documentId, partitionKey)).Returns(HttpStatusCode.BadRequest);
+            A.CallTo(() => repository.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.BadRequest);
 
             // act
-            var result = careerPathSegmentService.DeleteAsync(documentId, partitionKey).Result;
+            var result = careerPathSegmentService.DeleteAsync(documentId).Result;
 
             // assert
-            A.CallTo(() => repository.DeleteAsync(documentId, partitionKey)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => repository.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             A.Equals(result, expectedResult);
         }
 
@@ -62,18 +63,16 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
         public void CareerPathSegmentServiceDeleteReturnsFalseWhenMissingRepository()
         {
             // arrange
-            Guid documentId = Guid.NewGuid();
-            const int partitionKey = 0;
-            var careerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
+            var documentId = Guid.NewGuid();
             var expectedResult = false;
 
-            A.CallTo(() => repository.DeleteAsync(documentId, partitionKey)).Returns(HttpStatusCode.FailedDependency);
+            A.CallTo(() => repository.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.NotFound);
 
             // act
-            var result = careerPathSegmentService.DeleteAsync(documentId, partitionKey).Result;
+            var result = careerPathSegmentService.DeleteAsync(documentId).Result;
 
             // assert
-            A.CallTo(() => repository.DeleteAsync(documentId, partitionKey)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => repository.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             A.Equals(result, expectedResult);
         }
     }
