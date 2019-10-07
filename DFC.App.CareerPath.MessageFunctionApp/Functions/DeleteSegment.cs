@@ -28,7 +28,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Functions
 
             var segmentDataModel = await HttpClientService.GetByIdAsync(httpClient, segmentClientOptions, serviceBusModel.JobProfileId).ConfigureAwait(false);
 
-            if (segmentDataModel == null || segmentDataModel.Data.LastReviewed < serviceBusModel.LastReviewed)
+            if (segmentDataModel != null && segmentDataModel.LastReviewed < serviceBusModel.LastReviewed)
             {
                 var result = await HttpClientService.DeleteAsync(httpClient, segmentClientOptions, serviceBusModel.JobProfileId).ConfigureAwait(false);
 

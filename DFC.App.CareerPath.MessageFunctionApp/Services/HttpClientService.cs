@@ -13,7 +13,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
 {
     public static class HttpClientService
     {
-        public static async Task<CareerPathSegmentModel> GetByIdAsync(HttpClient httpClient, SegmentClientOptions segmentClientOptions, Guid id)
+        public static async Task<CareerPathSegmentDataModel> GetByIdAsync(HttpClient httpClient, SegmentClientOptions segmentClientOptions, Guid id)
         {
             var endpoint = segmentClientOptions.GetEndpoint.Replace("{0}", id.ToString().ToLowerInvariant(), System.StringComparison.OrdinalIgnoreCase);
             var url = $"{segmentClientOptions.BaseAddress}{endpoint}";
@@ -28,13 +28,13 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    var result = JsonConvert.DeserializeObject<CareerPathSegmentModel>(responseString);
+                    var result = JsonConvert.DeserializeObject<CareerPathSegmentDataModel>(responseString);
 
                     return result;
                 }
             }
 
-            return default(CareerPathSegmentModel);
+            return default(CareerPathSegmentDataModel);
         }
 
         public static async Task<HttpStatusCode> PatchAsync(HttpClient httpClient, SegmentClientOptions segmentClientOptions, CareerPathPatchSegmentModel careerPathPatchSegmentModel, Guid documentId)

@@ -28,31 +28,38 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Functions
 
             log.LogInformation($"{ThisClassPath}: JobProfile Id: {serviceBusModel.JobProfileId}: Patching segment");
 
-            var segmentModel = await HttpClientService.GetByIdAsync(httpClient, segmentClientOptions, serviceBusModel.JobProfileId).ConfigureAwait(false);
+            var segmentDataModel = await HttpClientService.GetByIdAsync(httpClient, segmentClientOptions, serviceBusModel.JobProfileId).ConfigureAwait(false);
 
-            if (segmentModel == null || segmentModel.Data == null || segmentModel.Data.LastReviewed < serviceBusModel.Data.LastReviewed)
+            if (segmentDataModel != null)
             {
-                var careerPathPatchSegmentModel = new CareerPathPatchSegmentModel
+                if (segmentDataModel.LastReviewed < serviceBusModel.Data.LastReviewed)
                 {
-                    SocLevelTwo = serviceBusModel.SocLevelTwo,
-                    CanonicalName = serviceBusModel.CanonicalName,
-                    Data = serviceBusModel.Data,
-                };
+                    var careerPathPatchSegmentModel = new CareerPathPatchSegmentModel
+                    {
+                        SocLevelTwo = serviceBusModel.SocLevelTwo,
+                        CanonicalName = serviceBusModel.CanonicalName,
+                        Data = serviceBusModel.Data,
+                    };
 
-                var result = await HttpClientService.PatchAsync(httpClient, segmentClientOptions, careerPathPatchSegmentModel, serviceBusModel.JobProfileId).ConfigureAwait(false);
+                    var result = await HttpClientService.PatchAsync(httpClient, segmentClientOptions, careerPathPatchSegmentModel, serviceBusModel.JobProfileId).ConfigureAwait(false);
 
-                if (result == HttpStatusCode.OK)
-                {
-                    log.LogInformation($"{ThisClassPath}: JobProfile Id: {serviceBusModel.JobProfileId}: Patched segment");
+                    if (result == HttpStatusCode.OK)
+                    {
+                        log.LogInformation($"{ThisClassPath}: JobProfile Id: {serviceBusModel.JobProfileId}: Patched segment");
+                    }
+                    else
+                    {
+                        log.LogWarning($"{ThisClassPath}: JobProfile Id: {serviceBusModel.JobProfileId}: Segment not patched: Status: {result}");
+                    }
                 }
                 else
                 {
-                    log.LogWarning($"{ThisClassPath}: JobProfile Id: {serviceBusModel.JobProfileId}: Segment not patched: Status: {result}");
+                    log.LogWarning($"{ThisClassPath}: JobProfile Id: {serviceBusModel.JobProfileId}: Service bus message is stale: {serviceBusModel.Data.LastReviewed}, stored: {segmentDataModel.LastReviewed}");
                 }
             }
             else
             {
-                log.LogWarning($"{ThisClassPath}: JobProfile Id: {serviceBusModel.JobProfileId}: Service bus message is stale: {serviceBusModel.Data.LastReviewed}, stored: {segmentModel.Data.LastReviewed}");
+                log.LogWarning($"{ThisClassPath}: JobProfile Id: {serviceBusModel.JobProfileId}: Segment does not exist");
             }
         }
     }
