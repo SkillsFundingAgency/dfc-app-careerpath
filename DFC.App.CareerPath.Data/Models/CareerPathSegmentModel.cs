@@ -7,8 +7,6 @@ namespace DFC.App.CareerPath.Data.Models
 {
     public class CareerPathSegmentModel : IDataModel
     {
-        public const string SegmentName = "CareerPath";
-
         [Required]
         [JsonProperty(PropertyName = "id")]
         public Guid DocumentId { get; set; }

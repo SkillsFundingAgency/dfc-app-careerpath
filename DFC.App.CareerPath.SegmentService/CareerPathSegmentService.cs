@@ -70,8 +70,7 @@ namespace DFC.App.CareerPath.SegmentService
                 {
                     JobProfileId = careerPathSegmentModel.DocumentId,
                     CanonicalName = careerPathSegmentModel.CanonicalName,
-                    SocLevelTwo = careerPathSegmentModel.SocLevelTwo,
-                    Segment = CareerPathSegmentModel.SegmentName,
+                    Segment = CareerPathSegmentDataModel.SegmentName,
                 };
 
                 await jobProfileSegmentRefreshService.SendMessageAsync(refreshJobProfileSegmentServiceBusModel).ConfigureAwait(false);
