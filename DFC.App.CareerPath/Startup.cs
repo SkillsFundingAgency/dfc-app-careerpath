@@ -40,11 +40,12 @@ namespace DFC.App.CareerPath
             });
 
             var serviceBusOptions = configuration.GetSection(ServiceBusOptionsAppSettings).Get<ServiceBusOptions>();
+            services.AddSingleton(serviceBusOptions ?? new ServiceBusOptions());
+
             var cosmosDbConnection = configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
 
             var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey);
 
-            services.AddSingleton(serviceBusOptions);
             services.AddSingleton(cosmosDbConnection);
             services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<ICosmosRepository<CareerPathSegmentModel>, CosmosRepository<CareerPathSegmentModel>>();

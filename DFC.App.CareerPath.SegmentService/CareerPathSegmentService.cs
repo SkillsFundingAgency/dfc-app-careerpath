@@ -14,7 +14,8 @@ namespace DFC.App.CareerPath.SegmentService
         private readonly IDraftCareerPathSegmentService draftCareerPathSegmentService;
         private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService;
 
-        public CareerPathSegmentService(ICosmosRepository<CareerPathSegmentModel> repository,
+        public CareerPathSegmentService(
+                                        ICosmosRepository<CareerPathSegmentModel> repository,
                                         IDraftCareerPathSegmentService draftCareerPathSegmentService,
                                         IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService)
         {
@@ -70,8 +71,7 @@ namespace DFC.App.CareerPath.SegmentService
                 {
                     JobProfileId = careerPathSegmentModel.DocumentId,
                     CanonicalName = careerPathSegmentModel.CanonicalName,
-                    SocLevelTwo = careerPathSegmentModel.SocLevelTwo,
-                    Segment = CareerPathSegmentModel.SegmentName,
+                    Segment = CareerPathSegmentDataModel.SegmentName,
                 };
 
                 await jobProfileSegmentRefreshService.SendMessageAsync(refreshJobProfileSegmentServiceBusModel).ConfigureAwait(false);
