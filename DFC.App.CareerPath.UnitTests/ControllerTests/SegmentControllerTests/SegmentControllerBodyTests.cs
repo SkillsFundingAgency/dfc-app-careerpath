@@ -20,6 +20,8 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             var expectedResult = A.Fake<CareerPathSegmentModel>();
             var controller = BuildSegmentController(mediaTypeName);
 
+            expectedResult.Data = A.Fake<CareerPathSegmentDataModel>();
+
             A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
             A.CallTo(() => FakeMapper.Map<BodyViewModel>(A<CareerPathSegmentModel>.Ignored)).Returns(A.Fake<BodyViewModel>());
 
@@ -45,6 +47,8 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             var expectedResult = A.Fake<CareerPathSegmentModel>();
             var controller = BuildSegmentController(mediaTypeName);
 
+            expectedResult.Data = A.Fake<CareerPathSegmentDataModel>();
+
             A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
             A.CallTo(() => FakeMapper.Map<BodyViewModel>(A<CareerPathSegmentModel>.Ignored)).Returns(A.Fake<BodyViewModel>());
 
@@ -56,7 +60,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             A.CallTo(() => FakeMapper.Map<BodyViewModel>(A<CareerPathSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            var model = Assert.IsAssignableFrom<CareerPathSegmentModel>(jsonResult.Value);
+            var model = Assert.IsAssignableFrom<CareerPathSegmentDataModel>(jsonResult.Value);
 
             controller.Dispose();
         }
@@ -69,6 +73,8 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             var documentId = Guid.NewGuid();
             var expectedResult = A.Fake<CareerPathSegmentModel>();
             var controller = BuildSegmentController(mediaTypeName);
+
+            expectedResult.Data = A.Fake<CareerPathSegmentDataModel>();
 
             A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
             A.CallTo(() => FakeMapper.Map<BodyViewModel>(A<CareerPathSegmentModel>.Ignored)).Returns(A.Fake<BodyViewModel>());

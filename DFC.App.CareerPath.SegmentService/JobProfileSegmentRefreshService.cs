@@ -18,11 +18,14 @@ namespace DFC.App.CareerPath.SegmentService
 
         public async Task SendMessageAsync(TModel model)
         {
-            var messageJson = JsonConvert.SerializeObject(model);
-            var message = new Message(Encoding.UTF8.GetBytes(messageJson));
-            var topicClient = new TopicClient(serviceBusOptions.ServiceBusConnectionString, serviceBusOptions.TopicName);
+            if (!string.IsNullOrWhiteSpace(serviceBusOptions.ServiceBusConnectionString) && !string.IsNullOrWhiteSpace(serviceBusOptions.TopicName))
+            {
+                var messageJson = JsonConvert.SerializeObject(model);
+                var message = new Message(Encoding.UTF8.GetBytes(messageJson));
+                var topicClient = new TopicClient(serviceBusOptions.ServiceBusConnectionString, serviceBusOptions.TopicName);
 
-            await topicClient.SendAsync(message).ConfigureAwait(false);
+                await topicClient.SendAsync(message).ConfigureAwait(false);
+            }
         }
     }
 }

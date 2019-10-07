@@ -14,7 +14,8 @@ namespace DFC.App.CareerPath.SegmentService
         private readonly IDraftCareerPathSegmentService draftCareerPathSegmentService;
         private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService;
 
-        public CareerPathSegmentService(ICosmosRepository<CareerPathSegmentModel> repository,
+        public CareerPathSegmentService(
+                                        ICosmosRepository<CareerPathSegmentModel> repository,
                                         IDraftCareerPathSegmentService draftCareerPathSegmentService,
                                         IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService)
         {
