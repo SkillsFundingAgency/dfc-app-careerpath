@@ -27,9 +27,9 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Functions
 
             log.LogInformation($"{ThisClassPath}: JobProfile Id: {serviceBusModel.DocumentId}: Posting segment");
 
-            var segmentModel = await HttpClientService.GetByIdAsync(httpClient, segmentClientOptions, serviceBusModel.DocumentId).ConfigureAwait(false);
+            var segmentDataModel = await HttpClientService.GetByIdAsync(httpClient, segmentClientOptions, serviceBusModel.DocumentId).ConfigureAwait(false);
 
-            if (segmentModel == null || segmentModel.Data.LastReviewed < serviceBusModel.Data?.LastReviewed)
+            if (segmentDataModel == null || segmentDataModel.LastReviewed < serviceBusModel.Data?.LastReviewed)
             {
                 var result = await HttpClientService.PostAsync(httpClient, segmentClientOptions, serviceBusModel).ConfigureAwait(false);
 
@@ -48,7 +48,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Functions
             }
             else
             {
-                log.LogWarning($"{ThisClassPath}: JobProfile Id: {serviceBusModel.DocumentId}: Service bus message is stale: {serviceBusModel.Data.LastReviewed}, stored: {segmentModel.Data.LastReviewed}");
+                log.LogWarning($"{ThisClassPath}: JobProfile Id: {serviceBusModel.DocumentId}: Service bus message is stale: {serviceBusModel.Data.LastReviewed}, stored: {segmentDataModel.LastReviewed}");
             }
         }
     }
