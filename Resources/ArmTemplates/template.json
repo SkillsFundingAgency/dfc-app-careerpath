@@ -76,8 +76,7 @@
         "functionAppName": "[concat(variables('resourcePrefix'), '-fa')]",
         "functionAppInsightsName": "[concat(variables('functionAppName'), '-ai')]",
         "cmsTopicName": "cms-messages",
-        "cmsSubscriptionName": "job-profile-overview",
-        "refreshTopicName": "job-profile-refresh"
+        "cmsSubscriptionName": "job-profile-overview"
     },
     "resources": [
         {
