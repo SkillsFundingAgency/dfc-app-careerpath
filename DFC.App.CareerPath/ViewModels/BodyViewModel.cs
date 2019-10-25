@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Html;
-using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.CareerPath.ViewModels
 {

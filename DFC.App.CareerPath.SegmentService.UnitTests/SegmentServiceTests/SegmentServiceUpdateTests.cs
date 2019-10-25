@@ -4,7 +4,6 @@ using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using DFC.App.CareerPath.DraftSegmentService;
 using FakeItEasy;
 using System;
-using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
