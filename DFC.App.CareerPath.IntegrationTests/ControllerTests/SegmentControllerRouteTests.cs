@@ -101,13 +101,13 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task PostSegmentEndpointsForDefaultArticleRefreshReturnsOk()
+        public async Task PostSegmentEndpointsForNewArticleReturnsOk()
         {
             // Arrange
             const string url = "/segment";
             var careerPathSegmentModel = new CareerPathSegmentModel()
             {
-                DocumentId = DataSeeding.DefaultArticleGuid,
+                DocumentId = Guid.NewGuid(),
                 CanonicalName = DataSeeding.DefaultArticleName,
                 SocLevelTwo = "12",
                 LastReviewed = DateTime.UtcNow,
@@ -126,11 +126,11 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
 
             // Assert
             response.EnsureSuccessStatusCode();
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
         }
 
         [Fact]
-        public async Task PutSegmentEndpointsReturnOk()
+        public async Task PutSegmentEndpointsReturnNotFoundWhenArticleDoesNotExist()
         {
             // Arrange
             const string url = "/segment";
@@ -157,8 +157,7 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             var response = await client.PutAsync(url, careerPathSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
 
             // Assert
-            response.EnsureSuccessStatusCode();
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         [Fact]

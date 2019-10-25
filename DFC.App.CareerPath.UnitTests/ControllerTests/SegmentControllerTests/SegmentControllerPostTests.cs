@@ -7,44 +7,46 @@ using Xunit;
 
 namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 {
-    [Trait("Segment Controller", "Create or Update Tests")]
-    public class SegmentControllerCreateOrUpdateTests : BaseSegmentController
+    [Trait("Segment Controller", "Post Tests")]
+    public class SegmentControllerPostTests : BaseSegmentController
     {
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void SegmentControllerCreateOrUpdateReturnsSuccessForCreate(string mediaTypeName)
+        public async void ReturnsAlreadyReportedForCreate(string mediaTypeName)
         {
             // Arrange
             var careerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
             var controller = BuildSegmentController(mediaTypeName);
 
             A.CallTo(() => FakeCareerPathSegmentService.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).Returns(HttpStatusCode.Created);
+            A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns(careerPathSegmentModel);
 
             // Act
-            var result = await controller.CreateOrUpdate(careerPathSegmentModel).ConfigureAwait(false);
+            var result = await controller.Post(careerPathSegmentModel).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeCareerPathSegmentService.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeCareerPathSegmentService.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).MustNotHaveHappened();
 
             var statusCodeResult = Assert.IsType<StatusCodeResult>(result);
 
-            A.Equals((int)HttpStatusCode.Created, statusCodeResult.StatusCode);
+            A.Equals((int)HttpStatusCode.AlreadyReported, statusCodeResult.StatusCode);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void SegmentControllerCreateOrUpdateReturnsSuccessForUpdate(string mediaTypeName)
+        public async void ReturnsSuccessForUpdate(string mediaTypeName)
         {
             // Arrange
             var careerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
             var controller = BuildSegmentController(mediaTypeName);
 
             A.CallTo(() => FakeCareerPathSegmentService.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).Returns(HttpStatusCode.OK);
+            A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns<CareerPathSegmentModel>(null);
 
             // Act
-            var result = await controller.CreateOrUpdate(careerPathSegmentModel).ConfigureAwait(false);
+            var result = await controller.Post(careerPathSegmentModel).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeCareerPathSegmentService.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
@@ -58,14 +60,14 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void SegmentControllerCreateOrUpdateReturnsBadResultWhenModelIsNull(string mediaTypeName)
+        public async void ReturnsBadResultWhenModelIsNull(string mediaTypeName)
         {
             // Arrange
             CareerPathSegmentModel careerPathSegmentModel = null;
             var controller = BuildSegmentController(mediaTypeName);
 
             // Act
-            var result = await controller.CreateOrUpdate(careerPathSegmentModel).ConfigureAwait(false);
+            var result = await controller.Post(careerPathSegmentModel).ConfigureAwait(false);
 
             // Assert
             var statusResult = Assert.IsType<BadRequestResult>(result);
@@ -77,7 +79,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void SegmentControllerCreateOrUpdateReturnsBadResultWhenModelIsInvalid(string mediaTypeName)
+        public async void ReturnsBadResultWhenModelIsInvalid(string mediaTypeName)
         {
             // Arrange
             var careerPathSegmentModel = new CareerPathSegmentModel();
@@ -86,7 +88,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             controller.ModelState.AddModelError(string.Empty, "Model is not valid");
 
             // Act
-            var result = await controller.CreateOrUpdate(careerPathSegmentModel).ConfigureAwait(false);
+            var result = await controller.Post(careerPathSegmentModel).ConfigureAwait(false);
 
             // Assert
             var statusResult = Assert.IsType<BadRequestObjectResult>(result);

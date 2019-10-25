@@ -1,5 +1,4 @@
 using DFC.App.CareerPath.ViewModels;
-using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 

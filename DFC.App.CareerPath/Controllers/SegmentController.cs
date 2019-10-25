@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace DFC.App.CareerPath.Controllers
@@ -48,7 +49,7 @@ namespace DFC.App.CareerPath.Controllers
         }
 
         [HttpGet]
-        [Route("segment/{article}")]
+        [Route("{controller}/{article}")]
         public async Task<IActionResult> Document(string article)
         {
             logger.LogInformation($"{nameof(Document)} has been called with: {article}");
@@ -69,12 +70,11 @@ namespace DFC.App.CareerPath.Controllers
             return NoContent();
         }
 
-        [HttpPut]
         [HttpPost]
-        [Route("segment")]
-        public async Task<IActionResult> CreateOrUpdate([FromBody]CareerPathSegmentModel careerPathSegmentModel)
+        [Route("{controller}")]
+        public async Task<IActionResult> Post([FromBody]CareerPathSegmentModel careerPathSegmentModel)
         {
-            logger.LogInformation($"{nameof(CreateOrUpdate)} has been called");
+            logger.LogInformation($"{nameof(Post)} has been called");
 
             if (careerPathSegmentModel == null)
             {
@@ -86,15 +86,51 @@ namespace DFC.App.CareerPath.Controllers
                 return BadRequest(ModelState);
             }
 
+            var existingDocument = await careerPathSegmentService.GetByIdAsync(careerPathSegmentModel.DocumentId).ConfigureAwait(false);
+            if (existingDocument != null)
+            {
+                return new StatusCodeResult((int)HttpStatusCode.AlreadyReported);
+            }
+
             var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
-            logger.LogInformation($"{nameof(CreateOrUpdate)} has upserted content for: {careerPathSegmentModel.CanonicalName}");
+            logger.LogInformation($"{nameof(Post)} has updated content for: {careerPathSegmentModel.CanonicalName}");
+
+            return new StatusCodeResult((int)response);
+        }
+
+        [HttpPut]
+        [Route("{controller}")]
+        public async Task<IActionResult> Put([FromBody]CareerPathSegmentModel careerPathSegmentModel)
+        {
+            logger.LogInformation($"{nameof(Put)} has been called");
+
+            if (careerPathSegmentModel == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingDocument = await careerPathSegmentService.GetByIdAsync(careerPathSegmentModel.DocumentId).ConfigureAwait(false);
+            if (existingDocument == null)
+            {
+                logger.LogInformation($"{nameof(Put)}. Couldnt find document with Id {careerPathSegmentModel.DocumentId}");
+                return new StatusCodeResult((int)HttpStatusCode.NotFound);
+            }
+
+            var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
+
+            logger.LogInformation($"{nameof(Put)} has created content for: {careerPathSegmentModel.CanonicalName}");
 
             return new StatusCodeResult((int)response);
         }
 
         [HttpPatch]
-        [Route("segment/{documentId}/content-type/markup")]
+        [Route("{controller}/{documentId}/content-type/markup")]
         public async Task<IActionResult> Patch([FromBody]CareerPathPatchSegmentModel careerPathPatchSegmentModel, Guid documentId)
         {
             logger.LogInformation($"{nameof(Patch)} has been called");
@@ -135,7 +171,7 @@ namespace DFC.App.CareerPath.Controllers
         }
 
         [HttpDelete]
-        [Route("segment/{documentId}")]
+        [Route("{controller}/{documentId}")]
         public async Task<IActionResult> Delete(Guid documentId)
         {
             logger.LogInformation($"{nameof(Delete)} has been called");
@@ -155,7 +191,7 @@ namespace DFC.App.CareerPath.Controllers
         }
 
         [HttpGet]
-        [Route("segment/{documentId}/contents")]
+        [Route("{controller}/{documentId}/contents")]
         public async Task<IActionResult> Body(Guid documentId)
         {
             logger.LogInformation($"{nameof(Body)} has been called with: {documentId}");
