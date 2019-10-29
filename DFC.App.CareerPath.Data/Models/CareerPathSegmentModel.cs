@@ -22,6 +22,8 @@ namespace DFC.App.CareerPath.Data.Models
 
         public string PartitionKey => SocLevelTwo;
 
+        public long SequenceNumber { get; set; }
+
         public CareerPathSegmentDataModel Data { get; set; }
     }
 }

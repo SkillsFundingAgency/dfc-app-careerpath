@@ -122,6 +122,11 @@ namespace DFC.App.CareerPath.Controllers
                 return new StatusCodeResult((int)HttpStatusCode.NotFound);
             }
 
+            if (careerPathSegmentModel.SequenceNumber <= existingDocument.SequenceNumber)
+            {
+                return new StatusCodeResult((int)HttpStatusCode.AlreadyReported);
+            }
+
             var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
             logger.LogInformation($"{nameof(Put)} has updated content for: {careerPathSegmentModel.CanonicalName}");
