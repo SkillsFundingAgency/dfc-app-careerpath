@@ -81,7 +81,6 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
                 SocLevelTwo = "12",
-                LastReviewed = DateTime.UtcNow,
                 Data = new CareerPathSegmentDataModel
                 {
                     LastReviewed = DateTime.UtcNow,
@@ -111,7 +110,6 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
                 SocLevelTwo = "12",
-                LastReviewed = DateTime.UtcNow,
                 Data = new CareerPathSegmentDataModel
                 {
                     LastReviewed = DateTime.UtcNow,
@@ -143,7 +141,6 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
                 SocLevelTwo = "12",
-                LastReviewed = DateTime.UtcNow,
                 Data = new CareerPathSegmentDataModel
                 {
                     LastReviewed = DateTime.UtcNow,

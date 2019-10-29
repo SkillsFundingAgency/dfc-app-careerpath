@@ -17,7 +17,6 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Functions
     {
         private static readonly string ThisClassPath = typeof(PatchSegmentMarkup).FullName;
 
-        [FunctionName("PatchSegmentMarkup")]
         public static async Task Run(
                                         [ServiceBusTrigger("%patch-segment-topic-name%", "%patch-segment-subscription-name%", Connection = "service-bus-connection-string")] string serviceBusMessage,
                                         ILogger log,
