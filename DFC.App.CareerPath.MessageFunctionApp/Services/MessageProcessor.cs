@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels.Save;
 using System;
 using System.Net;
@@ -28,26 +29,27 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
 
         public async Task<HttpStatusCode> Save(JobProfileServiceBusSaveModel message)
         {
-            var response = await Update(message).ConfigureAwait(false);
+            var careerPathSegmentModel = mapper.Map<CareerPathSegmentModel>(message);
+            var response = await Update(careerPathSegmentModel).ConfigureAwait(false);
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
-                response = await Create(message).ConfigureAwait(false);
+                response = await Create(careerPathSegmentModel).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
             }
 
             return response.StatusCode;
         }
 
-        private async Task<HttpResponseMessage> Create(JobProfileServiceBusSaveModel model)
+        private async Task<HttpResponseMessage> Create(CareerPathSegmentModel careerPathSegmentModel)
         {
             var uri = string.Concat(httpClient.BaseAddress, "segment");
-            return await httpClient.PostAsJsonAsync(uri, model).ConfigureAwait(false);
+            return await httpClient.PostAsJsonAsync(uri, careerPathSegmentModel).ConfigureAwait(false);
         }
 
-        private async Task<HttpResponseMessage> Update(JobProfileServiceBusSaveModel model)
+        private async Task<HttpResponseMessage> Update(CareerPathSegmentModel careerPathSegmentModel)
         {
             var uri = string.Concat(httpClient.BaseAddress, "segment");
-            return await httpClient.PutAsJsonAsync(uri, model).ConfigureAwait(false);
+            return await httpClient.PutAsJsonAsync(uri, careerPathSegmentModel).ConfigureAwait(false);
         }
     }
 }
