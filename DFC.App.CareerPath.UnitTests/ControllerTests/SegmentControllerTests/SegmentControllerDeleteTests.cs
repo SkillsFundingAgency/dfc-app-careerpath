@@ -1,5 +1,4 @@
-﻿using DFC.App.CareerPath.Data.Models;
-using FakeItEasy;
+﻿using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;

@@ -2,7 +2,6 @@
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using FakeItEasy;
-using System.Net;
 using Xunit;
 
 namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentRefreshServiceTests

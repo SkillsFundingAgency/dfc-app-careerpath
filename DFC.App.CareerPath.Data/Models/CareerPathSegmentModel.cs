@@ -22,8 +22,7 @@ namespace DFC.App.CareerPath.Data.Models
 
         public string PartitionKey => SocLevelTwo;
 
-        [Required]
-        public DateTime? LastReviewed { get; set; }
+        public long SequenceNumber { get; set; }
 
         public CareerPathSegmentDataModel Data { get; set; }
     }

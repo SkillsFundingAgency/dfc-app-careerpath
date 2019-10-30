@@ -1,4 +1,5 @@
-﻿using DFC.App.CareerPath.Data.Contracts;
+﻿using AutoMapper;
+using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using System;
@@ -13,15 +14,18 @@ namespace DFC.App.CareerPath.SegmentService
         private readonly ICosmosRepository<CareerPathSegmentModel> repository;
         private readonly IDraftCareerPathSegmentService draftCareerPathSegmentService;
         private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService;
+        private readonly IMapper mapper;
 
         public CareerPathSegmentService(
                                         ICosmosRepository<CareerPathSegmentModel> repository,
                                         IDraftCareerPathSegmentService draftCareerPathSegmentService,
-                                        IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService)
+                                        IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService,
+                                        IMapper mapper)
         {
             this.repository = repository;
             this.draftCareerPathSegmentService = draftCareerPathSegmentService;
             this.jobProfileSegmentRefreshService = jobProfileSegmentRefreshService;
+            this.mapper = mapper;
         }
 
         public async Task<bool> PingAsync()
@@ -67,13 +71,7 @@ namespace DFC.App.CareerPath.SegmentService
 
             if (result == HttpStatusCode.OK || result == HttpStatusCode.Created)
             {
-                var refreshJobProfileSegmentServiceBusModel = new RefreshJobProfileSegmentServiceBusModel
-                {
-                    JobProfileId = careerPathSegmentModel.DocumentId,
-                    CanonicalName = careerPathSegmentModel.CanonicalName,
-                    Segment = CareerPathSegmentDataModel.SegmentName,
-                };
-
+                var refreshJobProfileSegmentServiceBusModel = mapper.Map<RefreshJobProfileSegmentServiceBusModel>(careerPathSegmentModel);
                 await jobProfileSegmentRefreshService.SendMessageAsync(refreshJobProfileSegmentServiceBusModel).ConfigureAwait(false);
             }
 
