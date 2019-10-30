@@ -11,10 +11,11 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
     {
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void ReturnsNotFoundForCreate(string mediaTypeName)
+        public async void ReturnsCreatedForCreate(string mediaTypeName)
         {
             // Arrange
             var careerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
+            careerPathSegmentModel.SequenceNumber = int.MaxValue;
             var controller = BuildSegmentController(mediaTypeName);
 
             A.CallTo(() => FakeCareerPathSegmentService.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).Returns(HttpStatusCode.Created);
@@ -27,17 +28,18 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
             var statusCodeResult = Assert.IsType<StatusCodeResult>(result);
 
-            A.Equals((int)HttpStatusCode.NotFound, statusCodeResult.StatusCode);
+            Assert.Equal((int)HttpStatusCode.Created, statusCodeResult.StatusCode);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void ReturnsSuccessForUpdate(string mediaTypeName)
+        public async void ReturnsOKForUpdate(string mediaTypeName)
         {
             // Arrange
             var careerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
+            careerPathSegmentModel.SequenceNumber = int.MaxValue;
             var controller = BuildSegmentController(mediaTypeName);
 
             A.CallTo(() => FakeCareerPathSegmentService.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).Returns(HttpStatusCode.OK);
@@ -50,7 +52,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
             var statusCodeResult = Assert.IsType<StatusCodeResult>(result);
 
-            A.Equals((int)HttpStatusCode.OK, statusCodeResult.StatusCode);
+            Assert.Equal((int)HttpStatusCode.OK, statusCodeResult.StatusCode);
 
             controller.Dispose();
         }
@@ -69,7 +71,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             // Assert
             var statusResult = Assert.IsType<BadRequestResult>(result);
 
-            A.Equals((int)HttpStatusCode.BadRequest, statusResult.StatusCode);
+            Assert.Equal((int)HttpStatusCode.BadRequest, statusResult.StatusCode);
 
             controller.Dispose();
         }
@@ -90,7 +92,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             // Assert
             var statusResult = Assert.IsType<BadRequestObjectResult>(result);
 
-            A.Equals((int)HttpStatusCode.BadRequest, statusResult.StatusCode);
+            Assert.Equal((int)HttpStatusCode.BadRequest, statusResult.StatusCode);
 
             controller.Dispose();
         }
