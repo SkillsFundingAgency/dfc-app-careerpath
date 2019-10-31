@@ -5,7 +5,7 @@ namespace DFC.App.CareerPath.Data.Models.ServiceBusModels.Save
 {
     public class JobProfileServiceBusSaveModel
     {
-        public Guid Id { get; set; }
+        public Guid JobProfileId { get; set; }
 
         [Required]
         public string SOCLevelTwo { get; set; }
