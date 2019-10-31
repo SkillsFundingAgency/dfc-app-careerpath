@@ -83,7 +83,6 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
                 SocLevelTwo = "12",
                 Data = new CareerPathSegmentDataModel
                 {
-                    LastReviewed = DateTime.UtcNow,
                     Markup = "<div>some markup</div>",
                 },
             };
@@ -112,7 +111,6 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
                 SocLevelTwo = "12",
                 Data = new CareerPathSegmentDataModel
                 {
-                    LastReviewed = DateTime.UtcNow,
                     Markup = "<div>some markup</div>",
                 },
             };
@@ -143,7 +141,6 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
                 SocLevelTwo = "12",
                 Data = new CareerPathSegmentDataModel
                 {
-                    LastReviewed = DateTime.UtcNow,
                     Markup = "<div>some markup</div>",
                 },
             };
