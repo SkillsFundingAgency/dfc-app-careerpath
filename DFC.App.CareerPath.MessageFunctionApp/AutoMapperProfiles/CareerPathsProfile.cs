@@ -9,9 +9,8 @@ namespace DFC.App.JobProfileTasks.MessageFunctionApp.AutoMapperProfiles
         public CareerPathsProfile()
         {
             CreateMap<JobProfileServiceBusSaveModel, CareerPathSegmentModel>()
-                .ForMember(d => d.DocumentId, s => s.MapFrom(a => a.JobProfileId));
-
-            CreateMap<JobProfileCareerPathDataServiceBusModel, CareerPathSegmentDataModel>();
+                .ForMember(d => d.DocumentId, s => s.MapFrom(a => a.JobProfileId))
+                .ForPath(d => d.Data.Markup, s => s.MapFrom(a => a.CareerPathAndProgression));
         }
     }
 }

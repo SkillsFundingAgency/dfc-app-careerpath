@@ -15,6 +15,6 @@ namespace DFC.App.CareerPath.Data.Models.ServiceBusModels.Save
 
         public long SequenceNumber { get; set; }
 
-        public JobProfileCareerPathDataServiceBusModel Data { get; set; }
+        public string CareerPathAndProgression { get; set; }
     }
 }
