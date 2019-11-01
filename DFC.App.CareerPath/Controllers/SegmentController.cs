@@ -165,7 +165,6 @@ namespace DFC.App.CareerPath.Controllers
             }
 
             careerPathSegmentModel.CanonicalName = careerPathPatchSegmentModel.CanonicalName;
-            careerPathSegmentModel.Data.LastReviewed = careerPathPatchSegmentModel.Data.LastReviewed;
             careerPathSegmentModel.Data.Markup = careerPathPatchSegmentModel.Data.Markup;
 
             var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
