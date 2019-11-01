@@ -94,7 +94,7 @@ namespace DFC.App.CareerPath.Controllers
 
             var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
-            logger.LogInformation($"{nameof(Post)} has updated content for: {careerPathSegmentModel.CanonicalName}");
+            logger.LogInformation($"{nameof(Post)} has created content for: {careerPathSegmentModel.CanonicalName}");
 
             return new StatusCodeResult((int)response);
         }
@@ -122,9 +122,14 @@ namespace DFC.App.CareerPath.Controllers
                 return new StatusCodeResult((int)HttpStatusCode.NotFound);
             }
 
+            if (careerPathSegmentModel.SequenceNumber <= existingDocument.SequenceNumber)
+            {
+                return new StatusCodeResult((int)HttpStatusCode.AlreadyReported);
+            }
+
             var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
-            logger.LogInformation($"{nameof(Put)} has created content for: {careerPathSegmentModel.CanonicalName}");
+            logger.LogInformation($"{nameof(Put)} has updated content for: {careerPathSegmentModel.CanonicalName}");
 
             return new StatusCodeResult((int)response);
         }
@@ -160,7 +165,6 @@ namespace DFC.App.CareerPath.Controllers
             }
 
             careerPathSegmentModel.CanonicalName = careerPathPatchSegmentModel.CanonicalName;
-            careerPathSegmentModel.Data.LastReviewed = careerPathPatchSegmentModel.Data.LastReviewed;
             careerPathSegmentModel.Data.Markup = careerPathPatchSegmentModel.Data.Markup;
 
             var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);

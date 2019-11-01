@@ -8,9 +8,6 @@ namespace DFC.App.CareerPath.Data.Models
         public const string SegmentName = "CareerPathsAndProgression";
 
         [Required]
-        public DateTime? LastReviewed { get; set; }
-
-        [Required]
         public string Markup { get; set; }
     }
 }

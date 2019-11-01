@@ -81,39 +81,8 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
                 SocLevelTwo = "12",
-                LastReviewed = DateTime.UtcNow,
                 Data = new CareerPathSegmentDataModel
                 {
-                    LastReviewed = DateTime.UtcNow,
-                    Markup = "<div>some markup</div>",
-                },
-            };
-            var client = factory.CreateClient();
-
-            client.DefaultRequestHeaders.Accept.Clear();
-
-            // Act
-            var response = await client.PostAsync(url, careerPathSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
-
-            // Assert
-            response.EnsureSuccessStatusCode();
-            response.StatusCode.Should().Be(HttpStatusCode.Created);
-        }
-
-        [Fact]
-        public async Task PostSegmentEndpointsForNewArticleReturnsOk()
-        {
-            // Arrange
-            const string url = "/segment";
-            var careerPathSegmentModel = new CareerPathSegmentModel()
-            {
-                DocumentId = Guid.NewGuid(),
-                CanonicalName = DataSeeding.DefaultArticleName,
-                SocLevelTwo = "12",
-                LastReviewed = DateTime.UtcNow,
-                Data = new CareerPathSegmentDataModel
-                {
-                    LastReviewed = DateTime.UtcNow,
                     Markup = "<div>some markup</div>",
                 },
             };
@@ -140,10 +109,8 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
                 SocLevelTwo = "12",
-                LastReviewed = DateTime.UtcNow,
                 Data = new CareerPathSegmentDataModel
                 {
-                    LastReviewed = DateTime.UtcNow,
                     Markup = "<div>some markup</div>",
                 },
             };
@@ -172,10 +139,8 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
                 SocLevelTwo = "12",
-                LastReviewed = DateTime.UtcNow,
                 Data = new CareerPathSegmentDataModel
                 {
-                    LastReviewed = DateTime.UtcNow,
                     Markup = "<div>some markup</div>",
                 },
             };
