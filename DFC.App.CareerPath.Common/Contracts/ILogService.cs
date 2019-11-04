@@ -1,4 +1,4 @@
-﻿namespace DFC.App.CareerPath.MessageFunctionApp.Services
+﻿namespace DFC.App.CareerPath.Common.Services
 {
     public interface ILogService
     {

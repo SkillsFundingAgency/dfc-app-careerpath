@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using DFC.App.CareerPath.Common.Contracts;
+using DFC.App.CareerPath.Common.Services;
 using DFC.App.CareerPath.MessageFunctionApp.HttpClientPolicies;
 using DFC.App.CareerPath.MessageFunctionApp.Services;
 using DFC.Functions.DI.Standard;
@@ -33,7 +35,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp
             services.AddScoped<IMessagePreProcessor, MessagePreProcessor>();
             services.AddScoped<IMessageProcessor, MessageProcessor>();
             services.AddScoped<ILogService, LogService>();
-            services.AddScoped<ICorrelationIdProvider, RequestCorrelationIdProvider>();
+            services.AddScoped<ICorrelationIdProvider, InMemoryCorrelationIdProvider>();
 
             services.AddHttpClient(nameof(MessageProcessor), httpClient =>
             {

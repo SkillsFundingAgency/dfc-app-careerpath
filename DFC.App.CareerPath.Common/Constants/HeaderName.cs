@@ -1,4 +1,4 @@
-﻿namespace DFC.App.CareerPath.Data.Constants
+﻿namespace DFC.App.CareerPath.Common.Constants
 {
     public static class HeaderName
     {

@@ -1,9 +1,10 @@
-﻿using DFC.App.CareerPath.Data.Constants;
+﻿using DFC.App.CareerPath.Common.Constants;
+using DFC.App.CareerPath.Common.Contracts;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using System.Collections.Generic;
 
-namespace DFC.App.CareerPath.MessageFunctionApp.Services
+namespace DFC.App.CareerPath.Common.Services
 {
     public class LogService : ILogService
     {

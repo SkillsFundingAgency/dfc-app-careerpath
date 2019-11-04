@@ -1,3 +1,5 @@
+using DFC.App.CareerPath.Common.Contracts;
+using DFC.App.CareerPath.Common.Services;
 using DFC.App.CareerPath.MessageFunctionApp.Services;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;

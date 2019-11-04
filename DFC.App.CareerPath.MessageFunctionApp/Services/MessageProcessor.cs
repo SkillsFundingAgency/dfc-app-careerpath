@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
-using DFC.App.CareerPath.Data.Constants;
+using DFC.App.CareerPath.Common.Constants;
+using DFC.App.CareerPath.Common.Contracts;
+using DFC.App.CareerPath.Common.Services;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels.Save;
 using System;

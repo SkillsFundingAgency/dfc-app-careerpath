@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using DFC.App.CareerPath.Common.Contracts;
+using DFC.App.CareerPath.Common.Services;
 using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels;
@@ -58,6 +60,8 @@ namespace DFC.App.CareerPath
             services.AddScoped<IDraftCareerPathSegmentService, DraftCareerPathSegmentService>();
             services.AddScoped<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>, JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
             services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddScoped<ICorrelationIdProvider, RequestHeaderCorrelationIdProvider>();
+            services.AddScoped<ILogService, LogService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
