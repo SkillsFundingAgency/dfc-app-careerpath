@@ -2,12 +2,6 @@
 {
     public class RequestCorrelationIdProvider : ICorrelationIdProvider
     {
-
-        public RequestCorrelationIdProvider()
-        {
-
-        }
-
         public string CorrelationId { get; set; }
     }
 }

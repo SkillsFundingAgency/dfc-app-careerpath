@@ -30,9 +30,9 @@ namespace DFC.App.CareerPath.MessageFunctionApp
 
             services.AddSingleton(segmentClientOptions);
             services.AddAutoMapper(typeof(Startup).Assembly);
-            services.AddTransient<IMessagePreProcessor, MessagePreProcessor>();
-            services.AddTransient<IMessageProcessor, MessageProcessor>();
-            services.AddTransient<ILogService, LogService>();
+            services.AddScoped<IMessagePreProcessor, MessagePreProcessor>();
+            services.AddScoped<IMessageProcessor, MessageProcessor>();
+            services.AddScoped<ILogService, LogService>();
             services.AddScoped<ICorrelationIdProvider, RequestCorrelationIdProvider>();
 
             services.AddHttpClient(nameof(MessageProcessor), httpClient =>

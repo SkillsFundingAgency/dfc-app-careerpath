@@ -5,6 +5,7 @@ using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using DFC.App.CareerPath.DraftSegmentService;
 using DFC.App.CareerPath.Repository.CosmosDb;
 using DFC.App.CareerPath.SegmentService;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -38,6 +39,10 @@ namespace DFC.App.CareerPath
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            var applicationInsightsServiceOptions = new ApplicationInsightsServiceOptions();
+            applicationInsightsServiceOptions.InstrumentationKey = configuration["ApplicationInsights:InstrumentationKey"];
+            services.AddApplicationInsightsTelemetry(applicationInsightsServiceOptions);
 
             var serviceBusOptions = configuration.GetSection(ServiceBusOptionsAppSettings).Get<ServiceBusOptions>();
             services.AddSingleton(serviceBusOptions ?? new ServiceBusOptions());
