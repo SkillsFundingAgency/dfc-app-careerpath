@@ -1,7 +1,6 @@
 using DFC.App.CareerPath.MessageFunctionApp.Services;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace DFC.App.CareerPath.MessageFunctionApp.Functions
@@ -9,12 +8,14 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Functions
     public class SitefinityMessageHandler
     {
         private readonly IMessagePreProcessor messagePreProcessor;
-        private readonly ILogger<SitefinityMessageHandler> logger;
+        private readonly ILogService logService;
+        private readonly ICorrelationIdProvider correlationIdProvider;
 
-        public SitefinityMessageHandler(IMessagePreProcessor messagePreProcessor, ILogger<SitefinityMessageHandler> logger)
+        public SitefinityMessageHandler(IMessagePreProcessor messagePreProcessor, ILogService logService, ICorrelationIdProvider correlationIdProvider)
         {
             this.messagePreProcessor = messagePreProcessor;
-            this.logger = logger;
+            this.logService = logService;
+            this.correlationIdProvider = correlationIdProvider;
         }
 
         [FunctionName("SitefinityMessageHandler")]
@@ -22,12 +23,14 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Functions
         {
             if (sitefinityMessage == null)
             {
-                logger.LogInformation("Received null message");
+                logService.LogInformation("Received null message");
             }
 
-            logger.LogInformation("Received message");
+            correlationIdProvider.CorrelationId = sitefinityMessage.CorrelationId;
+
+            logService.LogInformation("Received message");
             await messagePreProcessor.Process(sitefinityMessage).ConfigureAwait(false);
-            logger.LogInformation("Processed message");
+            logService.LogInformation("Processed message");
         }
     }
 }

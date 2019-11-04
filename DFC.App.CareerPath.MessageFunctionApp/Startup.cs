@@ -8,9 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-[assembly: WebJobsStartup(typeof(DFC.App.CareerPath.MessageFunctionApp.Startup.Startup), "Web Jobs Extension Startup")]
+[assembly: WebJobsStartup(typeof(DFC.App.CareerPath.MessageFunctionApp.Startup), "Web Jobs Extension Startup")]
 
-namespace DFC.App.CareerPath.MessageFunctionApp.Startup
+namespace DFC.App.CareerPath.MessageFunctionApp
 {
     public class Startup : IWebJobsStartup
     {
@@ -26,11 +26,16 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Startup
 
             builder.AddDependencyInjection();
 
-            builder?.Services.AddSingleton(segmentClientOptions);
-            builder?.Services.AddAutoMapper(typeof(Startup).Assembly);
-            builder?.Services.AddTransient<IMessagePreProcessor, MessagePreProcessor>();
-            builder?.Services.AddTransient<IMessageProcessor, MessageProcessor>();
-            builder?.Services.AddHttpClient(nameof(MessageProcessor), httpClient =>
+            var services = builder?.Services;
+
+            services.AddSingleton(segmentClientOptions);
+            services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddTransient<IMessagePreProcessor, MessagePreProcessor>();
+            services.AddTransient<IMessageProcessor, MessageProcessor>();
+            services.AddTransient<ILogService, LogService>();
+            services.AddScoped<ICorrelationIdProvider, RequestCorrelationIdProvider>();
+
+            services.AddHttpClient(nameof(MessageProcessor), httpClient =>
             {
                 httpClient.Timeout = segmentClientOptions.Timeout;
                 httpClient.BaseAddress = segmentClientOptions.BaseAddress;
