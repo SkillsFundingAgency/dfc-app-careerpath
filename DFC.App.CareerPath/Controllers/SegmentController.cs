@@ -1,4 +1,5 @@
-﻿using DFC.App.CareerPath.Data.Contracts;
+﻿using DFC.App.CareerPath.Common.Services;
+using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.PatchModels;
 using DFC.App.CareerPath.Extensions;
@@ -17,18 +18,20 @@ namespace DFC.App.CareerPath.Controllers
         private readonly ILogger<SegmentController> logger;
         private readonly ICareerPathSegmentService careerPathSegmentService;
         private readonly AutoMapper.IMapper mapper;
+        private readonly ILogService logService;
 
-        public SegmentController(ILogger<SegmentController> logger, ICareerPathSegmentService careerPathSegmentService, AutoMapper.IMapper mapper)
+        public SegmentController(ILogger<SegmentController> logger, ICareerPathSegmentService careerPathSegmentService, AutoMapper.IMapper mapper, ILogService logService)
         {
             this.logger = logger;
             this.careerPathSegmentService = careerPathSegmentService;
             this.mapper = mapper;
+            this.logService = logService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            logger.LogInformation($"{nameof(Index)} has been called");
+            logService.LogInformation($"{nameof(Index)} has been called");
 
             var viewModel = new IndexViewModel();
             var careerPathSegmentModels = await careerPathSegmentService.GetAllAsync().ConfigureAwait(false);
@@ -38,7 +41,7 @@ namespace DFC.App.CareerPath.Controllers
                 viewModel.Documents = (from a in careerPathSegmentModels.OrderBy(o => o.CanonicalName)
                                        select mapper.Map<IndexDocumentViewModel>(a)).ToList();
 
-                logger.LogInformation($"{nameof(Index)} has succeeded");
+                logService.LogInformation($"{nameof(Index)} has succeeded");
             }
             else
             {
@@ -52,7 +55,7 @@ namespace DFC.App.CareerPath.Controllers
         [Route("{controller}/{article}")]
         public async Task<IActionResult> Document(string article)
         {
-            logger.LogInformation($"{nameof(Document)} has been called with: {article}");
+            logService.LogInformation($"{nameof(Document)} has been called with: {article}");
 
             var careerPathSegmentModel = await careerPathSegmentService.GetByNameAsync(article, Request.IsDraftRequest()).ConfigureAwait(false);
 
@@ -60,7 +63,7 @@ namespace DFC.App.CareerPath.Controllers
             {
                 var viewModel = mapper.Map<DocumentViewModel>(careerPathSegmentModel);
 
-                logger.LogInformation($"{nameof(Document)} has succeeded for: {article}");
+                logService.LogInformation($"{nameof(Document)} has succeeded for: {article}");
 
                 return View(viewModel);
             }
@@ -74,7 +77,7 @@ namespace DFC.App.CareerPath.Controllers
         [Route("{controller}")]
         public async Task<IActionResult> Post([FromBody]CareerPathSegmentModel careerPathSegmentModel)
         {
-            logger.LogInformation($"{nameof(Post)} has been called");
+            logService.LogInformation($"{nameof(Post)} has been called");
 
             if (careerPathSegmentModel == null)
             {
@@ -94,7 +97,7 @@ namespace DFC.App.CareerPath.Controllers
 
             var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
-            logger.LogInformation($"{nameof(Post)} has created content for: {careerPathSegmentModel.CanonicalName}");
+            logService.LogInformation($"{nameof(Post)} has created content for: {careerPathSegmentModel.CanonicalName}");
 
             return new StatusCodeResult((int)response);
         }
@@ -103,7 +106,7 @@ namespace DFC.App.CareerPath.Controllers
         [Route("{controller}")]
         public async Task<IActionResult> Put([FromBody]CareerPathSegmentModel careerPathSegmentModel)
         {
-            logger.LogInformation($"{nameof(Put)} has been called");
+            logService.LogInformation($"{nameof(Put)} has been called");
 
             if (careerPathSegmentModel == null)
             {
@@ -118,7 +121,7 @@ namespace DFC.App.CareerPath.Controllers
             var existingDocument = await careerPathSegmentService.GetByIdAsync(careerPathSegmentModel.DocumentId).ConfigureAwait(false);
             if (existingDocument == null)
             {
-                logger.LogInformation($"{nameof(Put)}. Couldnt find document with Id {careerPathSegmentModel.DocumentId}");
+                logService.LogInformation($"{nameof(Put)}. Couldnt find document with Id {careerPathSegmentModel.DocumentId}");
                 return new StatusCodeResult((int)HttpStatusCode.NotFound);
             }
 
@@ -129,7 +132,7 @@ namespace DFC.App.CareerPath.Controllers
 
             var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
-            logger.LogInformation($"{nameof(Put)} has updated content for: {careerPathSegmentModel.CanonicalName}");
+            logService.LogInformation($"{nameof(Put)} has updated content for: {careerPathSegmentModel.CanonicalName}");
 
             return new StatusCodeResult((int)response);
         }
@@ -138,7 +141,7 @@ namespace DFC.App.CareerPath.Controllers
         [Route("{controller}/{documentId}/content-type/markup")]
         public async Task<IActionResult> Patch([FromBody]CareerPathPatchSegmentModel careerPathPatchSegmentModel, Guid documentId)
         {
-            logger.LogInformation($"{nameof(Patch)} has been called");
+            logService.LogInformation($"{nameof(Patch)} has been called");
 
             if (careerPathPatchSegmentModel == null)
             {
@@ -169,7 +172,7 @@ namespace DFC.App.CareerPath.Controllers
 
             var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
-            logger.LogInformation($"{nameof(Patch)} has patched content for: {careerPathSegmentModel.CanonicalName}");
+            logService.LogInformation($"{nameof(Patch)} has patched content for: {careerPathSegmentModel.CanonicalName}");
 
             return new StatusCodeResult((int)response);
         }
@@ -178,13 +181,13 @@ namespace DFC.App.CareerPath.Controllers
         [Route("{controller}/{documentId}")]
         public async Task<IActionResult> Delete(Guid documentId)
         {
-            logger.LogInformation($"{nameof(Delete)} has been called");
+            logService.LogInformation($"{nameof(Delete)} has been called");
 
             var isDeleted = await careerPathSegmentService.DeleteAsync(documentId).ConfigureAwait(false);
 
             if (isDeleted)
             {
-                logger.LogInformation($"{nameof(Delete)} has deleted content for: {documentId}");
+                logService.LogInformation($"{nameof(Delete)} has deleted content for: {documentId}");
                 return Ok();
             }
             else
@@ -198,7 +201,7 @@ namespace DFC.App.CareerPath.Controllers
         [Route("{controller}/{documentId}/contents")]
         public async Task<IActionResult> Body(Guid documentId)
         {
-            logger.LogInformation($"{nameof(Body)} has been called with: {documentId}");
+            logService.LogInformation($"{nameof(Body)} has been called with: {documentId}");
 
             var careerPathSegmentModel = await careerPathSegmentService.GetByIdAsync(documentId).ConfigureAwait(false);
 
@@ -206,12 +209,12 @@ namespace DFC.App.CareerPath.Controllers
             {
                 var viewModel = mapper.Map<BodyViewModel>(careerPathSegmentModel);
 
-                logger.LogInformation($"{nameof(Body)} has succeeded for: {documentId}");
+                logService.LogInformation($"{nameof(Body)} has succeeded for: {documentId}");
 
                 return this.NegotiateContentResult(viewModel, careerPathSegmentModel.Data);
             }
 
-            logger.LogWarning($"{nameof(Body)} has returned no content for: {documentId}");
+            logService.LogInformation($"{nameof(Body)} has returned no content for: {documentId}");
 
             return NoContent();
         }

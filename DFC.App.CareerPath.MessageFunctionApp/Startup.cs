@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using DFC.App.CareerPath.Common.Contracts;
+using DFC.App.CareerPath.Common.Services;
 using DFC.App.CareerPath.MessageFunctionApp.HttpClientPolicies;
 using DFC.App.CareerPath.MessageFunctionApp.Services;
 using DFC.Functions.DI.Standard;
@@ -8,9 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-[assembly: WebJobsStartup(typeof(DFC.App.CareerPath.MessageFunctionApp.Startup.Startup), "Web Jobs Extension Startup")]
+[assembly: WebJobsStartup(typeof(DFC.App.CareerPath.MessageFunctionApp.Startup), "Web Jobs Extension Startup")]
 
-namespace DFC.App.CareerPath.MessageFunctionApp.Startup
+namespace DFC.App.CareerPath.MessageFunctionApp
 {
     public class Startup : IWebJobsStartup
     {
@@ -26,11 +28,16 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Startup
 
             builder.AddDependencyInjection();
 
-            builder?.Services.AddSingleton(segmentClientOptions);
-            builder?.Services.AddAutoMapper(typeof(Startup).Assembly);
-            builder?.Services.AddTransient<IMessagePreProcessor, MessagePreProcessor>();
-            builder?.Services.AddTransient<IMessageProcessor, MessageProcessor>();
-            builder?.Services.AddHttpClient(nameof(MessageProcessor), httpClient =>
+            var services = builder?.Services;
+
+            services.AddSingleton(segmentClientOptions);
+            services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddScoped<IMessagePreProcessor, MessagePreProcessor>();
+            services.AddScoped<IMessageProcessor, MessageProcessor>();
+            services.AddScoped<ILogService, LogService>();
+            services.AddScoped<ICorrelationIdProvider, InMemoryCorrelationIdProvider>();
+
+            services.AddHttpClient(nameof(MessageProcessor), httpClient =>
             {
                 httpClient.Timeout = segmentClientOptions.Timeout;
                 httpClient.BaseAddress = segmentClientOptions.BaseAddress;

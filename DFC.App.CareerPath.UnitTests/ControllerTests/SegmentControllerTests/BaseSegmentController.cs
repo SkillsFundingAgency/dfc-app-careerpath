@@ -1,4 +1,5 @@
-﻿using DFC.App.CareerPath.Controllers;
+﻿using DFC.App.CareerPath.Common.Services;
+using DFC.App.CareerPath.Controllers;
 using DFC.App.CareerPath.Data.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             FakeLogger = A.Fake<ILogger<SegmentController>>();
             FakeCareerPathSegmentService = A.Fake<ICareerPathSegmentService>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
+            FakeLogService = A.Fake<ILogService>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -39,6 +41,8 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
         protected ICareerPathSegmentService FakeCareerPathSegmentService { get; }
 
+        protected ILogService FakeLogService { get; }
+
         protected AutoMapper.IMapper FakeMapper { get; }
 
         protected SegmentController BuildSegmentController(string mediaTypeName)
@@ -47,7 +51,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new SegmentController(FakeLogger, FakeCareerPathSegmentService, FakeMapper)
+            var controller = new SegmentController(FakeLogger, FakeCareerPathSegmentService, FakeMapper, FakeLogService)
             {
                 ControllerContext = new ControllerContext()
                 {
