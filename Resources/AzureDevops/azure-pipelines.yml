@@ -1,0 +1,64 @@
+variables:
+    ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'     
+    SolutionBaseName: 'DFC.App.CareerPath'
+    BuildPlatform: 'any cpu'
+    BuildConfiguration: 'release'
+
+resources:
+  repositories:
+  - repository: self
+  - repository: dfc-devops
+    type: github
+    name: SkillsFundingAgency/dfc-devops
+    ref: refs/tags/v1.6.4
+    endpoint: 'GitHub (ESFA)'
+
+jobs:
+
+#Build and test resources
+# - template: AzureDevOpsTemplates/Build/dfc-arm-build.yml@dfc-devops
+#   parameters:
+#     ArmTemplateRoot: $(ArmTemplateRoot)
+
+#Build and test application
+- job: BuildDotNetCore
+  displayName: Build-DotNetCore
+  pool:
+    name: NCS - CI and CD
+    demands:
+    - msbuild
+    - visualstudio
+
+  steps:
+  # Build DFC.App.CareerPath
+  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
+    parameters:
+      SolutionBaseName: $(SolutionBaseName)
+      BuildPlatform: $(BuildPlatform)
+      BuildConfiguration: $(BuildConfiguration)
+      DotNetCoreVersion: 2.2.402
+      PublishWebApp: true
+      TestSuffix: UnitTests
+  # Build DFC.App.CareerPath.MessageFunctionApp
+  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
+    parameters:
+      SolutionBaseName: $(SolutionBaseName).MessageFunctionApp
+      BuildPlatform: $(BuildPlatform)
+      BuildConfiguration: $(BuildConfiguration)
+      DotNetCoreVersion: 2.2.402      
+  # Test DFC.App.CareerPath.DraftSegmentService (an artifact will be built but isn't consumed in the release) 
+  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
+    parameters:
+      SolutionBaseName: $(SolutionBaseName).DraftSegmentService
+      BuildPlatform: $(BuildPlatform)
+      BuildConfiguration: $(BuildConfiguration)
+      DotNetCoreVersion: 2.2.402
+      TestSuffix: UnitTests
+  # Test DFC.App.CareerPath.SegmentService (an artifact will be built but isn't consumed in the release) 
+  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
+    parameters:
+      SolutionBaseName: $(SolutionBaseName).SegmentService
+      BuildPlatform: $(BuildPlatform)
+      BuildConfiguration: $(BuildConfiguration)
+      DotNetCoreVersion: 2.2.402
+      TestSuffix: UnitTests      
