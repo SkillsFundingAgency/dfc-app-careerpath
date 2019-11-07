@@ -1,3 +1,4 @@
+using DFC.App.CareerPath.ApiModels;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.ViewModels;
 using FakeItEasy;
@@ -50,7 +51,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             expectedResult.Data = A.Fake<CareerPathSegmentDataModel>();
 
             A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => FakeMapper.Map<BodyViewModel>(A<CareerPathSegmentModel>.Ignored)).Returns(A.Fake<BodyViewModel>());
+            A.CallTo(() => FakeMapper.Map<CareerPathAndProgressionApiModel>(A<CareerPathSegmentDataModel>.Ignored)).Returns(A.Fake<CareerPathAndProgressionApiModel>());
 
             // Act
             var result = await controller.Body(documentId).ConfigureAwait(false);
@@ -60,7 +61,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             A.CallTo(() => FakeMapper.Map<BodyViewModel>(A<CareerPathSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            var model = Assert.IsAssignableFrom<CareerPathSegmentDataModel>(jsonResult.Value);
+            var model = Assert.IsAssignableFrom<CareerPathAndProgressionApiModel>(jsonResult.Value);
 
             controller.Dispose();
         }
