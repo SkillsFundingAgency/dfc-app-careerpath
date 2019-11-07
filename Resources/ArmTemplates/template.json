@@ -308,6 +308,10 @@
                             {
                                 "name": "CareerPathSegmentClientOptions__DeleteEndpoint",
                                 "value": "segment/{0}"
+                            },
+                            {
+                                "name": "Logging__ApplicationInsights__LogLevel__Default",
+                                "value": "Information"
                             }
                         ]
                     }
