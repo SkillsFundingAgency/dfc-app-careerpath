@@ -1,4 +1,5 @@
-﻿using DFC.App.CareerPath.Common.Services;
+﻿using DFC.App.CareerPath.ApiModels;
+using DFC.App.CareerPath.Common.Services;
 using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.PatchModels;
@@ -211,7 +212,9 @@ namespace DFC.App.CareerPath.Controllers
 
                 logService.LogInformation($"{nameof(Body)} has succeeded for: {documentId}");
 
-                return this.NegotiateContentResult(viewModel, careerPathSegmentModel.Data);
+                var apiModel = mapper.Map<CareerPathAndProgressionApiModel>(careerPathSegmentModel.Data);
+
+                return this.NegotiateContentResult(viewModel, apiModel);
             }
 
             logService.LogInformation($"{nameof(Body)} has returned no content for: {documentId}");
