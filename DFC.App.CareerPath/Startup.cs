@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using DFC.App.CareerPath.Common.Contracts;
+using DFC.App.CareerPath.Common.Services;
 using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using DFC.App.CareerPath.DraftSegmentService;
 using DFC.App.CareerPath.Repository.CosmosDb;
 using DFC.App.CareerPath.SegmentService;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +42,10 @@ namespace DFC.App.CareerPath
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            var applicationInsightsServiceOptions = new ApplicationInsightsServiceOptions();
+            applicationInsightsServiceOptions.InstrumentationKey = configuration["ApplicationInsights:InstrumentationKey"];
+            services.AddApplicationInsightsTelemetry(applicationInsightsServiceOptions);
+
             var serviceBusOptions = configuration.GetSection(ServiceBusOptionsAppSettings).Get<ServiceBusOptions>();
             services.AddSingleton(serviceBusOptions ?? new ServiceBusOptions());
 
@@ -53,6 +60,8 @@ namespace DFC.App.CareerPath
             services.AddScoped<IDraftCareerPathSegmentService, DraftCareerPathSegmentService>();
             services.AddScoped<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>, JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
             services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddScoped<ICorrelationIdProvider, RequestHeaderCorrelationIdProvider>();
+            services.AddScoped<ILogService, LogService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

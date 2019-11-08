@@ -1,4 +1,5 @@
-﻿using DFC.App.CareerPath.Data.Contracts;
+﻿using AutoMapper;
+using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using DFC.App.CareerPath.DraftSegmentService;
@@ -16,13 +17,15 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
         private readonly IDraftCareerPathSegmentService draftCareerPathSegmentService;
         private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService;
         private readonly ICareerPathSegmentService careerPathSegmentService;
+        private readonly IMapper mapper;
 
         public SegmentServiceDeleteTests()
         {
             repository = A.Fake<ICosmosRepository<CareerPathSegmentModel>>();
             draftCareerPathSegmentService = A.Fake<DraftCareerPathSegmentService>();
             jobProfileSegmentRefreshService = A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
-            careerPathSegmentService = new CareerPathSegmentService(repository, draftCareerPathSegmentService, jobProfileSegmentRefreshService);
+            mapper = A.Fake<IMapper>();
+            careerPathSegmentService = new CareerPathSegmentService(repository, draftCareerPathSegmentService, jobProfileSegmentRefreshService, mapper);
         }
 
         [Fact]

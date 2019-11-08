@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DFC.App.CareerPath.Data.Models.PatchModels
+﻿namespace DFC.App.CareerPath.Data.Models.PatchModels
 {
     public class CareerPathPatchSegmentModel
     {

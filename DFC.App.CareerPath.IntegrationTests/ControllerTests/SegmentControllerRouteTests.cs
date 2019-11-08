@@ -81,10 +81,8 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
                 SocLevelTwo = "12",
-                LastReviewed = DateTime.UtcNow,
                 Data = new CareerPathSegmentDataModel
                 {
-                    LastReviewed = DateTime.UtcNow,
                     Markup = "<div>some markup</div>",
                 },
             };
@@ -101,36 +99,7 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
         }
 
         [Fact]
-        public async Task PostSegmentEndpointsForDefaultArticleRefreshReturnsOk()
-        {
-            // Arrange
-            const string url = "/segment";
-            var careerPathSegmentModel = new CareerPathSegmentModel()
-            {
-                DocumentId = DataSeeding.DefaultArticleGuid,
-                CanonicalName = DataSeeding.DefaultArticleName,
-                SocLevelTwo = "12",
-                LastReviewed = DateTime.UtcNow,
-                Data = new CareerPathSegmentDataModel
-                {
-                    LastReviewed = DateTime.UtcNow,
-                    Markup = "<div>some markup</div>",
-                },
-            };
-            var client = factory.CreateClient();
-
-            client.DefaultRequestHeaders.Accept.Clear();
-
-            // Act
-            var response = await client.PostAsync(url, careerPathSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
-
-            // Assert
-            response.EnsureSuccessStatusCode();
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-        }
-
-        [Fact]
-        public async Task PutSegmentEndpointsReturnOk()
+        public async Task PutSegmentEndpointsReturnNotFoundWhenArticleDoesNotExist()
         {
             // Arrange
             const string url = "/segment";
@@ -140,10 +109,8 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
                 SocLevelTwo = "12",
-                LastReviewed = DateTime.UtcNow,
                 Data = new CareerPathSegmentDataModel
                 {
-                    LastReviewed = DateTime.UtcNow,
                     Markup = "<div>some markup</div>",
                 },
             };
@@ -157,8 +124,7 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
             var response = await client.PutAsync(url, careerPathSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
 
             // Assert
-            response.EnsureSuccessStatusCode();
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         [Fact]
@@ -173,10 +139,8 @@ namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
                 SocLevelTwo = "12",
-                LastReviewed = DateTime.UtcNow,
                 Data = new CareerPathSegmentDataModel
                 {
-                    LastReviewed = DateTime.UtcNow,
                     Markup = "<div>some markup</div>",
                 },
             };
