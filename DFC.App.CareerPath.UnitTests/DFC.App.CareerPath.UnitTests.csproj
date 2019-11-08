@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DFC.App.CareerPath.Common\DFC.App.CareerPath.Common.csproj" />
     <ProjectReference Include="..\DFC.App.CareerPath\DFC.App.CareerPath.csproj" />
   </ItemGroup>
 
