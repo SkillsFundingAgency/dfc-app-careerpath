@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using DFC.App.CareerPath.ApiModels;
 using DFC.App.CareerPath.Data.Models;
-using System;
+using DFC.HtmlToDataTranslator.Services;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DFC.App.CareerPath.AutoMapperProfiles
 {
@@ -12,7 +10,9 @@ namespace DFC.App.CareerPath.AutoMapperProfiles
     {
         public List<string> Convert(string sourceMember, ResolutionContext context)
         {
-            return new List<string> { sourceMember };
+            var translator = new HtmlAgilityPackDataTranslator();
+            var result = translator.Translate(sourceMember);
+            return result;
         }
     }
 
