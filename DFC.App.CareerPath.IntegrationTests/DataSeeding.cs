@@ -24,6 +24,7 @@ namespace DFC.App.CareerPath.IntegrationTests
                     SocLevelTwo = "12",
                     Data = new CareerPathSegmentDataModel
                     {
+                        LastReviewed = DateTime.UtcNow,
                         Markup = "<p>some content</p>",
                     },
                 },
@@ -34,6 +35,7 @@ namespace DFC.App.CareerPath.IntegrationTests
                     SocLevelTwo = "12",
                     Data = new CareerPathSegmentDataModel
                     {
+                        LastReviewed = DateTime.UtcNow,
                         Markup = "<p>some content</p>",
                     },
                 },
@@ -44,6 +46,7 @@ namespace DFC.App.CareerPath.IntegrationTests
                     SocLevelTwo = "12",
                     Data = new CareerPathSegmentDataModel
                     {
+                        LastReviewed = DateTime.UtcNow,
                         Markup = "<p>some content</p>",
                     },
                 },
