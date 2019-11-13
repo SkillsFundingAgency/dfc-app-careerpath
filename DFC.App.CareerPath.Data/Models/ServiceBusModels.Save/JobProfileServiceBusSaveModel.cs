@@ -10,6 +10,8 @@ namespace DFC.App.CareerPath.Data.Models.ServiceBusModels.Save
         [Required]
         public string SOCLevelTwo { get; set; }
 
+        public DateTime LastModified { get; set; }
+
         [Required]
         public string CanonicalName { get; set; }
 
