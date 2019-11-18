@@ -1,0 +1,9 @@
+﻿@model BodyViewModel
+
+@if (Model.Markup != null)
+{
+    <section id="CareerPathAndProgression">
+        <h2 class="job-profile-heading">Career path and progression</h2>    
+        @Html.Raw(Model.Markup.Value)
+    </section>
+}
