@@ -4,7 +4,6 @@ using DFC.App.CareerPath.Common.Services;
 using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels;
-using DFC.App.CareerPath.DraftSegmentService;
 using DFC.App.CareerPath.Repository.CosmosDb;
 using DFC.App.CareerPath.SegmentService;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
@@ -57,7 +56,6 @@ namespace DFC.App.CareerPath
             services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<ICosmosRepository<CareerPathSegmentModel>, CosmosRepository<CareerPathSegmentModel>>();
             services.AddScoped<ICareerPathSegmentService, CareerPathSegmentService>();
-            services.AddScoped<IDraftCareerPathSegmentService, DraftCareerPathSegmentService>();
             services.AddScoped<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>, JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddScoped<ICorrelationIdProvider, RequestHeaderCorrelationIdProvider>();
