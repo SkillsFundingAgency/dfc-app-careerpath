@@ -58,7 +58,7 @@ namespace DFC.App.CareerPath.Controllers
         {
             logService.LogInformation($"{nameof(Document)} has been called with: {article}");
 
-            var careerPathSegmentModel = await careerPathSegmentService.GetByNameAsync(article, Request.IsDraftRequest()).ConfigureAwait(false);
+            var careerPathSegmentModel = await careerPathSegmentService.GetByNameAsync(article).ConfigureAwait(false);
 
             if (careerPathSegmentModel != null)
             {

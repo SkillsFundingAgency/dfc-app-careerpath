@@ -54,7 +54,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DFC.App.CareerPath.Common\DFC.App.CareerPath.Common.csproj" />
     <ProjectReference Include="..\DFC.App.CareerPath.Data\DFC.App.CareerPath.Data.csproj" />
-    <ProjectReference Include="..\DFC.App.CareerPath.DraftSegmentService\DFC.App.CareerPath.DraftSegmentService.csproj" />
     <ProjectReference Include="..\DFC.App.CareerPath.Repository.CosmosDb\DFC.App.CareerPath.Repository.CosmosDb.csproj" />
     <ProjectReference Include="..\DFC.App.CareerPath.SegmentService\DFC.App.CareerPath.SegmentService.csproj" />
   </ItemGroup>
