@@ -19,14 +19,14 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             var expectedResult = A.Fake<CareerPathSegmentModel>();
             var controller = BuildSegmentController(mediaTypeName);
 
-            A.CallTo(() => FakeCareerPathSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeCareerPathSegmentService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<CareerPathSegmentModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
 
             // Act
             var result = await controller.Document(article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeCareerPathSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeCareerPathSegmentService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<CareerPathSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -44,13 +44,13 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             CareerPathSegmentModel expectedResult = null;
             var controller = BuildSegmentController(mediaTypeName);
 
-            A.CallTo(() => FakeCareerPathSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeCareerPathSegmentService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await controller.Document(article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeCareerPathSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeCareerPathSegmentService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<CareerPathSegmentModel>.Ignored)).MustNotHaveHappened();
 
             var statusResult = Assert.IsType<NoContentResult>(result);

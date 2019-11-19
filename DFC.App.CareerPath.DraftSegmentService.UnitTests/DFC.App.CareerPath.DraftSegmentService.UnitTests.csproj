@@ -30,8 +30,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DFC.App.CareerPath.DraftSegmentService\DFC.App.CareerPath.DraftSegmentService.csproj" />
-  </ItemGroup>
-
 </Project>

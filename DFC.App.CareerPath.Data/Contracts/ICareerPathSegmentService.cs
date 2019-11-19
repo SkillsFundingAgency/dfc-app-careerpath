@@ -14,7 +14,7 @@ namespace DFC.App.CareerPath.Data.Contracts
 
         Task<CareerPathSegmentModel> GetByIdAsync(Guid documentId);
 
-        Task<CareerPathSegmentModel> GetByNameAsync(string canonicalName, bool isDraft = false);
+        Task<CareerPathSegmentModel> GetByNameAsync(string canonicalName);
 
         Task<HttpStatusCode> UpsertAsync(CareerPathSegmentModel careerPathSegmentModel);
 

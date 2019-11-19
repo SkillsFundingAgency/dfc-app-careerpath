@@ -12,18 +12,15 @@ namespace DFC.App.CareerPath.SegmentService
     public class CareerPathSegmentService : ICareerPathSegmentService
     {
         private readonly ICosmosRepository<CareerPathSegmentModel> repository;
-        private readonly IDraftCareerPathSegmentService draftCareerPathSegmentService;
         private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService;
         private readonly IMapper mapper;
 
         public CareerPathSegmentService(
                                         ICosmosRepository<CareerPathSegmentModel> repository,
-                                        IDraftCareerPathSegmentService draftCareerPathSegmentService,
                                         IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService,
                                         IMapper mapper)
         {
             this.repository = repository;
-            this.draftCareerPathSegmentService = draftCareerPathSegmentService;
             this.jobProfileSegmentRefreshService = jobProfileSegmentRefreshService;
             this.mapper = mapper;
         }
@@ -43,16 +40,14 @@ namespace DFC.App.CareerPath.SegmentService
             return await repository.GetAsync(d => d.DocumentId == documentId).ConfigureAwait(false);
         }
 
-        public async Task<CareerPathSegmentModel> GetByNameAsync(string canonicalName, bool isDraft = false)
+        public async Task<CareerPathSegmentModel> GetByNameAsync(string canonicalName)
         {
             if (string.IsNullOrWhiteSpace(canonicalName))
             {
                 throw new ArgumentNullException(nameof(canonicalName));
             }
 
-            return isDraft
-                ? await draftCareerPathSegmentService.GetSitefinityData(canonicalName.ToLowerInvariant()).ConfigureAwait(false)
-                : await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
+            return await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
         }
 
         public async Task<HttpStatusCode> UpsertAsync(CareerPathSegmentModel careerPathSegmentModel)
