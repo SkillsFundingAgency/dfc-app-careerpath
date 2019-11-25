@@ -9,7 +9,6 @@ namespace DFC.App.CareerPath.Data.Models
 
         public DateTime LastReviewed { get; set; }
 
-        [Required]
         public string Markup { get; set; }
     }
 }
