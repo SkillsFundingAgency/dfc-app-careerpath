@@ -2,7 +2,7 @@
 
 namespace DFC.App.CareerPath.Data.Contracts
 {
-    public interface IJobProfileSegmentRefreshService<TModel>
+    public interface IJobProfileSegmentRefreshService<in TModel>
     {
         Task SendMessageAsync(TModel model);
     }

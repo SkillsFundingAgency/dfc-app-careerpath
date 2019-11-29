@@ -9,11 +9,14 @@ using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
 
 [assembly: WebJobsStartup(typeof(DFC.App.CareerPath.MessageFunctionApp.Startup), "Web Jobs Extension Startup")]
 
 namespace DFC.App.CareerPath.MessageFunctionApp
 {
+    [ExcludeFromCodeCoverage]
     public class Startup : IWebJobsStartup
     {
         public void Configure(IWebJobsBuilder builder)
@@ -36,12 +39,10 @@ namespace DFC.App.CareerPath.MessageFunctionApp
             services.AddScoped<IMessageProcessor, MessageProcessor>();
             services.AddScoped<ILogService, LogService>();
             services.AddScoped<ICorrelationIdProvider, InMemoryCorrelationIdProvider>();
-
-            services.AddHttpClient(nameof(MessageProcessor), httpClient =>
-            {
-                httpClient.Timeout = segmentClientOptions.Timeout;
-                httpClient.BaseAddress = segmentClientOptions.BaseAddress;
-            });
+            services.AddTransient(provider => new HttpClient());
+            services.AddScoped<IHttpClientService, HttpClientService>();
+            services.AddSingleton<IMappingService, MappingService>();
+            services.AddSingleton<IMessagePropertiesService, MessagePropertiesService>();
         }
     }
 }

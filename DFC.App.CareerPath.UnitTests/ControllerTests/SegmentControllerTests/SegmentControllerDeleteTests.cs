@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
@@ -11,7 +12,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
     {
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void SegmentControllerDeleteReturnsSuccess(string mediaTypeName)
+        public async Task SegmentControllerDeleteReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             Guid documentId = Guid.NewGuid();
@@ -28,14 +29,14 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
             var okResult = Assert.IsType<OkResult>(result);
 
-            A.Equals((int)HttpStatusCode.OK, okResult.StatusCode);
+            Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void SegmentControllerDeleteReturnsNotFound(string mediaTypeName)
+        public async Task SegmentControllerDeleteReturnsNotFound(string mediaTypeName)
         {
             // Arrange
             Guid documentId = Guid.NewGuid();
@@ -52,7 +53,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
             var statusResult = Assert.IsType<NotFoundResult>(result);
 
-            A.Equals((int)HttpStatusCode.NotFound, statusResult.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NotFound, statusResult.StatusCode);
 
             controller.Dispose();
         }

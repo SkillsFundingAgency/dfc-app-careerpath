@@ -7,17 +7,10 @@
     <LangVersion>latest</LangVersion>
 	<ProjectGuid>{49341995-51ED-48E1-8335-8515247D6EF1}</ProjectGuid>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="appsettings-template.json" />
-    <Content Remove="appsettings.json" />
-  </ItemGroup>
-  
+ 
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="../stylecop.json" />
   </ItemGroup>
-
-
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
@@ -37,19 +30,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="Views\Home\" />
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <None Include="appsettings.json" />
-    <None Include="appsettings-template.json" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <ProjectReference Include="..\DFC.App.CareerPath.Common\DFC.App.CareerPath.Common.csproj" />

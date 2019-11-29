@@ -1,7 +1,8 @@
-﻿using DFC.App.CareerPath.Data.Contracts;
-using DFC.App.CareerPath.Data.Models;
-using DFC.App.CareerPath.Data.Models.ServiceBusModels;
+﻿using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using FakeItEasy;
+using Microsoft.Azure.ServiceBus;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentRefreshServiceTests
@@ -9,25 +10,25 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentRefreshServiceTests
     [Trait("Segment Refresh Service", "Send Message Tests")]
     public class JobProfileSegmentRefreshServiceTests
     {
-        private readonly ServiceBusOptions serviceBusOptions;
-        private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService;
-
-        public JobProfileSegmentRefreshServiceTests()
-        {
-            serviceBusOptions = A.Fake<ServiceBusOptions>();
-            jobProfileSegmentRefreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(serviceBusOptions);
-        }
-
         [Fact]
-        public void JobProfileSegmentRefreshServiceTestsSendMessage()
+        public async Task JobProfileSegmentRefreshServiceTestsSendMessage()
         {
-            // arrange
-            var refreshJobProfileSegment = A.Fake<RefreshJobProfileSegmentServiceBusModel>();
+            // Arrange
+            var fakeTopicClient = A.Fake<ITopicClient>();
+            var refreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(fakeTopicClient);
 
-            // act
-            jobProfileSegmentRefreshService.SendMessageAsync(refreshJobProfileSegment);
+            var model = new RefreshJobProfileSegmentServiceBusModel
+            {
+                CanonicalName = "some-canonical-name-1",
+                JobProfileId = Guid.NewGuid(),
+                Segment = "CareerPathsAndProgression",
+            };
 
-            // assert
+            // Act
+            await refreshService.SendMessageAsync(model).ConfigureAwait(false);
+
+            // Assert
+            A.CallTo(() => fakeTopicClient.SendAsync(A<Message>.Ignored)).MustHaveHappenedOnceExactly();
         }
     }
 }

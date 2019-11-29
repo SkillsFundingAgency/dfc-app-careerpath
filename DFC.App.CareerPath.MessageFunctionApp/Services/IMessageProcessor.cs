@@ -1,5 +1,4 @@
-﻿using DFC.App.CareerPath.Data.Models.ServiceBusModels.Save;
-using System;
+﻿using DFC.App.CareerPath.Data.Enums;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -7,8 +6,6 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
 {
     public interface IMessageProcessor
     {
-        Task<HttpStatusCode> Delete(Guid jobProfileId);
-
-        Task<HttpStatusCode> Save(JobProfileServiceBusSaveModel message);
+        Task<HttpStatusCode> ProcessAsync(string message, long sequenceNumber, MessageContentType messageContentType, MessageActionType messageAction);
     }
 }

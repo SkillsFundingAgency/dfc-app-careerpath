@@ -3,9 +3,11 @@ using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using DFC.App.CareerPath.ViewModels;
 using Microsoft.AspNetCore.Html;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DFC.App.CareerPath.AutoMapperProfiles
 {
+    [ExcludeFromCodeCoverage]
     public class CareerPathSegmentModelProfile : Profile
     {
         public CareerPathSegmentModelProfile()

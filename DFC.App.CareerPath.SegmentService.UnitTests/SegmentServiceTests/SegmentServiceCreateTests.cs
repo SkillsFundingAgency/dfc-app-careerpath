@@ -16,40 +16,34 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
         private readonly ICosmosRepository<CareerPathSegmentModel> repository;
         private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService;
         private readonly ICareerPathSegmentService careerPathSegmentService;
-        private readonly IMapper mapper;
 
         public SegmentServiceCreateTests()
         {
+            var mapper = A.Fake<IMapper>();
             repository = A.Fake<ICosmosRepository<CareerPathSegmentModel>>();
             jobProfileSegmentRefreshService = A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
-            mapper = A.Fake<IMapper>();
             careerPathSegmentService = new CareerPathSegmentService(repository, jobProfileSegmentRefreshService, mapper);
         }
 
         [Fact]
-        public void CareerPathSegmentServiceCreateReturnsSuccessWhenSegmentCreated()
+        public async Task CareerPathSegmentServiceCreateReturnsSuccessWhenSegmentCreated()
         {
             // arrange
             var careerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
-            var expectedResult = HttpStatusCode.Created;
-
             A.CallTo(() => repository.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).Returns(HttpStatusCode.Created);
-            A.CallTo(() => jobProfileSegmentRefreshService.SendMessageAsync(A<RefreshJobProfileSegmentServiceBusModel>.Ignored));
 
             // act
-            var result = careerPathSegmentService.UpsertAsync(careerPathSegmentModel).Result;
+            var result = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => jobProfileSegmentRefreshService.SendMessageAsync(A<RefreshJobProfileSegmentServiceBusModel>.Ignored)).MustHaveHappenedOnceExactly();
-            A.Equals(result, expectedResult);
+            Assert.Equal(HttpStatusCode.Created, result);
         }
 
         [Fact]
         public async Task CareerPathSegmentServiceCreateReturnsArgumentNullExceptionWhenNullIsUsedAsync()
         {
-            // arrange
-
             // act
             var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await careerPathSegmentService.UpsertAsync(null).ConfigureAwait(false)).ConfigureAwait(false);
 
@@ -58,22 +52,21 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
         }
 
         [Fact]
-        public void CareerPathSegmentServiceCreateReturnsCreatedWhenSegmentNotCreated()
+        public async Task CareerPathSegmentServiceCreateReturnsStatusWhenSegmentNotCreated()
         {
             // arrange
             var createOrUdateCareerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
-            var expectedResult = HttpStatusCode.Created;
+            var expectedResult = HttpStatusCode.BadRequest;
 
-            A.CallTo(() => repository.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).Returns(HttpStatusCode.BadRequest);
-            A.CallTo(() => jobProfileSegmentRefreshService.SendMessageAsync(A<RefreshJobProfileSegmentServiceBusModel>.Ignored));
+            A.CallTo(() => repository.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).Returns(expectedResult);
 
             // act
-            var result = careerPathSegmentService.UpsertAsync(createOrUdateCareerPathSegmentModel).Result;
+            var result = await careerPathSegmentService.UpsertAsync(createOrUdateCareerPathSegmentModel).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.UpsertAsync(A<CareerPathSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => jobProfileSegmentRefreshService.SendMessageAsync(A<RefreshJobProfileSegmentServiceBusModel>.Ignored)).MustNotHaveHappened();
-            A.Equals(result, expectedResult);
+            Assert.Equal(expectedResult, result);
         }
     }
 }

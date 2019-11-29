@@ -3,7 +3,7 @@ using DFC.App.CareerPath.AutoMapperProfiles;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace DFC.App.CareerPath.IntegrationTests.ControllerTests
+namespace DFC.App.CareerPath.IntegrationTests.AutoMapperTests
 {
     [Trait("Integration Tests", "AutoMapper Tests")]
     public class AutoMapperProfileTests : IClassFixture<CustomWebApplicationFactory<Startup>>

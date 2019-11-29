@@ -3,6 +3,7 @@ using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using FakeItEasy;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
@@ -11,7 +12,7 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
     public class SegmentServicePingTests
     {
         [Fact]
-        public void CareerPathSegmentServicePingReturnsSuccess()
+        public async Task CareerPathSegmentServicePingReturnsSuccess()
         {
             // arrange
             var repository = A.Fake<ICosmosRepository<CareerPathSegmentModel>>();
@@ -22,15 +23,15 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
             var careerPathSegmentService = new CareerPathSegmentService(repository, A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>(), A.Fake<IMapper>());
 
             // act
-            var result = careerPathSegmentService.PingAsync().Result;
+            var result = await careerPathSegmentService.PingAsync().ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.PingAsync()).MustHaveHappenedOnceExactly();
-            A.Equals(result, expectedResult);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
-        public void CareerPathSegmentServicePingReturnsFalseWhenMissingRepository()
+        public async Task CareerPathSegmentServicePingReturnsFalseWhenMissingRepository()
         {
             // arrange
             var repository = A.Dummy<ICosmosRepository<CareerPathSegmentModel>>();
@@ -41,11 +42,11 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
             var careerPathSegmentService = new CareerPathSegmentService(repository, A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>(), A.Fake<IMapper>());
 
             // act
-            var result = careerPathSegmentService.PingAsync().Result;
+            var result = await careerPathSegmentService.PingAsync().ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.PingAsync()).MustHaveHappenedOnceExactly();
-            A.Equals(result, expectedResult);
+            Assert.Equal(expectedResult, result);
         }
     }
 }
