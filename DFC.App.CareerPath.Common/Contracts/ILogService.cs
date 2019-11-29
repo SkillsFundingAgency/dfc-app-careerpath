@@ -1,7 +1,9 @@
-﻿namespace DFC.App.CareerPath.Common.Services
+﻿using Microsoft.ApplicationInsights.DataContracts;
+
+namespace DFC.App.CareerPath.Common.Contracts
 {
     public interface ILogService
     {
-        void LogInformation(string message);
+        void LogMessage(string message, SeverityLevel severityLevel = SeverityLevel.Information);
     }
 }

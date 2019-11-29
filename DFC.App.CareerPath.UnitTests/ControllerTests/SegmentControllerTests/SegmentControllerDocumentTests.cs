@@ -3,6 +3,7 @@ using DFC.App.CareerPath.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
@@ -30,14 +31,14 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<CareerPathSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<DocumentViewModel>(viewResult.ViewData.Model);
+            Assert.IsAssignableFrom<DocumentViewModel>(viewResult.ViewData.Model);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void SegmentControllerDocumentHtmlReturnsNoContentWhenNoData(string mediaTypeName)
+        public async Task SegmentControllerDocumentHtmlReturnsNoContentWhenNoData(string mediaTypeName)
         {
             // Arrange
             const string article = "an-article-name";
@@ -55,7 +56,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
             var statusResult = Assert.IsType<NoContentResult>(result);
 
-            A.Equals((int)HttpStatusCode.NoContent, statusResult.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NoContent, statusResult.StatusCode);
 
             controller.Dispose();
         }

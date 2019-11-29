@@ -2,6 +2,7 @@
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
@@ -11,7 +12,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
     {
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void ReturnsCreatedForCreate(string mediaTypeName)
+        public async Task ReturnsCreatedForCreate(string mediaTypeName)
         {
             // Arrange
             var careerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
@@ -35,7 +36,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void ReturnsOKForUpdate(string mediaTypeName)
+        public async Task ReturnsOKForUpdate(string mediaTypeName)
         {
             // Arrange
             var careerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
@@ -59,7 +60,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void ReturnsBadResultWhenModelIsNull(string mediaTypeName)
+        public async Task ReturnsBadResultWhenModelIsNull(string mediaTypeName)
         {
             // Arrange
             CareerPathSegmentModel careerPathSegmentModel = null;
@@ -78,7 +79,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void ReturnsBadResultWhenModelIsInvalid(string mediaTypeName)
+        public async Task ReturnsBadResultWhenModelIsInvalid(string mediaTypeName)
         {
             // Arrange
             var careerPathSegmentModel = new CareerPathSegmentModel();

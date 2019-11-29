@@ -13,12 +13,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DFC.App.CareerPath
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         public const string ServiceBusOptionsAppSettings = "ServiceBusOptions";
@@ -41,25 +44,26 @@ namespace DFC.App.CareerPath
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var applicationInsightsServiceOptions = new ApplicationInsightsServiceOptions();
-            applicationInsightsServiceOptions.InstrumentationKey = configuration["ApplicationInsights:InstrumentationKey"];
+            var applicationInsightsServiceOptions = new ApplicationInsightsServiceOptions
+            {
+                InstrumentationKey = configuration["ApplicationInsights:InstrumentationKey"],
+            };
             services.AddApplicationInsightsTelemetry(applicationInsightsServiceOptions);
 
             var serviceBusOptions = configuration.GetSection(ServiceBusOptionsAppSettings).Get<ServiceBusOptions>();
-            services.AddSingleton(serviceBusOptions ?? new ServiceBusOptions());
-
             var cosmosDbConnection = configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
-
             var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey);
+            var topicClient = new TopicClient(serviceBusOptions.ServiceBusConnectionString, serviceBusOptions.TopicName);
 
             services.AddSingleton(cosmosDbConnection);
             services.AddSingleton<IDocumentClient>(documentClient);
+            services.AddSingleton<ITopicClient>(topicClient);
             services.AddSingleton<ICosmosRepository<CareerPathSegmentModel>, CosmosRepository<CareerPathSegmentModel>>();
             services.AddScoped<ICareerPathSegmentService, CareerPathSegmentService>();
             services.AddScoped<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>, JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
-            services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddScoped<ICorrelationIdProvider, RequestHeaderCorrelationIdProvider>();
             services.AddScoped<ILogService, LogService>();
+            services.AddAutoMapper(typeof(Startup).Assembly);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

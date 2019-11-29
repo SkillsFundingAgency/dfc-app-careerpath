@@ -4,7 +4,9 @@ using DFC.App.CareerPath.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
@@ -14,7 +16,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void SegmentControllerBodyHtmlReturnsSuccess(string mediaTypeName)
+        public async Task SegmentControllerBodyHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var documentId = Guid.NewGuid();
@@ -34,24 +36,25 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             A.CallTo(() => FakeMapper.Map<BodyViewModel>(A<CareerPathSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<BodyViewModel>(viewResult.ViewData.Model);
+            Assert.IsAssignableFrom<BodyViewModel>(viewResult.ViewData.Model);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void SegmentControllerBodyJsonReturnsSuccess(string mediaTypeName)
+        public async Task SegmentControllerBodyJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var documentId = Guid.NewGuid();
             var expectedResult = A.Fake<CareerPathSegmentModel>();
             var controller = BuildSegmentController(mediaTypeName);
+            var apiModel = GetCareerPathAndProgressionApiModel();
 
             expectedResult.Data = A.Fake<CareerPathSegmentDataModel>();
 
             A.CallTo(() => FakeCareerPathSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => FakeMapper.Map<CareerPathAndProgressionApiModel>(A<CareerPathSegmentDataModel>.Ignored)).Returns(A.Fake<CareerPathAndProgressionApiModel>());
+            A.CallTo(() => FakeMapper.Map<CareerPathAndProgressionApiModel>(A<CareerPathSegmentDataModel>.Ignored)).Returns(apiModel);
 
             // Act
             var result = await controller.Body(documentId).ConfigureAwait(false);
@@ -61,14 +64,14 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             A.CallTo(() => FakeMapper.Map<BodyViewModel>(A<CareerPathSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            var model = Assert.IsAssignableFrom<CareerPathAndProgressionApiModel>(jsonResult.Value);
+            Assert.IsAssignableFrom<CareerPathAndProgressionApiModel>(jsonResult.Value);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public async void SegmentControllerBodyReturnsNotAcceptable(string mediaTypeName)
+        public async Task SegmentControllerBodyReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             var documentId = Guid.NewGuid();
@@ -89,9 +92,17 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
             var statusResult = Assert.IsType<StatusCodeResult>(result);
 
-            A.Equals((int)HttpStatusCode.NotAcceptable, statusResult.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NotAcceptable, statusResult.StatusCode);
 
             controller.Dispose();
+        }
+
+        private CareerPathAndProgressionApiModel GetCareerPathAndProgressionApiModel()
+        {
+            return new CareerPathAndProgressionApiModel
+            {
+                CareerPathAndProgression = new List<string> { "Path1", "Path2", "Path3" },
+            };
         }
     }
 }

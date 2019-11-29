@@ -6,6 +6,7 @@ using Microsoft.Azure.Documents.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace DFC.App.CareerPath.Repository.CosmosDb
 {
+    [ExcludeFromCodeCoverage]
     public class CosmosRepository<T> : ICosmosRepository<T>
         where T : IDataModel
     {
@@ -124,7 +126,7 @@ namespace DFC.App.CareerPath.Repository.CosmosDb
             }
             catch (DocumentClientException e)
             {
-                if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
+                if (e.StatusCode == HttpStatusCode.NotFound)
                 {
                     await documentClient.CreateDatabaseAsync(new Database { Id = cosmosDbConnection.DatabaseId }).ConfigureAwait(false);
                 }
@@ -143,7 +145,7 @@ namespace DFC.App.CareerPath.Repository.CosmosDb
             }
             catch (DocumentClientException e)
             {
-                if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
+                if (e.StatusCode == HttpStatusCode.NotFound)
                 {
                     var pkDef = new PartitionKeyDefinition
                     {

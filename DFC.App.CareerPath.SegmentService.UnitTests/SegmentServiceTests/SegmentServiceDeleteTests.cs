@@ -5,6 +5,7 @@ using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using FakeItEasy;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
@@ -26,7 +27,7 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
         }
 
         [Fact]
-        public void CareerPathSegmentServiceDeleteReturnsSuccessWhenSegmentDeleted()
+        public async Task CareerPathSegmentServiceDeleteReturnsSuccessWhenSegmentDeleted()
         {
             // arrange
             var documentId = Guid.NewGuid();
@@ -35,15 +36,15 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
             A.CallTo(() => repository.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.NoContent);
 
             // act
-            var result = careerPathSegmentService.DeleteAsync(documentId).Result;
+            var result = await careerPathSegmentService.DeleteAsync(documentId).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
-            A.Equals(result, expectedResult);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
-        public void CareerPathSegmentServiceDeleteReturnsNullWhenSegmentNotDeleted()
+        public async Task CareerPathSegmentServiceDeleteReturnsNullWhenSegmentNotDeleted()
         {
             // arrange
             var documentId = Guid.NewGuid();
@@ -52,15 +53,15 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
             A.CallTo(() => repository.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.BadRequest);
 
             // act
-            var result = careerPathSegmentService.DeleteAsync(documentId).Result;
+            var result = await careerPathSegmentService.DeleteAsync(documentId).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
-            A.Equals(result, expectedResult);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
-        public void CareerPathSegmentServiceDeleteReturnsFalseWhenMissingRepository()
+        public async Task CareerPathSegmentServiceDeleteReturnsFalseWhenMissingRepository()
         {
             // arrange
             var documentId = Guid.NewGuid();
@@ -69,11 +70,11 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
             A.CallTo(() => repository.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.NotFound);
 
             // act
-            var result = careerPathSegmentService.DeleteAsync(documentId).Result;
+            var result = await careerPathSegmentService.DeleteAsync(documentId).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
-            A.Equals(result, expectedResult);
+            Assert.Equal(expectedResult, result);
         }
     }
 }
