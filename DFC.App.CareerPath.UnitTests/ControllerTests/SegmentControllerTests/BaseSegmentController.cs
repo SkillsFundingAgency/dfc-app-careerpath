@@ -1,10 +1,9 @@
-﻿using DFC.App.CareerPath.Common.Services;
+﻿using DFC.App.CareerPath.Common.Contracts;
 using DFC.App.CareerPath.Controllers;
 using DFC.App.CareerPath.Data.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
@@ -13,9 +12,8 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 {
     public abstract class BaseSegmentController
     {
-        public BaseSegmentController()
+        protected BaseSegmentController()
         {
-            FakeLogger = A.Fake<ILogger<SegmentController>>();
             FakeCareerPathSegmentService = A.Fake<ICareerPathSegmentService>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
             FakeLogService = A.Fake<ILogService>();
@@ -37,8 +35,6 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
             new string[] { MediaTypeNames.Application.Json },
         };
 
-        protected ILogger<SegmentController> FakeLogger { get; }
-
         protected ICareerPathSegmentService FakeCareerPathSegmentService { get; }
 
         protected ILogService FakeLogService { get; }
@@ -51,9 +47,9 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new SegmentController(FakeLogger, FakeCareerPathSegmentService, FakeMapper, FakeLogService)
+            var controller = new SegmentController(FakeCareerPathSegmentService, FakeMapper, FakeLogService)
             {
-                ControllerContext = new ControllerContext()
+                ControllerContext = new ControllerContext
                 {
                     HttpContext = httpContext,
                 },

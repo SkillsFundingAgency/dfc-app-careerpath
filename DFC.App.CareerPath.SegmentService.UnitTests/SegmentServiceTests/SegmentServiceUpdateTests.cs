@@ -27,22 +27,20 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
         }
 
         [Fact]
-        public void CareerPathSegmentServiceUpdateReturnsSuccessWhenSegmentReplaced()
+        public async Task CareerPathSegmentServiceUpdateReturnsSuccessWhenSegmentReplaced()
         {
             // arrange
             var careerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
             var expectedResult = HttpStatusCode.OK;
-
             A.CallTo(() => repository.UpsertAsync(careerPathSegmentModel)).Returns(HttpStatusCode.OK);
-            A.CallTo(() => jobProfileSegmentRefreshService.SendMessageAsync(A<RefreshJobProfileSegmentServiceBusModel>.Ignored));
 
             // act
-            var result = careerPathSegmentService.UpsertAsync(careerPathSegmentModel).Result;
+            var result = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.UpsertAsync(careerPathSegmentModel)).MustHaveHappenedOnceExactly();
             A.CallTo(() => jobProfileSegmentRefreshService.SendMessageAsync(A<RefreshJobProfileSegmentServiceBusModel>.Ignored)).MustHaveHappenedOnceExactly();
-            A.Equals(result, expectedResult);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
@@ -59,22 +57,20 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
         }
 
         [Fact]
-        public void CareerPathSegmentServiceUpdateReturnsOkWhenSegmentNotReplaced()
+        public async Task CareerPathSegmentServiceUpdateReturnsStatusWhenSegmentNotReplaced()
         {
             // arrange
             var careerPathSegmentModel = A.Fake<CareerPathSegmentModel>();
-            var expectedResult = HttpStatusCode.OK;
-
+            var expectedResult = HttpStatusCode.BadRequest;
             A.CallTo(() => repository.UpsertAsync(careerPathSegmentModel)).Returns(HttpStatusCode.BadRequest);
-            A.CallTo(() => jobProfileSegmentRefreshService.SendMessageAsync(A<RefreshJobProfileSegmentServiceBusModel>.Ignored));
 
             // act
-            var result = careerPathSegmentService.UpsertAsync(careerPathSegmentModel).Result;
+            var result = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.UpsertAsync(careerPathSegmentModel)).MustHaveHappenedOnceExactly();
             A.CallTo(() => jobProfileSegmentRefreshService.SendMessageAsync(A<RefreshJobProfileSegmentServiceBusModel>.Ignored)).MustNotHaveHappened();
-            A.Equals(result, expectedResult);
+            Assert.Equal(expectedResult, result);
         }
     }
 }

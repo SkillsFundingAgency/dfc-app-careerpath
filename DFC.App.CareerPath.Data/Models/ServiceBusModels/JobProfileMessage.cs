@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace DFC.App.CareerPath.Data.Models.ServiceBusModels.Save
+namespace DFC.App.CareerPath.Data.Models.ServiceBusModels
 {
-    public class JobProfileServiceBusSaveModel
+    public class JobProfileMessage
     {
         public Guid JobProfileId { get; set; }
 

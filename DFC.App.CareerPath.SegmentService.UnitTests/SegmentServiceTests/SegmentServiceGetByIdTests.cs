@@ -14,16 +14,14 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
     public class SegmentServiceGetByIdTests
     {
         private readonly ICosmosRepository<CareerPathSegmentModel> repository;
-        private readonly IDraftCareerPathSegmentService draftCareerPathSegmentService;
         private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService;
         private readonly ICareerPathSegmentService careerPathSegmentService;
-        private readonly IMapper mapper;
 
         public SegmentServiceGetByIdTests()
         {
+            var mapper = A.Fake<IMapper>();
             repository = A.Fake<ICosmosRepository<CareerPathSegmentModel>>();
             jobProfileSegmentRefreshService = A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
-            mapper = A.Fake<IMapper>();
             careerPathSegmentService = new CareerPathSegmentService(repository, jobProfileSegmentRefreshService, mapper);
         }
 
@@ -31,34 +29,31 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
         public async Task SegmentServiceGetByIdReturnsSuccess()
         {
             // arrange
-            Guid documentId = Guid.NewGuid();
             var expectedResult = A.Fake<CareerPathSegmentModel>();
-
             A.CallTo(() => repository.GetAsync(A<Expression<Func<CareerPathSegmentModel, bool>>>.Ignored)).Returns(expectedResult);
 
             // act
-            var result = await careerPathSegmentService.GetByIdAsync(documentId).ConfigureAwait(false);
+            var result = await careerPathSegmentService.GetByIdAsync(Guid.NewGuid()).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.GetAsync(A<Expression<Func<CareerPathSegmentModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
-            A.Equals(result, expectedResult);
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact]
         public async Task SegmentServiceGetByIdReturnsNullWhenMissingInRepository()
         {
             // arrange
-            Guid documentId = Guid.NewGuid();
             CareerPathSegmentModel expectedResult = null;
 
-            A.CallTo(() => repository.GetAsync(A<Expression<Func<CareerPathSegmentModel, bool>>>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => repository.GetAsync(A<Expression<Func<CareerPathSegmentModel, bool>>>.Ignored)).Returns((CareerPathSegmentModel)null);
 
             // act
-            var result = await careerPathSegmentService.GetByIdAsync(documentId).ConfigureAwait(false);
+            var result = await careerPathSegmentService.GetByIdAsync(Guid.NewGuid()).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => repository.GetAsync(A<Expression<Func<CareerPathSegmentModel, bool>>>.Ignored)).MustHaveHappenedOnceExactly();
-            A.Equals(result, expectedResult);
+            Assert.Null(result);
         }
     }
 }

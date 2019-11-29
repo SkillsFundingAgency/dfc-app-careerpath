@@ -1,12 +1,11 @@
 ﻿using DFC.App.CareerPath.ApiModels;
-using DFC.App.CareerPath.Common.Services;
+using DFC.App.CareerPath.Common.Contracts;
 using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
-using DFC.App.CareerPath.Data.Models.PatchModels;
 using DFC.App.CareerPath.Extensions;
 using DFC.App.CareerPath.ViewModels;
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Net;
@@ -16,14 +15,12 @@ namespace DFC.App.CareerPath.Controllers
 {
     public class SegmentController : Controller
     {
-        private readonly ILogger<SegmentController> logger;
         private readonly ICareerPathSegmentService careerPathSegmentService;
         private readonly AutoMapper.IMapper mapper;
         private readonly ILogService logService;
 
-        public SegmentController(ILogger<SegmentController> logger, ICareerPathSegmentService careerPathSegmentService, AutoMapper.IMapper mapper, ILogService logService)
+        public SegmentController(ICareerPathSegmentService careerPathSegmentService, AutoMapper.IMapper mapper, ILogService logService)
         {
-            this.logger = logger;
             this.careerPathSegmentService = careerPathSegmentService;
             this.mapper = mapper;
             this.logService = logService;
@@ -32,7 +29,7 @@ namespace DFC.App.CareerPath.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            logService.LogInformation($"{nameof(Index)} has been called");
+            logService.LogMessage($"{nameof(Index)} has been called");
 
             var viewModel = new IndexViewModel();
             var careerPathSegmentModels = await careerPathSegmentService.GetAllAsync().ConfigureAwait(false);
@@ -42,11 +39,11 @@ namespace DFC.App.CareerPath.Controllers
                 viewModel.Documents = (from a in careerPathSegmentModels.OrderBy(o => o.CanonicalName)
                                        select mapper.Map<IndexDocumentViewModel>(a)).ToList();
 
-                logService.LogInformation($"{nameof(Index)} has succeeded");
+                logService.LogMessage($"{nameof(Index)} has succeeded");
             }
             else
             {
-                logger.LogWarning($"{nameof(Index)} has returned with no results");
+                logService.LogMessage($"{nameof(Index)} has returned with no results", SeverityLevel.Warning);
             }
 
             return View(viewModel);
@@ -56,7 +53,7 @@ namespace DFC.App.CareerPath.Controllers
         [Route("{controller}/{article}")]
         public async Task<IActionResult> Document(string article)
         {
-            logService.LogInformation($"{nameof(Document)} has been called with: {article}");
+            logService.LogMessage($"{nameof(Document)} has been called with: {article}");
 
             var careerPathSegmentModel = await careerPathSegmentService.GetByNameAsync(article).ConfigureAwait(false);
 
@@ -64,12 +61,36 @@ namespace DFC.App.CareerPath.Controllers
             {
                 var viewModel = mapper.Map<DocumentViewModel>(careerPathSegmentModel);
 
-                logService.LogInformation($"{nameof(Document)} has succeeded for: {article}");
+                logService.LogMessage($"{nameof(Document)} has succeeded for: {article}");
 
                 return View(viewModel);
             }
 
-            logger.LogWarning($"{nameof(Document)} has returned no content for: {article}");
+            logService.LogMessage($"{nameof(Document)} has returned no content for: {article}", SeverityLevel.Warning);
+
+            return NoContent();
+        }
+
+        [HttpGet]
+        [Route("{controller}/{documentId}/contents")]
+        public async Task<IActionResult> Body(Guid documentId)
+        {
+            logService.LogMessage($"{nameof(Body)} has been called with: {documentId}");
+
+            var careerPathSegmentModel = await careerPathSegmentService.GetByIdAsync(documentId).ConfigureAwait(false);
+
+            if (careerPathSegmentModel != null)
+            {
+                var viewModel = mapper.Map<BodyViewModel>(careerPathSegmentModel);
+
+                logService.LogMessage($"{nameof(Body)} has succeeded for: {documentId}");
+
+                var apiModel = mapper.Map<CareerPathAndProgressionApiModel>(careerPathSegmentModel.Data);
+
+                return this.NegotiateContentResult(viewModel, apiModel);
+            }
+
+            logService.LogMessage($"{nameof(Body)} has returned no content for: {documentId}");
 
             return NoContent();
         }
@@ -78,7 +99,7 @@ namespace DFC.App.CareerPath.Controllers
         [Route("{controller}")]
         public async Task<IActionResult> Post([FromBody]CareerPathSegmentModel careerPathSegmentModel)
         {
-            logService.LogInformation($"{nameof(Post)} has been called");
+            logService.LogMessage($"{nameof(Post)} has been called");
 
             if (careerPathSegmentModel == null)
             {
@@ -98,7 +119,7 @@ namespace DFC.App.CareerPath.Controllers
 
             var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
-            logService.LogInformation($"{nameof(Post)} has created content for: {careerPathSegmentModel.CanonicalName}");
+            logService.LogMessage($"{nameof(Post)} has created content for: {careerPathSegmentModel.CanonicalName}");
 
             return new StatusCodeResult((int)response);
         }
@@ -107,7 +128,7 @@ namespace DFC.App.CareerPath.Controllers
         [Route("{controller}")]
         public async Task<IActionResult> Put([FromBody]CareerPathSegmentModel careerPathSegmentModel)
         {
-            logService.LogInformation($"{nameof(Put)} has been called");
+            logService.LogMessage($"{nameof(Put)} has been called");
 
             if (careerPathSegmentModel == null)
             {
@@ -122,7 +143,7 @@ namespace DFC.App.CareerPath.Controllers
             var existingDocument = await careerPathSegmentService.GetByIdAsync(careerPathSegmentModel.DocumentId).ConfigureAwait(false);
             if (existingDocument == null)
             {
-                logService.LogInformation($"{nameof(Put)}. Couldnt find document with Id {careerPathSegmentModel.DocumentId}");
+                logService.LogMessage($"{nameof(Put)}. Couldnt find document with Id {careerPathSegmentModel.DocumentId}");
                 return new StatusCodeResult((int)HttpStatusCode.NotFound);
             }
 
@@ -131,49 +152,12 @@ namespace DFC.App.CareerPath.Controllers
                 return new StatusCodeResult((int)HttpStatusCode.AlreadyReported);
             }
 
-            var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
-
-            logService.LogInformation($"{nameof(Put)} has updated content for: {careerPathSegmentModel.CanonicalName}");
-
-            return new StatusCodeResult((int)response);
-        }
-
-        [HttpPatch]
-        [Route("{controller}/{documentId}/content-type/markup")]
-        public async Task<IActionResult> Patch([FromBody]CareerPathPatchSegmentModel careerPathPatchSegmentModel, Guid documentId)
-        {
-            logService.LogInformation($"{nameof(Patch)} has been called");
-
-            if (careerPathPatchSegmentModel == null)
-            {
-                return BadRequest();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var careerPathSegmentModel = await careerPathSegmentService.GetByIdAsync(documentId).ConfigureAwait(false);
-
-            if (careerPathSegmentModel == null)
-            {
-                logger.LogWarning($"{nameof(Document)} has returned no content for: {documentId} - creating new document");
-
-                careerPathSegmentModel = new CareerPathSegmentModel
-                {
-                    DocumentId = documentId,
-                    SocLevelTwo = careerPathPatchSegmentModel.SocLevelTwo,
-                    Data = new CareerPathSegmentDataModel(),
-                };
-            }
-
-            careerPathSegmentModel.CanonicalName = careerPathPatchSegmentModel.CanonicalName;
-            careerPathSegmentModel.Data.Markup = careerPathPatchSegmentModel.Data.Markup;
+            careerPathSegmentModel.Etag = existingDocument.Etag;
+            careerPathSegmentModel.SocLevelTwo = existingDocument.SocLevelTwo;
 
             var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
-            logService.LogInformation($"{nameof(Patch)} has patched content for: {careerPathSegmentModel.CanonicalName}");
+            logService.LogMessage($"{nameof(Put)} has updated content for: {careerPathSegmentModel.CanonicalName}");
 
             return new StatusCodeResult((int)response);
         }
@@ -182,44 +166,20 @@ namespace DFC.App.CareerPath.Controllers
         [Route("{controller}/{documentId}")]
         public async Task<IActionResult> Delete(Guid documentId)
         {
-            logService.LogInformation($"{nameof(Delete)} has been called");
+            logService.LogMessage($"{nameof(Delete)} has been called");
 
             var isDeleted = await careerPathSegmentService.DeleteAsync(documentId).ConfigureAwait(false);
 
             if (isDeleted)
             {
-                logService.LogInformation($"{nameof(Delete)} has deleted content for: {documentId}");
+                logService.LogMessage($"{nameof(Delete)} has deleted content for: {documentId}");
                 return Ok();
             }
             else
             {
-                logger.LogWarning($"{nameof(Document)} has returned no content for: {documentId}");
+                logService.LogMessage($"{nameof(Document)} has returned no content for: {documentId}", SeverityLevel.Warning);
                 return NotFound();
             }
-        }
-
-        [HttpGet]
-        [Route("{controller}/{documentId}/contents")]
-        public async Task<IActionResult> Body(Guid documentId)
-        {
-            logService.LogInformation($"{nameof(Body)} has been called with: {documentId}");
-
-            var careerPathSegmentModel = await careerPathSegmentService.GetByIdAsync(documentId).ConfigureAwait(false);
-
-            if (careerPathSegmentModel != null)
-            {
-                var viewModel = mapper.Map<BodyViewModel>(careerPathSegmentModel);
-
-                logService.LogInformation($"{nameof(Body)} has succeeded for: {documentId}");
-
-                var apiModel = mapper.Map<CareerPathAndProgressionApiModel>(careerPathSegmentModel.Data);
-
-                return this.NegotiateContentResult(viewModel, apiModel);
-            }
-
-            logService.LogInformation($"{nameof(Body)} has returned no content for: {documentId}");
-
-            return NoContent();
         }
     }
 }

@@ -17,15 +17,17 @@ namespace DFC.App.CareerPath.Common.Services
             this.telemetryClient = telemetryClient;
         }
 
-        public void LogInformation(string message)
+        public void LogMessage(string message, SeverityLevel severityLevel = SeverityLevel.Information)
         {
-            Log(message, SeverityLevel.Information);
+            Log(message, severityLevel);
         }
 
         private void Log(string message, SeverityLevel severityLevel)
         {
-            var properties = new Dictionary<string, string>();
-            properties.Add(HeaderName.CorrelationId, correlationIdProvider.CorrelationId);
+            var properties = new Dictionary<string, string>
+            {
+                {HeaderName.CorrelationId, correlationIdProvider.CorrelationId}
+            };
             telemetryClient.TrackTrace(message, severityLevel, properties);
         }
     }
