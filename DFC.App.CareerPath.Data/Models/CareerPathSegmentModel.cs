@@ -25,10 +25,5 @@ namespace DFC.App.CareerPath.Data.Models
         public long SequenceNumber { get; set; }
 
         public CareerPathSegmentDataModel Data { get; set; }
-
-        public CareerPathSegmentModel()
-        {
-            Data = new CareerPathSegmentDataModel();
-        }
     }
 }
