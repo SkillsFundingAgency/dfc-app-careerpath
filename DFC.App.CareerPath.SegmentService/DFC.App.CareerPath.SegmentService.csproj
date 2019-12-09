@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DFC.App.CareerPath.Common\DFC.App.CareerPath.Common.csproj" />
     <ProjectReference Include="..\DFC.App.CareerPath.Data\DFC.App.CareerPath.Data.csproj" />
     <ProjectReference Include="..\DFC.App.CareerPath.Repository.CosmosDb\DFC.App.CareerPath.Repository.CosmosDb.csproj" />
   </ItemGroup>
