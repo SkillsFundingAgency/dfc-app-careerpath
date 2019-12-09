@@ -1,4 +1,5 @@
-﻿using DFC.App.CareerPath.Data.Models.ServiceBusModels;
+﻿using DFC.App.CareerPath.Common.Contracts;
+using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using FakeItEasy;
 using Microsoft.Azure.ServiceBus;
 using System;
@@ -15,7 +16,8 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentRefreshServiceTests
         {
             // Arrange
             var fakeTopicClient = A.Fake<ITopicClient>();
-            var refreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(fakeTopicClient);
+            var fakeCorrelationIdProvider = A.Fake<ICorrelationIdProvider>();
+            var refreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(fakeTopicClient, fakeCorrelationIdProvider);
 
             var model = new RefreshJobProfileSegmentServiceBusModel
             {

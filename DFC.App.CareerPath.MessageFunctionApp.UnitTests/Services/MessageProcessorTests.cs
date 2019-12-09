@@ -114,7 +114,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
                 Data = new CareerPathSegmentDataModel
                 {
                     LastReviewed = DateTime.UtcNow,
-                    Markup = "<h1>Some Markup</h1>"
+                    Markup = "<h1>Some Markup</h1>",
                 },
             };
         }
