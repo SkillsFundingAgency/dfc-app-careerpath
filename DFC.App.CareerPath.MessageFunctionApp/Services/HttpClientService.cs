@@ -1,8 +1,8 @@
-﻿using DFC.App.CareerPath.Common.Constants;
-using DFC.App.CareerPath.Common.Contracts;
+﻿using DFC.App.CareerPath.Common.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.MessageFunctionApp.HttpClientPolicies;
-using Microsoft.ApplicationInsights.DataContracts;
+using DFC.Logger.AppInsights.Constants;
+using DFC.Logger.AppInsights.Contracts;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -38,7 +38,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
                 if (!response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    logger.LogMessage($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for POST, Id: {careerPathSegmentModel?.DocumentId}.", SeverityLevel.Error);
+                    logger.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for POST, Id: {careerPathSegmentModel?.DocumentId}.");
                     response.EnsureSuccessStatusCode();
                 }
 
@@ -58,7 +58,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
                 if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.NotFound)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    logger.LogMessage($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for Put type {typeof(CareerPathSegmentModel)}, Id: {careerPathSegmentModel?.DocumentId}", SeverityLevel.Error);
+                    logger.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for Put type {typeof(CareerPathSegmentModel)}, Id: {careerPathSegmentModel?.DocumentId}");
                     response.EnsureSuccessStatusCode();
                 }
 
@@ -75,7 +75,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
             if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.NotFound)
             {
                 var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                logger.LogMessage($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for DELETE, Id: {id}.", SeverityLevel.Error);
+                logger.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for DELETE, Id: {id}.");
                 response.EnsureSuccessStatusCode();
             }
 

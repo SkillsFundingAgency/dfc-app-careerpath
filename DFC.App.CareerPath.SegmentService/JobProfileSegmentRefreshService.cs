@@ -1,5 +1,5 @@
-﻿using DFC.App.CareerPath.Common.Contracts;
-using DFC.App.CareerPath.Data.Contracts;
+﻿using DFC.App.CareerPath.Data.Contracts;
+using DFC.Logger.AppInsights.Contracts;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
 using System.Text;

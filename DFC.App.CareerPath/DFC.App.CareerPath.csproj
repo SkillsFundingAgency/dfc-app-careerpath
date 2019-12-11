@@ -15,10 +15,10 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="DFC.HtmlToDataTranslator" Version="1.0.6" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.2" />
+    <PackageReference Include="DFC.Logger.AppInsights" Version="1.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -32,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DFC.App.CareerPath.Common\DFC.App.CareerPath.Common.csproj" />
     <ProjectReference Include="..\DFC.App.CareerPath.Data\DFC.App.CareerPath.Data.csproj" />
     <ProjectReference Include="..\DFC.App.CareerPath.Repository.CosmosDb\DFC.App.CareerPath.Repository.CosmosDb.csproj" />
     <ProjectReference Include="..\DFC.App.CareerPath.SegmentService\DFC.App.CareerPath.SegmentService.csproj" />

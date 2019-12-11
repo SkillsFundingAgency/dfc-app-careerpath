@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using DFC.App.CareerPath.Common.Contracts;
-using DFC.App.CareerPath.Common.Services;
 using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using DFC.App.CareerPath.Repository.CosmosDb;
 using DFC.App.CareerPath.SegmentService;
-using Microsoft.ApplicationInsights.AspNetCore.Extensions;
+using DFC.Logger.AppInsights.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -73,12 +71,6 @@ namespace DFC.App.CareerPath
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var applicationInsightsServiceOptions = new ApplicationInsightsServiceOptions
-            {
-                InstrumentationKey = configuration["ApplicationInsights:InstrumentationKey"],
-            };
-            services.AddApplicationInsightsTelemetry(applicationInsightsServiceOptions);
-
             var serviceBusOptions = configuration.GetSection(ServiceBusOptionsAppSettings).Get<ServiceBusOptions>();
             var cosmosDbConnection = configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
             var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey);
@@ -90,9 +82,8 @@ namespace DFC.App.CareerPath
             services.AddSingleton<ICosmosRepository<CareerPathSegmentModel>, CosmosRepository<CareerPathSegmentModel>>();
             services.AddScoped<ICareerPathSegmentService, CareerPathSegmentService>();
             services.AddScoped<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>, JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
-            services.AddScoped<ICorrelationIdProvider, RequestHeaderCorrelationIdProvider>();
-            services.AddScoped<ILogService, LogService>();
             services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddDFCLogging(configuration["ApplicationInsights:InstrumentationKey"]);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
