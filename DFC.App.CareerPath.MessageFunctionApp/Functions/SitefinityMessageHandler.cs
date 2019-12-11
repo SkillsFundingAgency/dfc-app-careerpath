@@ -1,5 +1,6 @@
 using DFC.App.CareerPath.Common.Contracts;
 using DFC.App.CareerPath.MessageFunctionApp.Services;
+using DFC.Logger.AppInsights.Contracts;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using System;
@@ -30,9 +31,9 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Functions
 
             correlationIdProvider.CorrelationId = sitefinityMessage.CorrelationId;
 
-            logService.LogMessage("Received message");
+            logService.LogInformation("Received message");
             await messagePreProcessor.Process(sitefinityMessage).ConfigureAwait(false);
-            logService.LogMessage("Processed message");
+            logService.LogInformation("Processed message");
         }
     }
 }

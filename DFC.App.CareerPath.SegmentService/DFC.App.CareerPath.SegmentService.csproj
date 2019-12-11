@@ -12,8 +12,9 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="DFC.Logger.AppInsights" Version="1.0.5" />
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="4.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -24,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DFC.App.CareerPath.Common\DFC.App.CareerPath.Common.csproj" />
     <ProjectReference Include="..\DFC.App.CareerPath.Data\DFC.App.CareerPath.Data.csproj" />
     <ProjectReference Include="..\DFC.App.CareerPath.Repository.CosmosDb\DFC.App.CareerPath.Repository.CosmosDb.csproj" />
   </ItemGroup>
