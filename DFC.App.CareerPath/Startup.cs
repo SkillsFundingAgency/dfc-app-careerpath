@@ -52,11 +52,9 @@ namespace DFC.App.CareerPath
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
-            {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Segment}/{action=Index}");
-            });
+                    template: "{controller=Health}/{action=Ping}"));
 
             mapper?.ConfigurationProvider.AssertConfigurationIsValid();
         }
