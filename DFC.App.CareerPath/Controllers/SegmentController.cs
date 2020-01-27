@@ -2,6 +2,7 @@
 using DFC.App.CareerPath.Common.Contracts;
 using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
+using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using DFC.App.CareerPath.Extensions;
 using DFC.App.CareerPath.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +18,14 @@ namespace DFC.App.CareerPath.Controllers
         private readonly ICareerPathSegmentService careerPathSegmentService;
         private readonly AutoMapper.IMapper mapper;
         private readonly ILogService logService;
+        private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> refreshService;
 
-        public SegmentController(ICareerPathSegmentService careerPathSegmentService, AutoMapper.IMapper mapper, ILogService logService)
+        public SegmentController(ICareerPathSegmentService careerPathSegmentService, AutoMapper.IMapper mapper, ILogService logService, IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> refreshService)
         {
             this.careerPathSegmentService = careerPathSegmentService;
             this.mapper = mapper;
             this.logService = logService;
+            this.refreshService = refreshService;
         }
 
         [HttpGet]
@@ -67,6 +70,30 @@ namespace DFC.App.CareerPath.Controllers
 
             logService.LogWarning($"{nameof(Document)} has returned no content for: {article}");
 
+            return NoContent();
+        }
+
+        [HttpPost]
+        [Route("{controller}/refreshDocuments")]
+        public async Task<IActionResult> RefreshDocuments()
+        {
+            logService.LogInformation($"{nameof(RefreshDocuments)} has been called");
+
+            var segmentModels = await careerPathSegmentService.GetAllAsync().ConfigureAwait(false);
+            if (segmentModels != null)
+            {
+                var result = segmentModels
+                    .OrderBy(x => x.CanonicalName)
+                    .Select(x => mapper.Map<RefreshJobProfileSegmentServiceBusModel>(x))
+                    .ToList();
+
+                await refreshService.SendMessageListAsync(result).ConfigureAwait(false);
+
+                logService.LogInformation($"{nameof(RefreshDocuments)} has succeeded");
+                return Json(result);
+            }
+
+            logService.LogWarning($"{nameof(RefreshDocuments)} has returned with no results");
             return NoContent();
         }
 
