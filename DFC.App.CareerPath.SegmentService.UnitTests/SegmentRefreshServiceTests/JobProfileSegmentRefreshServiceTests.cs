@@ -12,6 +12,20 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentRefreshServiceTests
     [Trait("Segment Refresh Service", "Send Message Tests")]
     public class JobProfileSegmentRefreshServiceTests
     {
+        public static IEnumerable<object[]> BatchSizeData => new List<object[]>
+        {
+            new object[] { 1, 1 },
+            new object[] { 499, 1 },
+            new object[] { 500, 1 },
+            new object[] { 501, 2 },
+            new object[] { 999, 2 },
+            new object[] { 1000, 2 },
+            new object[] { 1001, 3 },
+            new object[] { 1499, 3 },
+            new object[] { 1500, 3 },
+            new object[] { 1501, 4 },
+        };
+
         [Fact]
         public async Task JobProfileSegmentRefreshServiceTestsSendMessage()
         {
@@ -56,34 +70,46 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentRefreshServiceTests
             var fakeTopicClient = A.Fake<ITopicClient>();
             var correlationIdProvider = A.Fake<ICorrelationIdProvider>();
             var refreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(fakeTopicClient, correlationIdProvider);
-
-            var model = new List<RefreshJobProfileSegmentServiceBusModel>
-            {
-                new RefreshJobProfileSegmentServiceBusModel
-                {
-                    CanonicalName = "some-canonical-name-1",
-                    JobProfileId = Guid.NewGuid(),
-                    Segment = "CareerPathsAndProgression",
-                },
-                new RefreshJobProfileSegmentServiceBusModel
-                {
-                    CanonicalName = "some-canonical-name-2",
-                    JobProfileId = Guid.NewGuid(),
-                    Segment = "CareerPathsAndProgression",
-                },
-                new RefreshJobProfileSegmentServiceBusModel
-                {
-                    CanonicalName = "some-canonical-name-3",
-                    JobProfileId = Guid.NewGuid(),
-                    Segment = "CareerPathsAndProgression",
-                },
-            };
+            var models = CreateListOfModels();
 
             // Act
-            await refreshService.SendMessageListAsync(model).ConfigureAwait(false);
+            await refreshService.SendMessageListAsync(models).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => fakeTopicClient.SendAsync(A<List<Message>>.Ignored)).MustHaveHappenedOnceExactly();
+        }
+
+        [Theory]
+        [MemberData(nameof(BatchSizeData))]
+        public async Task SendMessageListSendsBatchedMessagesOnTopicClient(int batchSize, int expectedSentBatches)
+        {
+            // Arrange
+            var fakeTopicClient = A.Fake<ITopicClient>();
+            var correlationIdProvider = A.Fake<ICorrelationIdProvider>();
+            var refreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(fakeTopicClient, correlationIdProvider);
+            var models = CreateListOfModels(batchSize);
+
+            // Act
+            await refreshService.SendMessageListAsync(models).ConfigureAwait(false);
+
+            // Assert
+            A.CallTo(() => fakeTopicClient.SendAsync(A<List<Message>>.Ignored)).MustHaveHappened(expectedSentBatches, Times.Exactly);
+        }
+
+        private List<RefreshJobProfileSegmentServiceBusModel> CreateListOfModels(int numModels = 3)
+        {
+            var result = new List<RefreshJobProfileSegmentServiceBusModel>();
+            for (var i = 0; i < numModels; i++)
+            {
+                result.Add(new RefreshJobProfileSegmentServiceBusModel
+                {
+                    CanonicalName = $"some-canonical-name-{i}",
+                    JobProfileId = Guid.NewGuid(),
+                    Segment = "CareerPathsAndProgression",
+                });
+            }
+
+            return result;
         }
     }
 }
