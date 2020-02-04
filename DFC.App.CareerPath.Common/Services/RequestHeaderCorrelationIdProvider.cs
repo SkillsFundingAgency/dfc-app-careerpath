@@ -15,8 +15,8 @@ namespace DFC.App.CareerPath.Common.Services
 
         public string CorrelationId
         {
-            get { return httpContextAccessor.HttpContext.Request.Headers[HeaderName.CorrelationId]; }
-            set { httpContextAccessor.HttpContext.Request.Headers[HeaderName.CorrelationId] = value; }
+            get => httpContextAccessor.HttpContext.Request.Headers[HeaderName.CorrelationId];
+            set => httpContextAccessor.HttpContext.Request.Headers[HeaderName.CorrelationId] = value;
         }
     }
 }

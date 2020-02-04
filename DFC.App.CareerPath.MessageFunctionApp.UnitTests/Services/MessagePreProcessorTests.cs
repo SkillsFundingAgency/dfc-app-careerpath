@@ -2,7 +2,6 @@
 using DFC.App.CareerPath.Data.Enums;
 using DFC.App.CareerPath.MessageFunctionApp.Services;
 using FakeItEasy;
-using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.Azure.ServiceBus;
 using System;
 using System.Collections.Generic;
@@ -91,7 +90,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
             await messagePreProcessor.Process(message).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => logger.LogMessage(A<string>.Ignored, SeverityLevel.Warning)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => logger.LogWarning(A<string>.Ignored)).MustHaveHappenedOnceExactly();
         }
 
         [Theory]
@@ -113,7 +112,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
             await messagePreProcessor.Process(message).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => logger.LogMessage(A<string>.Ignored, SeverityLevel.Information)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => logger.LogInformation(A<string>.Ignored)).MustHaveHappenedOnceExactly();
         }
 
         private Message CreateBaseMessage(MessageActionType messageAction = MessageActionType.Published, MessageContentType contentType = MessageContentType.JobProfile)

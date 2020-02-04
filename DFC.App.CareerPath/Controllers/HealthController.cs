@@ -57,7 +57,6 @@ namespace DFC.App.CareerPath.Controllers
         }
 
         [HttpGet]
-        [Route("health/ping")]
         public IActionResult Ping()
         {
             logger.LogInformation($"{nameof(Ping)} has been called");

@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using DFC.App.CareerPath.Common.Contracts;
-using DFC.App.CareerPath.Common.Services;
 using DFC.App.CareerPath.MessageFunctionApp.HttpClientPolicies;
 using DFC.App.CareerPath.MessageFunctionApp.Services;
 using DFC.Functions.DI.Standard;
+using DFC.Logger.AppInsights.Contracts;
+using DFC.Logger.AppInsights.CorrelationIdProviders;
+using DFC.Logger.AppInsights.Extensions;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -37,12 +38,12 @@ namespace DFC.App.CareerPath.MessageFunctionApp
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddScoped<IMessagePreProcessor, MessagePreProcessor>();
             services.AddScoped<IMessageProcessor, MessageProcessor>();
-            services.AddScoped<ILogService, LogService>();
-            services.AddScoped<ICorrelationIdProvider, InMemoryCorrelationIdProvider>();
             services.AddTransient(provider => new HttpClient());
             services.AddScoped<IHttpClientService, HttpClientService>();
             services.AddSingleton<IMappingService, MappingService>();
             services.AddSingleton<IMessagePropertiesService, MessagePropertiesService>();
+            services.AddDFCLogging(configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
+            services.AddScoped<ICorrelationIdProvider, InMemoryCorrelationIdProvider>();
         }
     }
 }

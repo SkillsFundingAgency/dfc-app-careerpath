@@ -1,8 +1,8 @@
-﻿using DFC.App.CareerPath.Common.Contracts;
-using DFC.App.CareerPath.Common.Services;
-using DFC.App.CareerPath.Data.Enums;
+﻿using DFC.App.CareerPath.Data.Enums;
 using DFC.App.CareerPath.MessageFunctionApp.Functions;
 using DFC.App.CareerPath.MessageFunctionApp.Services;
+using DFC.Logger.AppInsights.Contracts;
+using DFC.Logger.AppInsights.Services;
 using FakeItEasy;
 using Microsoft.ApplicationInsights;
 using Microsoft.Azure.ServiceBus;
@@ -22,7 +22,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Functions
         {
             var correlationIdProvider = A.Fake<ICorrelationIdProvider>();
             var telemetryClient = new TelemetryClient();
-            var logService = new LogService(correlationIdProvider, telemetryClient);
+            var logService = new ApplicationInsightsLogService(correlationIdProvider, telemetryClient);
             defaultProcessor = A.Fake<IMessagePreProcessor>();
 
             messageHandler = new SitefinityMessageHandler(defaultProcessor, logService, correlationIdProvider);
