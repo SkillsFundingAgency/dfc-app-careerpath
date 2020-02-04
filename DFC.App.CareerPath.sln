@@ -53,10 +53,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.CareerPath.MessageF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.CareerPath.MessageFunctionApp", "DFC.App.CareerPath.MessageFunctionApp\DFC.App.CareerPath.MessageFunctionApp.csproj", "{ACC167A4-1CFF-4B24-A931-8F0FD47E7166}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.CareerPath.Common", "DFC.App.CareerPath.Common\DFC.App.CareerPath.Common.csproj", "{DE05E6D2-988B-4769-84F2-59F4EC66F86A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{F15D010F-2173-49AE-9576-D8D48CB87A9C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,10 +95,6 @@ Global
 		{ACC167A4-1CFF-4B24-A931-8F0FD47E7166}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACC167A4-1CFF-4B24-A931-8F0FD47E7166}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACC167A4-1CFF-4B24-A931-8F0FD47E7166}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DE05E6D2-988B-4769-84F2-59F4EC66F86A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE05E6D2-988B-4769-84F2-59F4EC66F86A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE05E6D2-988B-4769-84F2-59F4EC66F86A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE05E6D2-988B-4769-84F2-59F4EC66F86A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,7 +114,6 @@ Global
 		{1364217B-1BC2-440C-99AC-39182897E958} = {E3D30C85-E0B8-40C6-94A9-78746367713E}
 		{B544D89B-894C-49B8-BC5A-707B6367A916} = {1364217B-1BC2-440C-99AC-39182897E958}
 		{ACC167A4-1CFF-4B24-A931-8F0FD47E7166} = {7DDD860B-685F-4130-8297-6C4FD0E0C624}
-		{DE05E6D2-988B-4769-84F2-59F4EC66F86A} = {F15D010F-2173-49AE-9576-D8D48CB87A9C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB344B23-83C8-4BA8-BBB9-EAB2A2608E4C}

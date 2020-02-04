@@ -2,7 +2,6 @@
 using DFC.App.CareerPath.Data.Constants;
 using DFC.App.CareerPath.Data.Enums;
 using DFC.App.CareerPath.MessageFunctionApp.Functions;
-using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.Azure.ServiceBus;
 using System;
 using System.Net;
@@ -63,19 +62,19 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
             switch (result)
             {
                 case HttpStatusCode.OK:
-                    logger.LogMessage($"{ClassFullName}: JobProfile Id: {messageContentId}: Updated segment");
+                    logger.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Updated segment");
                     break;
 
                 case HttpStatusCode.Created:
-                    logger.LogMessage($"{ClassFullName}: JobProfile Id: {messageContentId}: Created segment");
+                    logger.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Created segment");
                     break;
 
                 case HttpStatusCode.AlreadyReported:
-                    logger.LogMessage($"{ClassFullName}: JobProfile Id: {messageContentId}: Segment previously updated");
+                    logger.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Segment previously updated");
                     break;
 
                 default:
-                    logger.LogMessage($"{ClassFullName}: JobProfile Id: {messageContentId}: Segment not Posted: Status: {result}", SeverityLevel.Warning);
+                    logger.LogWarning($"{ClassFullName}: JobProfile Id: {messageContentId}: Segment not Posted: Status: {result}");
                     break;
             }
         }

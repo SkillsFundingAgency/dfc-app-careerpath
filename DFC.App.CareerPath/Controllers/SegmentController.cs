@@ -2,6 +2,7 @@
 using DFC.App.CareerPath.Common.Contracts;
 using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
+using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using DFC.App.CareerPath.Extensions;
 using DFC.App.CareerPath.ViewModels;
 using Microsoft.ApplicationInsights.DataContracts;
@@ -18,12 +19,14 @@ namespace DFC.App.CareerPath.Controllers
         private readonly ICareerPathSegmentService careerPathSegmentService;
         private readonly AutoMapper.IMapper mapper;
         private readonly ILogService logService;
+        private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> refreshService;
 
-        public SegmentController(ICareerPathSegmentService careerPathSegmentService, AutoMapper.IMapper mapper, ILogService logService)
+        public SegmentController(ICareerPathSegmentService careerPathSegmentService, AutoMapper.IMapper mapper, ILogService logService, IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> refreshService)
         {
             this.careerPathSegmentService = careerPathSegmentService;
             this.mapper = mapper;
             this.logService = logService;
+            this.refreshService = refreshService;
         }
 
         [HttpGet]
@@ -43,7 +46,7 @@ namespace DFC.App.CareerPath.Controllers
             }
             else
             {
-                logService.LogMessage($"{nameof(Index)} has returned with no results", SeverityLevel.Warning);
+                logService.LogWarning($"{nameof(Index)} has returned with no results");
             }
 
             return View(viewModel);
@@ -66,8 +69,32 @@ namespace DFC.App.CareerPath.Controllers
                 return View(viewModel);
             }
 
-            logService.LogMessage($"{nameof(Document)} has returned no content for: {article}", SeverityLevel.Warning);
+            logService.LogWarning($"{nameof(Document)} has returned no content for: {article}");
 
+            return NoContent();
+        }
+
+        [HttpPost]
+        [Route("{controller}/refreshDocuments")]
+        public async Task<IActionResult> RefreshDocuments()
+        {
+            logService.LogInformation($"{nameof(RefreshDocuments)} has been called");
+
+            var segmentModels = await careerPathSegmentService.GetAllAsync().ConfigureAwait(false);
+            if (segmentModels != null)
+            {
+                var result = segmentModels
+                    .OrderBy(x => x.CanonicalName)
+                    .Select(x => mapper.Map<RefreshJobProfileSegmentServiceBusModel>(x))
+                    .ToList();
+
+                await refreshService.SendMessageListAsync(result).ConfigureAwait(false);
+
+                logService.LogInformation($"{nameof(RefreshDocuments)} has succeeded");
+                return Json(result);
+            }
+
+            logService.LogWarning($"{nameof(RefreshDocuments)} has returned with no results");
             return NoContent();
         }
 
@@ -75,7 +102,7 @@ namespace DFC.App.CareerPath.Controllers
         [Route("{controller}/{documentId}/contents")]
         public async Task<IActionResult> Body(Guid documentId)
         {
-            logService.LogMessage($"{nameof(Body)} has been called with: {documentId}");
+            logService.LogInformation($"{nameof(Body)} has been called with: {documentId}");
 
             var careerPathSegmentModel = await careerPathSegmentService.GetByIdAsync(documentId).ConfigureAwait(false);
 
@@ -83,14 +110,14 @@ namespace DFC.App.CareerPath.Controllers
             {
                 var viewModel = mapper.Map<BodyViewModel>(careerPathSegmentModel);
 
-                logService.LogMessage($"{nameof(Body)} has succeeded for: {documentId}");
+                logService.LogInformation($"{nameof(Body)} has succeeded for: {documentId}");
 
                 var apiModel = mapper.Map<CareerPathAndProgressionApiModel>(careerPathSegmentModel.Data);
 
                 return this.NegotiateContentResult(viewModel, apiModel);
             }
 
-            logService.LogMessage($"{nameof(Body)} has returned no content for: {documentId}");
+            logService.LogInformation($"{nameof(Body)} has returned no content for: {documentId}");
 
             return NoContent();
         }
@@ -157,7 +184,7 @@ namespace DFC.App.CareerPath.Controllers
 
             var response = await careerPathSegmentService.UpsertAsync(careerPathSegmentModel).ConfigureAwait(false);
 
-            logService.LogMessage($"{nameof(Put)} has updated content for: {careerPathSegmentModel.CanonicalName}");
+            logService.LogInformation($"{nameof(Put)} has updated content for: {careerPathSegmentModel.CanonicalName}");
 
             return new StatusCodeResult((int)response);
         }
@@ -177,7 +204,7 @@ namespace DFC.App.CareerPath.Controllers
             }
             else
             {
-                logService.LogMessage($"{nameof(Document)} has returned no content for: {documentId}", SeverityLevel.Warning);
+                logService.LogWarning($"{nameof(Document)} has returned no content for: {documentId}");
                 return NotFound();
             }
         }

@@ -3,6 +3,7 @@ using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.MessageFunctionApp.HttpClientPolicies;
 using DFC.App.CareerPath.MessageFunctionApp.Services;
 using DFC.App.CareerPath.MessageFunctionApp.UnitTests.ClientHandlers;
+using DFC.Logger.AppInsights.Contracts;
 using FakeItEasy;
 using System;
 using System.Net;
