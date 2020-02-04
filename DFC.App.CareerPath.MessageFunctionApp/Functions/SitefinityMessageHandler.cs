@@ -31,9 +31,9 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Functions
 
             correlationIdProvider.CorrelationId = sitefinityMessage.CorrelationId;
 
-            logService.LogMessage("Received message");
+            logService.LogInformation("Received message");
             await messagePreProcessor.Process(sitefinityMessage).ConfigureAwait(false);
-            logService.LogMessage("Processed message");
+            logService.LogInformation("Processed message");
         }
     }
 }
