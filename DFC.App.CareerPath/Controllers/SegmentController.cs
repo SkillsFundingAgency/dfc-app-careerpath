@@ -46,7 +46,7 @@ namespace DFC.App.CareerPath.Controllers
             }
             else
             {
-                logService.LogInformation($"{nameof(Index)} has returned with no results");
+                logService.LogWarning($"{nameof(Index)} has returned with no results");
             }
 
             return View(viewModel);
