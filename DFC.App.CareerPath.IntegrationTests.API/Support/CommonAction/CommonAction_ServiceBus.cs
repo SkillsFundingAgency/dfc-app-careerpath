@@ -10,13 +10,13 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
     {
         public Message CreateServiceBusMessage(Guid messageId, byte[] messageBody, ContentType contentType, ActionType actionType, CType ctype)
         {
-            return CreateServiceBusMessage(messageId.ToString(), messageBody, contentType, actionType, ctype);
+            return this.CreateServiceBusMessage(messageId.ToString(), messageBody, contentType, actionType, ctype);
         }
 
         public Message CreateServiceBusMessage(string messageId, byte[] messageBody, ContentType contentType, ActionType actionType, CType ctype)
         {
             Message message = new Message();
-            message.ContentType = GetDescription(contentType);
+            message.ContentType = this.GetDescription(contentType);
             message.Body = messageBody;
             message.CorrelationId = Guid.NewGuid().ToString();
             message.Label = "Automated message";
@@ -29,7 +29,7 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
 
         public async Task SendMessage(Topic topic, Message message)
         {
-            await topic.SendAsync(message);
+            await topic.SendAsync(message).ConfigureAwait(true);
         }
     }
 }

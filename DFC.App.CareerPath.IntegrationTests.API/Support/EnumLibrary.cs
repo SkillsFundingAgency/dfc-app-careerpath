@@ -8,7 +8,7 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
         {
             University = 2,
             College = 1,
-            Apprenticeship = 0
+            Apprenticeship = 0,
         }
 
         public enum CType
@@ -18,13 +18,13 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
             WorkingHoursDetails,
             WorkingPattern,
             WorkingPatternDetails,
-            JobProfileSpecialism
+            JobProfileSpecialism,
         }
 
         public enum ActionType
         {
             Published,
-            Deleted
+            Deleted,
         }
 
         public enum ContentType
@@ -32,7 +32,7 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
             [Description("application/json")]
             JSON,
             [Description("text/html")]
-            HTML
+            HTML,
         }
     }
 }

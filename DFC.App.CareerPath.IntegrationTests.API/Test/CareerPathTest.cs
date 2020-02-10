@@ -10,10 +10,10 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Test
     {
         [Test]
         [Description("Tests that the CType 'JobProfile' successfully tiggers a related career path update to an existing job profile")]
-        public async Task CareerPath_JobProfile()
+        public async Task CareerPathJobProfile()
         {
-            Response<CareerPathAPIResponse> response = await CommonAction.ExecuteGetRequest<CareerPathAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", JobProfile.JobProfileId), GetRequest.ContentType.Json);
-            Assert.AreEqual(JobProfile.CareerPathAndProgression, response.Data.careerPathAndProgression[0]);
+            Response<CareerPathAPIResponse> response = await this.CommonAction.ExecuteGetRequest<CareerPathAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", this.JobProfile.JobProfileId, System.StringComparison.CurrentCultureIgnoreCase), GetRequest.ContentType.Json).ConfigureAwait(true);
+            Assert.AreEqual(this.JobProfile.CareerPathAndProgression, response.Data.CareerPathAndProgression[0]);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model;
+using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.JobProfile;
 using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Interface;
 using System;
 
@@ -12,7 +13,7 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
             {
                 Id = Guid.NewGuid().ToString(),
                 ProfileLink = "/related-careers-link",
-                Title = "This is the related careers title"
+                Title = "This is the related careers title",
             };
         }
     }

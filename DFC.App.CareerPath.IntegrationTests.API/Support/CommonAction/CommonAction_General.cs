@@ -12,7 +12,7 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
 {
     internal partial class CommonAction : IGeneralSupport
     {
-        private static Random Random = new Random();
+        private static readonly Random Random = new Random();
 
         public string RandomString(int length)
         {
@@ -23,12 +23,16 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
 
         public void InitialiseAppSettings()
         {
-            IConfigurationRoot Configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();
-            Settings.ServiceBusConfig.ConnectionString = Configuration.GetSection("ServiceBusConfig").GetSection("ConnectionString").Value;
-            Settings.APIConfig.Version = Configuration.GetSection("APIConfig").GetSection("Version").Value;
-            Settings.APIConfig.ApimSubscriptionKey = Configuration.GetSection("APIConfig").GetSection("ApimSubscriptionKey").Value;
-            Settings.APIConfig.EndpointBaseUrl = Configuration.GetSection("APIConfig").GetSection("EndpointBaseUrl").Value;
-            if (!int.TryParse(Configuration.GetSection("GracePeriodInSeconds").Value, out int gracePeriodInSeconds)) { throw new InvalidCastException("Unable to retrieve an integer value for the grace period setting"); }
+            IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();
+            Settings.ServiceBusConfig.ConnectionString = configuration.GetSection("ServiceBusConfig").GetSection("ConnectionString").Value;
+            Settings.APIConfig.Version = configuration.GetSection("APIConfig").GetSection("Version").Value;
+            Settings.APIConfig.ApimSubscriptionKey = configuration.GetSection("APIConfig").GetSection("ApimSubscriptionKey").Value;
+            Settings.APIConfig.EndpointBaseUrl = configuration.GetSection("APIConfig").GetSection("EndpointBaseUrl").Value;
+            if (!int.TryParse(configuration.GetSection("GracePeriodInSeconds").Value, out int gracePeriodInSeconds))
+            {
+                throw new InvalidCastException("Unable to retrieve an integer value for the grace period setting");
+            }
+
             Settings.GracePeriod = TimeSpan.FromSeconds(gracePeriodInSeconds);
         }
 

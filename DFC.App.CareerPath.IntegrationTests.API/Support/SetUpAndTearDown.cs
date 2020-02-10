@@ -9,26 +9,28 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
     public class SetUpAndTearDown
     {
         internal JobProfileContentType JobProfile { get; private set; }
+
         internal CommonAction CommonAction { get; } = new CommonAction();
-        public Topic Topic { get; private set; }
+
+        internal Topic Topic { get; private set; }
 
         [OneTimeSetUp]
         public async Task OneTimeSetUp()
         {
-            CommonAction.InitialiseAppSettings();
-            Topic = new Topic(Settings.ServiceBusConfig.ConnectionString);
-            JobProfile = CommonAction.GenerateJobProfileContentType();
-            JobProfile.CareerPathAndProgression = "This is the original career path content";
-            byte[] jobProfileMessageBody =  CommonAction.ConvertObjectToByteArray(JobProfile);
-            Message jobProfileMessage = CommonAction.CreateServiceBusMessage(JobProfile.JobProfileId, jobProfileMessageBody, ContentType.JSON, ActionType.Published, CType.JobProfile);
-            await CommonAction.SendMessage(Topic, jobProfileMessage);
-            await Task.Delay(5000);
+            this.CommonAction.InitialiseAppSettings();
+            this.Topic = new Topic(Settings.ServiceBusConfig.ConnectionString);
+            this.JobProfile = this.CommonAction.GenerateJobProfileContentType();
+            this.JobProfile.CareerPathAndProgression = "This is the original career path content";
+            byte[] jobProfileMessageBody = this.CommonAction.ConvertObjectToByteArray(this.JobProfile);
+            Message jobProfileMessage = this.CommonAction.CreateServiceBusMessage(this.JobProfile.JobProfileId, jobProfileMessageBody, ContentType.JSON, ActionType.Published, CType.JobProfile);
+            await this.CommonAction.SendMessage(this.Topic, jobProfileMessage).ConfigureAwait(true);
+            await Task.Delay(5000).ConfigureAwait(true);
         }
 
         [OneTimeTearDown]
         public async Task OneTimeTearDown()
         {
-            await CommonAction.DeleteJobProfile(Topic, JobProfile);
+            await this.CommonAction.DeleteJobProfile(this.Topic, this.JobProfile).ConfigureAwait(true);
         }
     }
 }

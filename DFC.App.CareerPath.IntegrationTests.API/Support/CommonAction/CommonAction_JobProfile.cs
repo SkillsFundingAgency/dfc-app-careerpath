@@ -2,6 +2,7 @@
 using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model;
 using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Interface;
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using static DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.EnumLibrary;
 
@@ -11,7 +12,7 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
     {
        public JobProfileContentType GenerateJobProfileContentType()
         {
-            string canonicalName = RandomString(10).ToLower();
+            string canonicalName = this.RandomString(10).ToLower(CultureInfo.CurrentCulture);
             JobProfileContentType jobProfileContentType = ResourceManager.GetResource<JobProfileContentType>("JobProfileContentType");
             jobProfileContentType.JobProfileId = Guid.NewGuid().ToString();
             jobProfileContentType.UrlName = canonicalName;
@@ -19,12 +20,12 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
             return jobProfileContentType;
         }
 
-        public async Task DeleteJobProfile(Topic topic, JobProfileContentType jobProfile)
+       public async Task DeleteJobProfile(Topic topic, JobProfileContentType jobProfile)
         {
             JobProfileDelete messageBody = ResourceManager.GetResource<JobProfileDelete>("JobProfileDelete");
             messageBody.JobProfileId = jobProfile.JobProfileId;
-            Message deleteMessage = CreateServiceBusMessage(jobProfile.JobProfileId, ConvertObjectToByteArray(messageBody), ContentType.JSON, ActionType.Deleted, CType.JobProfile);
-            await topic.SendAsync(deleteMessage);
+            Message deleteMessage = this.CreateServiceBusMessage(jobProfile.JobProfileId, this.ConvertObjectToByteArray(messageBody), ContentType.JSON, ActionType.Deleted, CType.JobProfile);
+            await topic.SendAsync(deleteMessage).ConfigureAwait(true);
         }
     }
 }
