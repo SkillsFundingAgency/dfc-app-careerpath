@@ -4,7 +4,6 @@ using System;
 using System.Globalization;
 using System.Net;
 using System.Threading.Tasks;
-using static DFC.App.RelatedCareers.Tests.Common.APISupport.GetRequest;
 
 namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
 {

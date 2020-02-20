@@ -1,22 +1,22 @@
 ﻿using DFC.App.CareerPath.Tests.Common.AzureServiceBusSupport;
+using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Enums;
 using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Interface;
 using System;
 using System.Threading.Tasks;
-using static DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.EnumLibrary;
 
 namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
 {
     internal partial class CommonAction : IServiceBusSupport
     {
-        public Message CreateServiceBusMessage(Guid messageId, byte[] messageBody, ContentType contentType, ActionType actionType, CType ctype)
+        public Message CreateServiceBusMessage(Guid messageId, byte[] messageBody, ActionType actionType, CType ctype)
         {
-            return this.CreateServiceBusMessage(messageId.ToString(), messageBody, contentType, actionType, ctype);
+            return this.CreateServiceBusMessage(messageId.ToString(), messageBody, actionType, ctype);
         }
 
-        public Message CreateServiceBusMessage(string messageId, byte[] messageBody, ContentType contentType, ActionType actionType, CType ctype)
+        public Message CreateServiceBusMessage(string messageId, byte[] messageBody, ActionType actionType, CType ctype)
         {
             Message message = new Message();
-            message.ContentType = this.GetDescription(contentType);
+            message.ContentType = "application/json";
             message.Body = messageBody;
             message.CorrelationId = Guid.NewGuid().ToString();
             message.Label = "Automated message";

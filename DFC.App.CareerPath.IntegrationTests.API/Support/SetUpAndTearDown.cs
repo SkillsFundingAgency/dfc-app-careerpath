@@ -1,8 +1,8 @@
 ﻿using DFC.App.CareerPath.Tests.Common.AzureServiceBusSupport;
 using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model;
+using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Enums;
 using NUnit.Framework;
 using System.Threading.Tasks;
-using static DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.EnumLibrary;
 
 namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
 {
@@ -22,7 +22,7 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
             this.JobProfile = this.CommonAction.GenerateJobProfileContentType();
             this.JobProfile.CareerPathAndProgression = "This is the original career path content";
             byte[] jobProfileMessageBody = this.CommonAction.ConvertObjectToByteArray(this.JobProfile);
-            Message jobProfileMessage = this.CommonAction.CreateServiceBusMessage(this.JobProfile.JobProfileId, jobProfileMessageBody, ContentType.JSON, ActionType.Published, CType.JobProfile);
+            Message jobProfileMessage = this.CommonAction.CreateServiceBusMessage(this.JobProfile.JobProfileId, jobProfileMessageBody, ActionType.Published, CType.JobProfile);
             await this.CommonAction.SendMessage(this.Topic, jobProfileMessage).ConfigureAwait(true);
             await Task.Delay(5000).ConfigureAwait(true);
         }

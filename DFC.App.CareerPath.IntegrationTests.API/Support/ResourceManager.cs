@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Globalization;
 using System.IO;
 
 namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
@@ -28,7 +27,7 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
                 }
             }
 
-            if (selectedResource.FullName == null)
+            if (selectedResource == null)
             {
                 throw new Exception($"No resource with the name {resourceName} was found");
             }

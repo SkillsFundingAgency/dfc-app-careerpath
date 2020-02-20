@@ -1,10 +1,10 @@
 ﻿using DFC.App.CareerPath.Tests.Common.AzureServiceBusSupport;
 using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model;
+using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Enums;
 using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Interface;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
-using static DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.EnumLibrary;
 
 namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
 {
@@ -24,7 +24,7 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
         {
             JobProfileDelete messageBody = ResourceManager.GetResource<JobProfileDelete>("JobProfileDelete");
             messageBody.JobProfileId = jobProfile.JobProfileId;
-            Message deleteMessage = this.CreateServiceBusMessage(jobProfile.JobProfileId, this.ConvertObjectToByteArray(messageBody), ContentType.JSON, ActionType.Deleted, CType.JobProfile);
+            Message deleteMessage = this.CreateServiceBusMessage(jobProfile.JobProfileId, this.ConvertObjectToByteArray(messageBody), ActionType.Deleted, CType.JobProfile);
             await topic.SendAsync(deleteMessage).ConfigureAwait(true);
         }
     }
