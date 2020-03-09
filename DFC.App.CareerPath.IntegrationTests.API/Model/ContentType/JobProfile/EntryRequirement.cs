@@ -1,6 +1,6 @@
-﻿namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.JobProfile
+﻿namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.ContentType.JobProfile
 {
-    public class Registration
+    public class EntryRequirement
     {
         public string Id { get; set; }
 

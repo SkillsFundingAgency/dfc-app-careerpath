@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.JobProfile
+namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.ContentType.JobProfile
 {
     public class SocCodeData
     {
@@ -15,7 +14,7 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.JobProfile
 
         public string UrlName { get; set; }
 
-        public List<ApprenticeshipFrameworkContentType> ApprenticeshipFramework { get; set; }
+        public List<ApprenticeshipFramework> ApprenticeshipFramework { get; set; }
 
         public List<ApprenticeshipStandard> ApprenticeshipStandards { get; set; }
     }

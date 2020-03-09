@@ -1,5 +1,5 @@
 using DFC.App.RelatedCareers.Tests.Common.APISupport;
-using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model;
+using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.API;
 using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support;
 using NUnit.Framework;
 using System.Threading.Tasks;

@@ -1,5 +1,6 @@
 ﻿using DFC.App.CareerPath.Tests.Common.AzureServiceBusSupport;
 using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model;
+using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.ContentType.JobProfile;
 using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Enums;
 using NUnit.Framework;
 using System.Threading.Tasks;

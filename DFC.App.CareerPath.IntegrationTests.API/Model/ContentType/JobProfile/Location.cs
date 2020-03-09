@@ -1,4 +1,6 @@
-﻿namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.JobProfile
+﻿using System;
+
+namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.ContentType.JobProfile
 {
     public class Location
     {
@@ -8,7 +10,7 @@
 
         public string Description { get; set; }
 
-        public string Url { get; set; }
+        public Uri Url { get; set; }
 
         public bool IsNegative { get; set; }
     }

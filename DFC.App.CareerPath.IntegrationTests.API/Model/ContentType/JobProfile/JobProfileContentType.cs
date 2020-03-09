@@ -1,8 +1,7 @@
-﻿using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.JobProfile;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model
+namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.ContentType.JobProfile
 {
     public class JobProfileContentType
     {
@@ -30,13 +29,13 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model
 
         public string CourseKeywords { get; set; }
 
-        public double MinimumHours { get; set; }
+        public double? MinimumHours { get; set; }
 
-        public double MaximumHours { get; set; }
+        public double? MaximumHours { get; set; }
 
-        public double SalaryStarter { get; set; }
+        public double? SalaryStarter { get; set; }
 
-        public double SalaryExperienced { get; set; }
+        public double? SalaryExperienced { get; set; }
 
         public List<WorkingPattern> WorkingPattern { get; set; }
 
@@ -48,7 +47,7 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model
 
         public List<JobProfileSpecialism> JobProfileSpecialism { get; set; }
 
-        public bool IsImported { get; set; }
+        public bool? IsImported { get; set; }
 
         public HowToBecomeData HowToBecomeData { get; set; }
 
@@ -58,16 +57,16 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model
 
         public List<RelatedCareersData> RelatedCareersData { get; set; }
 
-        public List<SocSkillsMatrixData> SocSkillsMatrixData { get; set; }
+        public List<SocSkillsMatrixDataContentType> SocSkillsMatrixData { get; set; }
 
         public List<JobProfileCategory> JobProfileCategories { get; set; }
 
-        public DateTime LastModified { get; set; }
+        public DateTime? LastModified { get; set; }
 
         public string CanonicalName { get; set; }
 
         public string WidgetContentTitle { get; set; }
 
-        public bool IncludeInSitemap { get; set; }
+        public bool? IncludeInSitemap { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DFC.App.CareerPath.Tests.Common.AzureServiceBusSupport;
 using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model;
+using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.ContentType.JobProfile;
 using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Enums;
 using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Interface;
 using System;
@@ -22,7 +23,7 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
 
        public async Task DeleteJobProfile(Topic topic, JobProfileContentType jobProfile)
         {
-            JobProfileDelete messageBody = ResourceManager.GetResource<JobProfileDelete>("JobProfileDelete");
+            JobProfileContentType messageBody = ResourceManager.GetResource<JobProfileContentType>("JobProfileDelete");
             messageBody.JobProfileId = jobProfile.JobProfileId;
             Message deleteMessage = this.CreateServiceBusMessage(jobProfile.JobProfileId, this.ConvertObjectToByteArray(messageBody), ActionType.Deleted, CType.JobProfile);
             await topic.SendAsync(deleteMessage).ConfigureAwait(true);

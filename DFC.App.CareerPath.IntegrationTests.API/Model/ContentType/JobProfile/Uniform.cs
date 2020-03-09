@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.JobProfile
+namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.ContentType.JobProfile
 {
-    public class Environment
+    public class Uniform
     {
         public string Id { get; set; }
 
@@ -11,7 +10,7 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.JobProfile
 
         public string Description { get; set; }
 
-        public string Url { get; set; }
+        public Uri Url { get; set; }
 
         public bool IsNegative { get; set; }
     }

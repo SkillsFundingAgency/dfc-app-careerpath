@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.JobProfile
+﻿namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.ContentType.JobProfile
 {
-    public class FurtherInformationContentType
+    public class FurtherInformationModel
     {
         public string CareerTips { get; set; }
 

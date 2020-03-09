@@ -1,5 +1,4 @@
-﻿using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model;
-using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.JobProfile;
+﻿using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.ContentType.JobProfile;
 
 namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Interface
 {
