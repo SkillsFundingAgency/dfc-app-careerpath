@@ -2,7 +2,7 @@
 
 namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Interface
 {
-    internal interface IRelatedCareersSupport
+    internal interface ICareerPathSupport
     {
         RelatedCareersData GenerateRelatedCareersDataSection();
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Interface
 {
@@ -6,10 +7,8 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Interface
     {
         string RandomString(int length);
 
-        void InitialiseAppSettings();
-
         byte[] ConvertObjectToByteArray(object obj);
 
-        string GetDescription(Enum enumerator);
+        T GetResource<T>(string resourceName);
     }
 }

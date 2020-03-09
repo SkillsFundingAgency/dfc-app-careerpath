@@ -1,5 +1,3 @@
-using DFC.App.RelatedCareers.Tests.Common.APISupport;
-using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.API;
 using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support;
 using NUnit.Framework;
 using System.Threading.Tasks;
@@ -12,7 +10,7 @@ namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Test
         [Description("Tests that the CType 'JobProfile' successfully tiggers a related career path update to an existing job profile")]
         public async Task CareerPathJobProfile()
         {
-            Response<CareerPathAPIResponse> response = await this.CommonAction.ExecuteGetRequest<CareerPathAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", this.JobProfile.JobProfileId, System.StringComparison.CurrentCultureIgnoreCase), ContentType.Json).ConfigureAwait(true);
+            var response = await this.API.GetById(this.JobProfile.JobProfileId).ConfigureAwait(true);
             Assert.AreEqual(this.JobProfile.CareerPathAndProgression, response.Data.CareerPathAndProgression[0]);
         }
     }
