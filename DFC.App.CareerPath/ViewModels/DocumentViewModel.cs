@@ -12,8 +12,12 @@ namespace DFC.App.CareerPath.ViewModels
         [Display(Name = "Canonical Name")]
         public string CanonicalName { get; set; }
 
-        public HtmlString Markup { get; set; }
+        [Display(Name = "Sequence Number")]
+        public long SequenceNumber { get; set; }
 
-        public string SocLevelTwo { get; set; }
+        [Display(Name = "Last Updated")]
+        public DateTime LastReviewed { get; set; }
+
+        public HtmlString Markup { get; set; }
     }
 }

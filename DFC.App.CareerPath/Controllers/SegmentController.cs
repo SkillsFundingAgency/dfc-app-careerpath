@@ -29,6 +29,7 @@ namespace DFC.App.CareerPath.Controllers
         }
 
         [HttpGet]
+        [Route("{controller}")]
         public async Task<IActionResult> Index()
         {
             logService.LogInformation($"{nameof(Index)} has been called");

@@ -4,6 +4,7 @@ using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
@@ -13,7 +14,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void SegmentControllerIndexHtmlReturnsSuccess(string mediaTypeName)
+        public async Task SegmentControllerIndexHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             const int resultsCount = 2;
@@ -40,7 +41,7 @@ namespace DFC.App.CareerPath.UnitTests.ControllerTests.SegmentControllerTests
 
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void SegmentControllerIndexHtmlReturnsSuccessWhenNoData(string mediaTypeName)
+        public async Task SegmentControllerIndexHtmlReturnsSuccessWhenNoData(string mediaTypeName)
         {
             // Arrange
             const int resultsCount = 0;
