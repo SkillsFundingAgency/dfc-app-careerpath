@@ -1,8 +1,8 @@
-﻿using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.API.RestFactory.Interface;
+﻿using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.API.RestFactory.Interface;
 using RestSharp;
 using System;
 
-namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.API.RestFactory
+namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support.API.RestFactory
 {
     internal class RestClientFactory : IRestClientFactory
     {

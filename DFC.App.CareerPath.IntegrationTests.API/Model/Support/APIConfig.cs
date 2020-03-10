@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.Support
+namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Model.Support
 {
     public class APIConfig
     {

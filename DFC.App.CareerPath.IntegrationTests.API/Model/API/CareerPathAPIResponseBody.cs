@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.API
+namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Model.API
 {
     public class CareerPathAPIResponseBody
     {

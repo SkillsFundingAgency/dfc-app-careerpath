@@ -1,7 +1,7 @@
-﻿using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.AzureServiceBus.ServiceBusFactory.Interface;
+﻿using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.AzureServiceBus.ServiceBusFactory.Interface;
 using Microsoft.Azure.ServiceBus;
 
-namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.AzureServiceBus.ServiceBusFactory
+namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support.AzureServiceBus.ServiceBusFactory
 {
     public class TopicClientFactory : ITopicClientFactory
     {
