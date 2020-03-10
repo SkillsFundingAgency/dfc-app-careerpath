@@ -1,12 +1,12 @@
-﻿using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.ContentType.JobProfile;
-using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Interface;
+﻿using DFC.App.CareerPath.Tests.IntegrationTests.API.Model.ContentType.JobProfile;
+using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.Interface;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
+namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support
 {
     public class CommonAction : IGeneralSupport, ICareerPathSupport
     {

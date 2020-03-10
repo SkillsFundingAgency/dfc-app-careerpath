@@ -1,8 +1,8 @@
-using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support;
+using DFC.App.CareerPath.Tests.IntegrationTests.API.Support;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
-namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Test
+namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Test
 {
     public class CareerPathTest : SetUpAndTearDown
     {

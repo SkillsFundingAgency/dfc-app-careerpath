@@ -1,8 +1,8 @@
-﻿using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.API;
+﻿using DFC.App.CareerPath.Tests.IntegrationTests.API.Model.API;
 using RestSharp;
 using System.Threading.Tasks;
 
-namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.API
+namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support.API
 {
     public interface ICareerPathAPI
     {

@@ -1,16 +1,16 @@
-﻿using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.ContentType.JobProfile;
-using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Model.Support;
-using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.API;
-using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.API.RestFactory;
-using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.AzureServiceBus;
-using DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.AzureServiceBus.ServiceBusFactory;
+﻿using DFC.App.CareerPath.Tests.IntegrationTests.API.Model.ContentType.JobProfile;
+using DFC.App.CareerPath.Tests.IntegrationTests.API.Model.Support;
+using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.API;
+using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.API.RestFactory;
+using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.AzureServiceBus;
+using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.AzureServiceBus.ServiceBusFactory;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support
+namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support
 {
     public class SetUpAndTearDown
     {
