@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace DFC.App.RelatedCareers.Tests.IntegrationTests.API.Support.Interface
+namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support.Interface
 {
     internal interface IGeneralSupport
     {
