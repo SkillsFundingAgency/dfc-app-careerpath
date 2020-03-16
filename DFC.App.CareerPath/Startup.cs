@@ -88,7 +88,7 @@ namespace DFC.App.CareerPath
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddDFCLogging(configuration["ApplicationInsights:InstrumentationKey"]);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
     }
 }
