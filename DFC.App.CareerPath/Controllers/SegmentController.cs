@@ -1,10 +1,10 @@
 ﻿using DFC.App.CareerPath.ApiModels;
-using DFC.App.CareerPath.Common.Contracts;
 using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using DFC.App.CareerPath.Extensions;
 using DFC.App.CareerPath.ViewModels;
+using DFC.Logger.AppInsights.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;

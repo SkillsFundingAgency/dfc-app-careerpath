@@ -1,4 +1,3 @@
-using DFC.App.CareerPath.Common.Contracts;
 using DFC.App.CareerPath.MessageFunctionApp.Services;
 using DFC.Logger.AppInsights.Contracts;
 using Microsoft.Azure.ServiceBus;
