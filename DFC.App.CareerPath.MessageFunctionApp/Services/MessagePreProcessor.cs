@@ -1,7 +1,7 @@
-﻿using DFC.App.CareerPath.Common.Contracts;
-using DFC.App.CareerPath.Data.Constants;
+﻿using DFC.App.CareerPath.Data.Constants;
 using DFC.App.CareerPath.Data.Enums;
 using DFC.App.CareerPath.MessageFunctionApp.Functions;
+using DFC.Logger.AppInsights.Contracts;
 using Microsoft.Azure.ServiceBus;
 using System;
 using System.Net;

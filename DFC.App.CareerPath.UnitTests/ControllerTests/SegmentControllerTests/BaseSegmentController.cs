@@ -1,7 +1,7 @@
-﻿using DFC.App.CareerPath.Common.Contracts;
-using DFC.App.CareerPath.Controllers;
+﻿using DFC.App.CareerPath.Controllers;
 using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels;
+using DFC.Logger.AppInsights.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
