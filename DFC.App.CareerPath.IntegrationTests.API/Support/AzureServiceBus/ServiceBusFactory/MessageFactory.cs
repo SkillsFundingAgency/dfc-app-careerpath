@@ -19,6 +19,7 @@ namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support.AzureServiceBus.
 
             message.UserProperties.Add("ActionType", actionType);
             message.UserProperties.Add("CType", contentType);
+            message.UserProperties.Add("Id", messageId);
             return message;
         }
     }
