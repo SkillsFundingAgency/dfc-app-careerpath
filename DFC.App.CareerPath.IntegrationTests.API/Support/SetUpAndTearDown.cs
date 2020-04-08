@@ -28,7 +28,7 @@ namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support
             this.CommonAction = new CommonAction();
             this.API = new CareerPathAPI(new RestClientFactory(), new RestRequestFactory(), this.AppSettings);
             var canonicalName = this.CommonAction.RandomString(10).ToUpperInvariant();
-            this.JobProfile = this.CommonAction.GetResource<JobProfileContentType>("JobProfileContentType");
+            this.JobProfile = this.CommonAction.GetResource<JobProfileContentType>("JobProfileTemplate");
             this.JobProfile.JobProfileId = Guid.NewGuid().ToString();
             this.JobProfile.UrlName = canonicalName;
             this.JobProfile.CanonicalName = canonicalName;
@@ -43,7 +43,8 @@ namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support
         [OneTimeTearDown]
         public async Task OneTimeTearDown()
         {
-            var jobProfileDelete = this.CommonAction.GetResource<JobProfileContentType>("JobProfileDelete");
+            var jobProfileDelete = this.CommonAction.GetResource<JobProfileContentType>("JobProfileTemplate");
+            jobProfileDelete.JobProfileId = this.JobProfile.JobProfileId;
             var messageBody = this.CommonAction.ConvertObjectToByteArray(jobProfileDelete);
             var message = new MessageFactory().Create(this.JobProfile.JobProfileId, messageBody, "Deleted", "JobProfile");
             await this.ServiceBus.SendMessage(message).ConfigureAwait(false);
