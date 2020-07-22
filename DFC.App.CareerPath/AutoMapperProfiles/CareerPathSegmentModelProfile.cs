@@ -16,7 +16,8 @@ namespace DFC.App.CareerPath.AutoMapperProfiles
                 .ForMember(d => d.Markup, s => s.MapFrom(a => new HtmlString(a.Data.Markup)));
 
             CreateMap<CareerPathSegmentModel, DocumentViewModel>()
-                .ForMember(d => d.Markup, s => s.MapFrom(a => new HtmlString(a.Data.Markup)));
+                .ForMember(d => d.Markup, s => s.MapFrom(a => new HtmlString(a.Data.Markup)))
+                .ForMember(d => d.LastReviewed, s => s.MapFrom(a => a.Data.LastReviewed));
 
             CreateMap<CareerPathSegmentModel, IndexDocumentViewModel>();
 
