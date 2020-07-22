@@ -50,6 +50,3 @@ jobs:
       BuildConfiguration: $(BuildConfiguration)
       DotNetCoreVersion: 3.1.101
       PublishWebApp: true
-
-    BuildPlatform: 'any cpu'
-    BuildConfiguration: 'release'
