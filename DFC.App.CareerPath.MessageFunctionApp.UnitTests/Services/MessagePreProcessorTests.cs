@@ -1,6 +1,6 @@
-﻿using DFC.App.CareerPath.Common.Contracts;
-using DFC.App.CareerPath.Data.Enums;
+﻿using DFC.App.CareerPath.Data.Enums;
 using DFC.App.CareerPath.MessageFunctionApp.Services;
+using DFC.Logger.AppInsights.Contracts;
 using FakeItEasy;
 using Microsoft.Azure.ServiceBus;
 using System;

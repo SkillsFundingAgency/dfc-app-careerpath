@@ -1,5 +1,4 @@
-﻿using DFC.App.CareerPath.Common.Contracts;
-using DFC.App.CareerPath.Data.Models;
+﻿using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.MessageFunctionApp.HttpClientPolicies;
 using DFC.App.CareerPath.MessageFunctionApp.Services;
 using DFC.App.CareerPath.MessageFunctionApp.UnitTests.ClientHandlers;

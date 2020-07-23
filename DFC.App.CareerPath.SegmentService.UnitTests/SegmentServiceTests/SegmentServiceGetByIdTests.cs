@@ -44,8 +44,6 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
         public async Task SegmentServiceGetByIdReturnsNullWhenMissingInRepository()
         {
             // arrange
-            CareerPathSegmentModel expectedResult = null;
-
             A.CallTo(() => repository.GetAsync(A<Expression<Func<CareerPathSegmentModel, bool>>>.Ignored)).Returns((CareerPathSegmentModel)null);
 
             // act
