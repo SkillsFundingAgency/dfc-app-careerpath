@@ -1,7 +1,7 @@
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Model.API;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Model.Support;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.API;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.API.RestFactory.Interface;
+using DFC.App.CareerPath.FunctionalTests.Model.API;
+using DFC.App.CareerPath.FunctionalTests.Model.Support;
+using DFC.App.CareerPath.FunctionalTests.Support.API;
+using DFC.App.CareerPath.FunctionalTests.Support.API.RestFactory.Interface;
 using FakeItEasy;
 using RestSharp;
 using System;

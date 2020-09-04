@@ -1,4 +1,4 @@
-﻿namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Model.ContentType.JobProfile
+﻿namespace DFC.App.CareerPath.FunctionalTests.Model.ContentType.JobProfile
 {
     public class FurtherRoutes
     {

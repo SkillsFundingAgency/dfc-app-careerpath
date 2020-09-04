@@ -1,10 +1,10 @@
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Support;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.API;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.API.RestFactory;
+using DFC.App.CareerPath.FunctionalTests.Support;
+using DFC.App.CareerPath.FunctionalTests.Support.API;
+using DFC.App.CareerPath.FunctionalTests.Support.API.RestFactory;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
-namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Test
+namespace DFC.App.CareerPath.FunctionalTests.Test
 {
     public class CareerPathTest : SetUpAndTearDown
     {

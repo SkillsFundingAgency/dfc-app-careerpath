@@ -1,14 +1,14 @@
-﻿using DFC.App.CareerPath.Tests.IntegrationTests.API.Model.ContentType.JobProfile;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Model.Support;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.AzureServiceBus;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.AzureServiceBus.ServiceBusFactory;
+﻿using DFC.App.CareerPath.FunctionalTests.Model.ContentType.JobProfile;
+using DFC.App.CareerPath.FunctionalTests.Model.Support;
+using DFC.App.CareerPath.FunctionalTests.Support.AzureServiceBus;
+using DFC.App.CareerPath.FunctionalTests.Support.AzureServiceBus.ServiceBusFactory;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support
+namespace DFC.App.CareerPath.FunctionalTests.Support
 {
     public class SetUpAndTearDown
     {

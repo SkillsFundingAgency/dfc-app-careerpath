@@ -1,10 +1,10 @@
-﻿using DFC.App.CareerPath.Tests.IntegrationTests.API.Model.API;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Model.Support;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.API.RestFactory.Interface;
+﻿using DFC.App.CareerPath.FunctionalTests.Model.API;
+using DFC.App.CareerPath.FunctionalTests.Model.Support;
+using DFC.App.CareerPath.FunctionalTests.Support.API.RestFactory.Interface;
 using RestSharp;
 using System.Threading.Tasks;
 
-namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support.API
+namespace DFC.App.CareerPath.FunctionalTests.Support.API
 {
     public class CareerPathAPI : ICareerPathAPI
     {

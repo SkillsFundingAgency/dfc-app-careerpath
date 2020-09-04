@@ -1,6 +1,6 @@
 ﻿using DFC.App.CareerPath.IntegrationTests.API.Model.Support;
 
-namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Model.Support
+namespace DFC.App.CareerPath.FunctionalTests.Model.Support
 {
     public class AppSettings
     {

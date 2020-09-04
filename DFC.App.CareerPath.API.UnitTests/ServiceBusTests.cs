@@ -1,7 +1,7 @@
-﻿using DFC.App.CareerPath.Tests.IntegrationTests.API.Model.Support;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.AzureServiceBus;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.AzureServiceBus.ServiceBusFactory;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.AzureServiceBus.ServiceBusFactory.Interface;
+﻿using DFC.App.CareerPath.FunctionalTests.Model.Support;
+using DFC.App.CareerPath.FunctionalTests.Support.AzureServiceBus;
+using DFC.App.CareerPath.FunctionalTests.Support.AzureServiceBus.ServiceBusFactory;
+using DFC.App.CareerPath.FunctionalTests.Support.AzureServiceBus.ServiceBusFactory.Interface;
 using FakeItEasy;
 using Microsoft.Azure.ServiceBus;
 using System;
