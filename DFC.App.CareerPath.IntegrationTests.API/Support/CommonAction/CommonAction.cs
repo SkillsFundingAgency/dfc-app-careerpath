@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support
 {
-    public class CommonAction : IGeneralSupport, ICareerPathSupport
+    public class CommonAction : IGeneralSupport
     {
         private static readonly Random Random = new Random();
 
@@ -47,16 +47,6 @@ namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support
                 var content = streamReader.ReadToEnd();
                 return JsonConvert.DeserializeObject<T>(content);
             }
-        }
-
-        public RelatedCareersData GenerateRelatedCareersDataSection()
-        {
-            return new RelatedCareersData()
-            {
-                Id = Guid.NewGuid().ToString(),
-                ProfileLink = "/related-careers-link",
-                Title = "This is the related careers title",
-            };
         }
     }
 }

@@ -6,6 +6,6 @@ namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support.API
 {
     public interface ICareerPathAPI
     {
-        Task<IRestResponse<CareerPathAPIResponseBody>> GetById(string id);
+        Task<IRestResponse<CareerPathAPIResponse>> GetById(string id);
     }
 }

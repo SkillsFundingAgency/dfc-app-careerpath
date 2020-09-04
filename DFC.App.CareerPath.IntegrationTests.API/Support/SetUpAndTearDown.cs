@@ -1,7 +1,5 @@
 ﻿using DFC.App.CareerPath.Tests.IntegrationTests.API.Model.ContentType.JobProfile;
 using DFC.App.CareerPath.Tests.IntegrationTests.API.Model.Support;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.API;
-using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.API.RestFactory;
 using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.AzureServiceBus;
 using DFC.App.CareerPath.Tests.IntegrationTests.API.Support.AzureServiceBus.ServiceBusFactory;
 using Microsoft.Extensions.Configuration;
@@ -14,28 +12,43 @@ namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support
 {
     public class SetUpAndTearDown
     {
-        protected CommonAction CommonAction;
-        protected AppSettings AppSettings;
-        protected JobProfileContentType JobProfile;
-        protected ServiceBusSupport ServiceBus;
-        protected CareerPathAPI API;
+        protected CommonAction CommonAction { get; set; } = new CommonAction();
+
+        protected AppSettings AppSettings { get; set; }
+
+        protected JobProfileContentType WakeUpJobProfile { get; set; }
+
+        protected JobProfileContentType JobProfile { get; set; }
+
+        protected ServiceBusSupport ServiceBus { get; set; }
 
         [OneTimeSetUp]
         public async Task OneTimeSetUp()
         {
+            // Get settings from appsettings
             IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();
             this.AppSettings = configuration.Get<AppSettings>();
-            this.CommonAction = new CommonAction();
-            this.API = new CareerPathAPI(new RestClientFactory(), new RestRequestFactory(), this.AppSettings);
-            var canonicalName = this.CommonAction.RandomString(10).ToUpperInvariant();
+
+            this.ServiceBus = new ServiceBusSupport(new TopicClientFactory(), this.AppSettings);
+
+            // Send wake up job profile
+            this.WakeUpJobProfile = this.CommonAction.GetResource<JobProfileContentType>("JobProfileTemplate");
+            this.WakeUpJobProfile.JobProfileId = Guid.NewGuid().ToString();
+            this.WakeUpJobProfile.CanonicalName = this.CommonAction.RandomString(10).ToLowerInvariant();
+            var jobProfileMessageBody = this.CommonAction.ConvertObjectToByteArray(this.WakeUpJobProfile);
+            var message = new MessageFactory().Create(this.WakeUpJobProfile.JobProfileId, jobProfileMessageBody, "Published", "JobProfile");
+            await this.ServiceBus.SendMessage(message).ConfigureAwait(false);
+            await Task.Delay(TimeSpan.FromMinutes(this.AppSettings.DeploymentWaitInMinutes)).ConfigureAwait(true);
+
+            // Generate a test job profile
             this.JobProfile = this.CommonAction.GetResource<JobProfileContentType>("JobProfileTemplate");
             this.JobProfile.JobProfileId = Guid.NewGuid().ToString();
-            this.JobProfile.UrlName = canonicalName;
-            this.JobProfile.CanonicalName = canonicalName;
-            this.JobProfile.CareerPathAndProgression = "This is the original career path content";
-            var jobProfileMessageBody = this.CommonAction.ConvertObjectToByteArray(this.JobProfile);
-            this.ServiceBus = new ServiceBusSupport(new TopicClientFactory(), this.AppSettings);
-            var message = new MessageFactory().Create(this.JobProfile.JobProfileId, jobProfileMessageBody, "Published", "JobProfile");
+            this.JobProfile.CanonicalName = this.CommonAction.RandomString(10).ToLowerInvariant();
+            this.JobProfile.CareerPathAndProgression = "This is an automated career path paragraph";
+
+            // Send job profile to the service bus
+            jobProfileMessageBody = this.CommonAction.ConvertObjectToByteArray(this.JobProfile);
+            message = new MessageFactory().Create(this.JobProfile.JobProfileId, jobProfileMessageBody, "Published", "JobProfile");
             await this.ServiceBus.SendMessage(message).ConfigureAwait(false);
             await Task.Delay(10000).ConfigureAwait(false);
         }
@@ -43,10 +56,18 @@ namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Support
         [OneTimeTearDown]
         public async Task OneTimeTearDown()
         {
+            // Delete wake up job profile
+            var wakeUpJobProfileDelete = this.CommonAction.GetResource<JobProfileContentType>("JobProfileTemplate");
+            wakeUpJobProfileDelete.JobProfileId = this.WakeUpJobProfile.JobProfileId;
+            var messageBody = this.CommonAction.ConvertObjectToByteArray(wakeUpJobProfileDelete);
+            var message = new MessageFactory().Create(this.WakeUpJobProfile.JobProfileId, messageBody, "Deleted", "JobProfile");
+            await this.ServiceBus.SendMessage(message).ConfigureAwait(false);
+
+            // Delete test job profile
             var jobProfileDelete = this.CommonAction.GetResource<JobProfileContentType>("JobProfileTemplate");
             jobProfileDelete.JobProfileId = this.JobProfile.JobProfileId;
-            var messageBody = this.CommonAction.ConvertObjectToByteArray(jobProfileDelete);
-            var message = new MessageFactory().Create(this.JobProfile.JobProfileId, messageBody, "Deleted", "JobProfile");
+            messageBody = this.CommonAction.ConvertObjectToByteArray(jobProfileDelete);
+            message = new MessageFactory().Create(this.JobProfile.JobProfileId, messageBody, "Deleted", "JobProfile");
             await this.ServiceBus.SendMessage(message).ConfigureAwait(false);
         }
     }

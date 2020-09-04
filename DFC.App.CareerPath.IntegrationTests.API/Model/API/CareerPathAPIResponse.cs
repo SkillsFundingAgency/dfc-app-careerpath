@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DFC.App.CareerPath.Tests.IntegrationTests.API.Model.API
 {
-    public class CareerPathAPIResponseBody
+    public class CareerPathAPIResponse
     {
         [JsonProperty("careerPathAndProgression")]
         public List<string> CareerPathAndProgression { get; set; }
