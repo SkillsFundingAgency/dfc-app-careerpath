@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DFC.App.CareerPath.API.IntegrationTests\DFC.App.CareerPath.FunctionalTests.csproj" />
+    <ProjectReference Include="..\DFC.App.CareerPath.FunctionalTests\DFC.App.CareerPath.FunctionalTests.csproj" />
   </ItemGroup>
 
 </Project>
