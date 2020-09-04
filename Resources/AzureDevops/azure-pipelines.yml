@@ -58,11 +58,10 @@ jobs:
   # Build DFC.App.CareerPath.Tests.API.IntegrationTests
   - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-notests.yml@dfc-devops
     parameters:
-      SolutionBaseName: $(SolutionBaseName)
+      SolutionBaseName: $(SolutionBaseName).IntegrationTests
       BuildPlatform: $(BuildPlatform)
       BuildConfiguration: $(BuildConfiguration)
       DotNetCoreVersion: 3.1.101
-      TestSuffix: IntegrationTests
 
  #Build functional tests
 - job: BuildFunctionalTests
@@ -71,8 +70,7 @@ jobs:
   # Build DFC.App.CareerPath.Tests.API.IntegrationTests
   - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-notests.yml@dfc-devops
     parameters:
-      SolutionBaseName: $(SolutionBaseName)
+      SolutionBaseName: $(SolutionBaseName).FunctionalTests
       BuildPlatform: $(BuildPlatform)
       BuildConfiguration: $(BuildConfiguration)
       DotNetCoreVersion: 3.1.101
-      TestSuffix: FunctionalTests
