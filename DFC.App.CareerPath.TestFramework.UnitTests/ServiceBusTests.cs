@@ -8,7 +8,7 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace DFC.App.CareerPath.API.UnitTests
+namespace DFC.App.CareerPath.Tests.UnitTests.TestFramework
 {
     public class ServiceBusTests
     {

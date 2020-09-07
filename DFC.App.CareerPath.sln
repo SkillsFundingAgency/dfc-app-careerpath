@@ -55,11 +55,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.CareerPath.MessageF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.CareerPath.FunctionalTests", "DFC.App.CareerPath.FunctionalTests\DFC.App.CareerPath.FunctionalTests.csproj", "{992C0C4F-89EA-403A-9333-BEFB11271E04}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.CareerPath.FunctionalTests.UnitTests", "DFC.App.CareerPath.FunctionalTests.UnitTests\DFC.App.CareerPath.FunctionalTests.UnitTests.csproj", "{5F9845BF-E446-47D4-9902-72DC293713DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.CareerPath.TestFramework.UnitTests", "DFC.App.CareerPath.TestFramework.UnitTests\DFC.App.CareerPath.TestFramework.UnitTests.csproj", "{5F9845BF-E446-47D4-9902-72DC293713DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FunctionalTests", "FunctionalTests", "{F2970691-7A95-4087-A4FD-EBD3C4BEB657}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8986FB29-70A5-4114-AA8B-F4383101E8C6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestFramework", "TestFramework", "{8986FB29-70A5-4114-AA8B-F4383101E8C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
