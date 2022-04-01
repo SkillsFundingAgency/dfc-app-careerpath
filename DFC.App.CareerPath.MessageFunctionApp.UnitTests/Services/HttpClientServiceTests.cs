@@ -4,6 +4,7 @@ using DFC.App.CareerPath.MessageFunctionApp.Services;
 using DFC.App.CareerPath.MessageFunctionApp.UnitTests.ClientHandlers;
 using DFC.Logger.AppInsights.Contracts;
 using FakeItEasy;
+using Moq;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -17,6 +18,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
         private readonly SegmentClientOptions options;
         private readonly ILogService logger;
         private readonly ICorrelationIdProvider correlationIdProvider;
+        private Mock<IHttpClientFactory> mockFactory;
 
         public HttpClientServiceTests()
         {
@@ -30,6 +32,13 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
             correlationIdProvider = A.Fake<ICorrelationIdProvider>();
         }
 
+        public Mock<IHttpClientFactory> CreateClientFactory(HttpClient httpClient)
+        {
+            mockFactory = new Mock<IHttpClientFactory>();
+            mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+            return mockFactory;
+        }
+
         [Fact]
         public async Task PostAsyncReturnsOKStatusCodeWhenHttpResponseIsSuccessful()
         {
@@ -41,7 +50,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
 
             var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpRequestSender);
             var httpClient = new HttpClient(fakeHttpMessageHandler) { BaseAddress = new Uri("http://SomeDummyUrl") };
-            var httpClientService = new HttpClientService(options, httpClient, logger, correlationIdProvider);
+            var httpClientService = new HttpClientService(options, CreateClientFactory(httpClient).Object, logger, correlationIdProvider);
 
             // Act
             var result = await httpClientService.PostAsync(GetSegmentModel()).ConfigureAwait(false);
@@ -65,7 +74,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
 
             var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpRequestSender);
             var httpClient = new HttpClient(fakeHttpMessageHandler) { BaseAddress = new Uri("http://SomeDummyUrl") };
-            var httpClientService = new HttpClientService(options, httpClient, logger, correlationIdProvider);
+            var httpClientService = new HttpClientService(options, CreateClientFactory(httpClient).Object, logger, correlationIdProvider);
 
             // Act
             await Assert.ThrowsAsync<HttpRequestException>(async () => await httpClientService.PostAsync(GetSegmentModel()).ConfigureAwait(false)).ConfigureAwait(false);
@@ -86,7 +95,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
 
             var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpRequestSender);
             var httpClient = new HttpClient(fakeHttpMessageHandler) { BaseAddress = new Uri("http://SomeDummyUrl") };
-            var httpClientService = new HttpClientService(options, httpClient, logger, correlationIdProvider);
+            var httpClientService = new HttpClientService(options, CreateClientFactory(httpClient).Object, logger, correlationIdProvider);
 
             // Act
             await Assert.ThrowsAsync<HttpRequestException>(async () => await httpClientService.PutAsync(GetSegmentModel()).ConfigureAwait(false)).ConfigureAwait(false);
@@ -107,7 +116,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
 
             var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpRequestSender);
             var httpClient = new HttpClient(fakeHttpMessageHandler) { BaseAddress = new Uri("http://SomeDummyUrl") };
-            var httpClientService = new HttpClientService(options, httpClient, logger, correlationIdProvider);
+            var httpClientService = new HttpClientService(options, CreateClientFactory(httpClient).Object, logger, correlationIdProvider);
 
             // Act
             var result = await httpClientService.PutAsync(GetSegmentModel()).ConfigureAwait(false);
@@ -131,7 +140,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
 
             var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpRequestSender);
             var httpClient = new HttpClient(fakeHttpMessageHandler) { BaseAddress = new Uri("http://SomeDummyUrl") };
-            var httpClientService = new HttpClientService(options, httpClient, logger, correlationIdProvider);
+            var httpClientService = new HttpClientService(options, CreateClientFactory(httpClient).Object, logger, correlationIdProvider);
 
             // Act
             var result = await httpClientService.PutAsync(GetSegmentModel()).ConfigureAwait(false);
@@ -155,7 +164,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
 
             var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpRequestSender);
             var httpClient = new HttpClient(fakeHttpMessageHandler) { BaseAddress = new Uri("http://SomeDummyUrl") };
-            var httpClientService = new HttpClientService(options, httpClient, logger, correlationIdProvider);
+            var httpClientService = new HttpClientService(options, CreateClientFactory(httpClient).Object, logger, correlationIdProvider);
 
             // Act
             var result = await httpClientService.DeleteAsync(Guid.NewGuid()).ConfigureAwait(false);
@@ -179,7 +188,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
 
             var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpRequestSender);
             var httpClient = new HttpClient(fakeHttpMessageHandler) { BaseAddress = new Uri("http://SomeDummyUrl") };
-            var httpClientService = new HttpClientService(options, httpClient, logger, correlationIdProvider);
+            var httpClientService = new HttpClientService(options, CreateClientFactory(httpClient).Object, logger, correlationIdProvider);
 
             // Act
             await Assert.ThrowsAsync<HttpRequestException>(async () => await httpClientService.DeleteAsync(Guid.NewGuid()).ConfigureAwait(false)).ConfigureAwait(false);

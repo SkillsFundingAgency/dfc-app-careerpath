@@ -38,7 +38,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddScoped<IMessagePreProcessor, MessagePreProcessor>();
             services.AddScoped<IMessageProcessor, MessageProcessor>();
-            services.AddTransient(provider => new HttpClient());
+            services.AddHttpClient();
             services.AddScoped<IHttpClientService, HttpClientService>();
             services.AddSingleton<IMappingService, MappingService>();
             services.AddSingleton<IMessagePropertiesService, MessagePropertiesService>();
