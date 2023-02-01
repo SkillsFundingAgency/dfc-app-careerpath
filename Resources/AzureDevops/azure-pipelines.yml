@@ -41,6 +41,18 @@ jobs:
       PublishWebApp: true
       TestSuffix: UnitTests
 
+  #Build integration tests
+- job: BuildIntegrationTests
+  displayName: Build integration tests
+  steps:
+  # Build all Integration Tests that end with .IntegrationTests
+  - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-notests.yml@dfc-devops
+    parameters:
+      SolutionBaseName: $(SolutionBaseName).IntegrationTests
+      BuildPlatform: $(BuildPlatform)
+      BuildConfiguration: $(BuildConfiguration)
+
+
   # Build DFC.App.CareerPath.MessageFunctionApp
   - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-dotnetcore-build-notests.yml@dfc-devops
     parameters:
