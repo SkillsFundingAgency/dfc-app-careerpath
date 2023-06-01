@@ -77,12 +77,6 @@
             "metadata": {
                 "description": "Name of job profile refresh topic"
             }
-        },
-        "enableAlerts": {
-            "type": "bool",
-            "metadata": {
-                "description": "Enable or disable alerting"
-            }
         }
     },
     "variables": {
