@@ -1,4 +1,6 @@
 ﻿using DFC.App.CareerPath.Data.Enums;
+using DFC.Logger.AppInsights.Contracts;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -9,15 +11,19 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
     {
         private readonly IHttpClientService httpClientService;
         private readonly IMappingService mappingService;
+        private readonly ILogService logService;
 
-        public MessageProcessor(IHttpClientService httpClientService, IMappingService mappingService)
+        public MessageProcessor(IHttpClientService httpClientService, IMappingService mappingService, ILogService logService)
         {
             this.httpClientService = httpClientService;
             this.mappingService = mappingService;
+            this.logService = logService;
         }
 
         public async Task<HttpStatusCode> ProcessAsync(string message, long sequenceNumber, MessageContentType messageContentType, MessageActionType messageAction)
         {
+            logService.LogInformation($"{nameof(ProcessAsync)} has been called");
+
             switch (messageContentType)
             {
                 case MessageContentType.JobProfile:
@@ -32,6 +38,8 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
 
         private async Task<HttpStatusCode> ProcessJobProfileMessageAsync(string message, MessageActionType messageAction, long sequenceNumber)
         {
+            logService.LogInformation($"{nameof(ProcessJobProfileMessageAsync)} has been called");
+
             var jobProfile = mappingService.MapToSegmentModel(message, sequenceNumber);
 
             switch (messageAction)
@@ -41,6 +49,8 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
                     var result = await httpClientService.PutAsync(jobProfile).ConfigureAwait(false);
                     if (result == HttpStatusCode.NotFound)
                     {
+                        logService.LogInformation($"Sending a PUT request with job profile {nameof(jobProfile)} returned 404 Not Found");
+
                         return await httpClientService.PostAsync(jobProfile).ConfigureAwait(false);
                     }
 
