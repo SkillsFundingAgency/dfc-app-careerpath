@@ -1,4 +1,5 @@
-﻿using DFC.App.CareerPath.Data.Models.ServiceBusModels;
+﻿using Castle.Core.Logging;
+using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using DFC.Logger.AppInsights.Contracts;
 using FakeItEasy;
 using Microsoft.Azure.ServiceBus;
@@ -32,7 +33,8 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentRefreshServiceTests
             // Arrange
             var fakeTopicClient = A.Fake<ITopicClient>();
             var fakeCorrelationIdProvider = A.Fake<ICorrelationIdProvider>();
-            var refreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(fakeTopicClient, fakeCorrelationIdProvider);
+            var logService = A.Fake<ILogService>();
+            var refreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(fakeTopicClient, fakeCorrelationIdProvider, logService);
 
             var model = new RefreshJobProfileSegmentServiceBusModel
             {
@@ -54,7 +56,8 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentRefreshServiceTests
             // Arrange
             var fakeTopicClient = A.Fake<ITopicClient>();
             var correlationIdProvider = A.Fake<ICorrelationIdProvider>();
-            var refreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(fakeTopicClient, correlationIdProvider);
+            var logService = A.Fake<ILogService>();
+            var refreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(fakeTopicClient, correlationIdProvider, logService);
 
             // Act
             await refreshService.SendMessageListAsync(null).ConfigureAwait(false);
@@ -69,7 +72,8 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentRefreshServiceTests
             // Arrange
             var fakeTopicClient = A.Fake<ITopicClient>();
             var correlationIdProvider = A.Fake<ICorrelationIdProvider>();
-            var refreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(fakeTopicClient, correlationIdProvider);
+            var logService = A.Fake<ILogService>();
+            var refreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(fakeTopicClient, correlationIdProvider, logService);
             var models = CreateListOfModels();
 
             // Act
@@ -86,7 +90,8 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentRefreshServiceTests
             // Arrange
             var fakeTopicClient = A.Fake<ITopicClient>();
             var correlationIdProvider = A.Fake<ICorrelationIdProvider>();
-            var refreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(fakeTopicClient, correlationIdProvider);
+            var logService = A.Fake<ILogService>();
+            var refreshService = new JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>(fakeTopicClient, correlationIdProvider, logService);
             var models = CreateListOfModels(batchSize);
 
             // Act

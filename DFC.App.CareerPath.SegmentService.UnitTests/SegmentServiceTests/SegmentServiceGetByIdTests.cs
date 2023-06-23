@@ -2,6 +2,7 @@ using AutoMapper;
 using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels;
+using DFC.Logger.AppInsights.Contracts;
 using FakeItEasy;
 using System;
 using System.Linq.Expressions;
@@ -16,13 +17,15 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
         private readonly ICosmosRepository<CareerPathSegmentModel> repository;
         private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService;
         private readonly ICareerPathSegmentService careerPathSegmentService;
+        private readonly ILogService logService;
 
         public SegmentServiceGetByIdTests()
         {
             var mapper = A.Fake<IMapper>();
+            logService = A.Fake<ILogService>();
             repository = A.Fake<ICosmosRepository<CareerPathSegmentModel>>();
             jobProfileSegmentRefreshService = A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
-            careerPathSegmentService = new CareerPathSegmentService(repository, jobProfileSegmentRefreshService, mapper);
+            careerPathSegmentService = new CareerPathSegmentService(repository, jobProfileSegmentRefreshService, mapper, logService);
         }
 
         [Fact]
