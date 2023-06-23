@@ -1,6 +1,5 @@
 ﻿using DFC.App.CareerPath.Data.Enums;
 using DFC.Logger.AppInsights.Contracts;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
 using System.Threading.Tasks;

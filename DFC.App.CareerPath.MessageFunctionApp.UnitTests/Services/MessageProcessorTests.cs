@@ -1,5 +1,4 @@
-﻿using Castle.Core.Logging;
-using DFC.App.CareerPath.Data.Enums;
+﻿using DFC.App.CareerPath.Data.Enums;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.MessageFunctionApp.Services;
 using DFC.Logger.AppInsights.Contracts;

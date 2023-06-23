@@ -1,5 +1,4 @@
-﻿using Castle.Core.Logging;
-using DFC.App.CareerPath.Data.Models.ServiceBusModels;
+﻿using DFC.App.CareerPath.Data.Models.ServiceBusModels;
 using DFC.Logger.AppInsights.Contracts;
 using FakeItEasy;
 using Microsoft.Azure.ServiceBus;
