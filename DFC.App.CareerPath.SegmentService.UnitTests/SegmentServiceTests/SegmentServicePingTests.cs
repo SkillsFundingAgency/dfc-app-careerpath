@@ -2,6 +2,7 @@
 using DFC.App.CareerPath.Data.Contracts;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.Data.Models.ServiceBusModels;
+using DFC.Logger.AppInsights.Contracts;
 using FakeItEasy;
 using System.Threading.Tasks;
 using Xunit;
@@ -16,11 +17,12 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
         {
             // arrange
             var repository = A.Fake<ICosmosRepository<CareerPathSegmentModel>>();
+            var logService = A.Fake<ILogService>();
             var expectedResult = true;
 
             A.CallTo(() => repository.PingAsync()).Returns(expectedResult);
 
-            var careerPathSegmentService = new CareerPathSegmentService(repository, A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>(), A.Fake<IMapper>());
+            var careerPathSegmentService = new CareerPathSegmentService(repository, A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>(), A.Fake<IMapper>(), logService);
 
             // act
             var result = await careerPathSegmentService.PingAsync().ConfigureAwait(false);
@@ -35,11 +37,12 @@ namespace DFC.App.CareerPath.SegmentService.UnitTests.SegmentServiceTests
         {
             // arrange
             var repository = A.Dummy<ICosmosRepository<CareerPathSegmentModel>>();
+            var logService = A.Fake<ILogService>();
             var expectedResult = false;
 
             A.CallTo(() => repository.PingAsync()).Returns(expectedResult);
 
-            var careerPathSegmentService = new CareerPathSegmentService(repository, A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>(), A.Fake<IMapper>());
+            var careerPathSegmentService = new CareerPathSegmentService(repository, A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>(), A.Fake<IMapper>(), logService);
 
             // act
             var result = await careerPathSegmentService.PingAsync().ConfigureAwait(false);
