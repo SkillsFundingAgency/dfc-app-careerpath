@@ -130,17 +130,23 @@ namespace DFC.App.CareerPath.Controllers
 
             if (careerPathSegmentModel == null)
             {
+                logService.LogWarning($"{nameof(Post)} has returned 400 Bad Request");
+
                 return BadRequest();
             }
 
             if (!ModelState.IsValid)
             {
+                logService.LogWarning($"{nameof(Post)} has returned 400 Bad Request");
+
                 return BadRequest(ModelState);
             }
 
             var existingDocument = await careerPathSegmentService.GetByIdAsync(careerPathSegmentModel.DocumentId).ConfigureAwait(false);
             if (existingDocument != null)
             {
+                logService.LogWarning($"{nameof(Post)} has returned 208 Already Reported");
+
                 return new StatusCodeResult((int)HttpStatusCode.AlreadyReported);
             }
 
@@ -159,11 +165,15 @@ namespace DFC.App.CareerPath.Controllers
 
             if (careerPathSegmentModel == null)
             {
+                logService.LogWarning($"{nameof(Put)} has returned 400 Bad Request");
+
                 return BadRequest();
             }
 
             if (!ModelState.IsValid)
             {
+                logService.LogWarning($"{nameof(Put)} has returned 400 Bad Request");
+
                 return BadRequest(ModelState);
             }
 
@@ -176,6 +186,8 @@ namespace DFC.App.CareerPath.Controllers
 
             if (careerPathSegmentModel.SequenceNumber <= existingDocument.SequenceNumber)
             {
+                logService.LogWarning($"{nameof(Post)} has returned 208 Already Reported");
+
                 return new StatusCodeResult((int)HttpStatusCode.AlreadyReported);
             }
 

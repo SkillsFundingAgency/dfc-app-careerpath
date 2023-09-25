@@ -1,6 +1,7 @@
 ﻿using DFC.App.CareerPath.Data.Enums;
 using DFC.App.CareerPath.Data.Models;
 using DFC.App.CareerPath.MessageFunctionApp.Services;
+using DFC.Logger.AppInsights.Contracts;
 using FakeItEasy;
 using System;
 using System.Net;
@@ -18,10 +19,12 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
         private readonly IMessageProcessor processor;
         private readonly IHttpClientService httpClientService;
         private readonly IMappingService mappingService;
+        private readonly ILogService logService;
 
         public MessageProcessorTests()
         {
             var expectedMappedModel = GetSegmentModel();
+            logService = A.Fake<ILogService>();
 
             mappingService = A.Fake<IMappingService>();
             A.CallTo(() => mappingService.MapToSegmentModel(A<string>.Ignored, A<long>.Ignored)).Returns(expectedMappedModel);
@@ -29,7 +32,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
             httpClientService = A.Fake<IHttpClientService>();
             A.CallTo(() => httpClientService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
 
-            processor = new MessageProcessor(httpClientService, mappingService);
+            processor = new MessageProcessor(httpClientService, mappingService, logService);
         }
 
         [Fact]
@@ -70,7 +73,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
             var putHttpClientService = A.Fake<IHttpClientService>();
             A.CallTo(() => putHttpClientService.PutAsync(A<CareerPathSegmentModel>.Ignored)).Returns(HttpStatusCode.OK);
 
-            var putMessageProcessor = new MessageProcessor(putHttpClientService, mappingService);
+            var putMessageProcessor = new MessageProcessor(putHttpClientService, mappingService, logService);
 
             // Act
             var result = await putMessageProcessor
@@ -90,7 +93,7 @@ namespace DFC.App.CareerPath.MessageFunctionApp.UnitTests.Services
             A.CallTo(() => postHttpClientService.PutAsync(A<CareerPathSegmentModel>.Ignored)).Returns(HttpStatusCode.NotFound);
             A.CallTo(() => postHttpClientService.PostAsync(A<CareerPathSegmentModel>.Ignored)).Returns(HttpStatusCode.OK);
 
-            var postMessageProcessor = new MessageProcessor(postHttpClientService, mappingService);
+            var postMessageProcessor = new MessageProcessor(postHttpClientService, mappingService, logService);
 
             // Act
             var result = await postMessageProcessor

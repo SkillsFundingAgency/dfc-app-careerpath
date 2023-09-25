@@ -28,6 +28,8 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
 
         public async Task<HttpStatusCode> PostAsync(CareerPathSegmentModel careerPathSegmentModel)
         {
+            logger.LogInformation($"{nameof(PostAsync)} has been called");
+
             var url = new Uri($"{segmentClientOptions?.BaseAddress}segment");
 
             using (var content = new ObjectContent(typeof(CareerPathSegmentModel), careerPathSegmentModel, new JsonMediaTypeFormatter(), MediaTypeNames.Application.Json))
@@ -47,6 +49,8 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
 
         public async Task<HttpStatusCode> PutAsync(CareerPathSegmentModel careerPathSegmentModel)
         {
+            logger.LogInformation($"{nameof(PutAsync)} has been called");
+
             var url = new Uri($"{segmentClientOptions?.BaseAddress}segment");
 
             using (var content = new ObjectContent(typeof(CareerPathSegmentModel), careerPathSegmentModel, new JsonMediaTypeFormatter(), MediaTypeNames.Application.Json))
@@ -67,6 +71,8 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
 
         public async Task<HttpStatusCode> DeleteAsync(Guid id)
         {
+            logger.LogInformation($"{nameof(DeleteAsync)} has been called");
+
             var url = new Uri($"{segmentClientOptions?.BaseAddress}segment/{id}");
             ConfigureHttpClient();
             var response = await httpClient.DeleteAsync(url).ConfigureAwait(false);
@@ -83,8 +89,13 @@ namespace DFC.App.CareerPath.MessageFunctionApp.Services
 
         private void ConfigureHttpClient()
         {
+            logger.LogInformation($"{nameof(ConfigureHttpClient)} has been called");
+
             if (!httpClient.DefaultRequestHeaders.Contains(HeaderName.CorrelationId))
             {
+                logger.LogInformation($"{nameof(HeaderName.CorrelationId)} and {nameof(correlationIdProvider.CorrelationId)} " +
+                    $"has been added to the default request headers for the http client");
+
                 httpClient.DefaultRequestHeaders.Add(HeaderName.CorrelationId, correlationIdProvider.CorrelationId);
             }
         }

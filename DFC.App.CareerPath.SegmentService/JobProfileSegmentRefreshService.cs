@@ -14,21 +14,27 @@ namespace DFC.App.CareerPath.SegmentService
         private const int BatchSize = 500;
         private readonly ITopicClient topicClient;
         private readonly ICorrelationIdProvider correlationIdProvider;
+        private readonly ILogService logService;
 
-        public JobProfileSegmentRefreshService(ITopicClient topicClient, ICorrelationIdProvider correlationIdProvider)
+        public JobProfileSegmentRefreshService(ITopicClient topicClient, ICorrelationIdProvider correlationIdProvider, ILogService logService)
         {
             this.topicClient = topicClient;
             this.correlationIdProvider = correlationIdProvider;
+            this.logService = logService;
         }
 
         public async Task SendMessageAsync(TModel model)
         {
+            logService.LogInformation($"{nameof(SendMessageAsync)} has been called");
+
             var message = CreateMessage(model);
             await topicClient.SendAsync(message).ConfigureAwait(false);
         }
 
         public async Task SendMessageListAsync(IList<TModel> models)
         {
+            logService.LogInformation($"{nameof(SendMessageListAsync)} has been called");
+
             // List is batched to avoid exceeding the Service Bus size limit on DEV and SIT of 256KB
             if (models != null)
             {
@@ -40,10 +46,16 @@ namespace DFC.App.CareerPath.SegmentService
                     await topicClient.SendAsync(batchedList).ConfigureAwait(false);
                 }
             }
+            else
+            {
+                logService.LogInformation($"{nameof(SendMessageListAsync)} has been called with a null list of models {nameof(models)}");
+            }
         }
 
         private Message CreateMessage(TModel model)
         {
+            logService.LogInformation($"{nameof(CreateMessage)} has been called");
+
             var messageJson = JsonConvert.SerializeObject(model);
             return new Message(Encoding.UTF8.GetBytes(messageJson))
             {
