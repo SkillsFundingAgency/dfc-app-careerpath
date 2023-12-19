@@ -4,13 +4,13 @@
     "parameters": {
         "appServiceDomain": {
             "type": "string"
-        },        
+        },
         "appSharedResourceGroup": {
             "type": "string"
         },
         "appSharedServiceBusName": {
             "type": "string"
-        },        
+        },
         "appSharedStorageAccountName": {
             "type": "string"
         },
@@ -80,6 +80,12 @@
             "metadata": {
                 "description": "Enable or disable alerting"
             }
+        },
+        "workspaceName": {
+            "type": "string"
+        },
+        "workspaceResourceGroup": {
+            "type": "string"
         }
     },
     "variables": {
@@ -90,7 +96,7 @@
         "cosmosDbDatabaseName": "dfc-app-jobprofiles",
         "cosmosDbEndpoint": "[concat('https://', parameters('cosmosDbName'), '.documents.azure.com:443/')]",
         "resourcePrefix": "[tolower(concat('dfc-', parameters('Environment'), '-app-carpath'))]",
-        "urlCareerPath": "[toLower(concat('https://', variables('webAppName'), '.', parameters('appServiceDomain')))]",        
+        "urlCareerPath": "[toLower(concat('https://', variables('webAppName'), '.', parameters('appServiceDomain')))]",
         "webAppName": "[concat(variables('resourcePrefix'), '-as')]",
         "webAppInsightsName": "[concat(variables('webAppName'), '-ai')]",
         "functionAppName": "[concat(variables('resourcePrefix'), '-fa')]",
@@ -115,6 +121,12 @@
                     },
                     "attachedService": {
                         "value": ""
+                    },
+                    "workspaceName": {
+                        "value": "[parameters('workspaceName')]"
+                    },
+                    "workspaceResourceGroup": {
+                        "value": "[parameters('workspaceResourceGroup')]"
                     }
                 }
             }
@@ -248,6 +260,12 @@
                     },
                     "attachedService": {
                         "value": ""
+                    },
+                    "workspaceName": {
+                        "value": "[parameters('workspaceName')]"
+                    },
+                    "workspaceResourceGroup": {
+                        "value": "[parameters('workspaceResourceGroup')]"
                     }
                 }
             }
@@ -343,7 +361,7 @@
             "dependsOn": [
                 "[variables('functionAppInsightsName')]"
             ]
-        },        
+        },
         {
             "apiVersion": "2017-05-10",
             "name": "[parameters('cosmosDbCollectionName')]",
