@@ -14,6 +14,12 @@
         "appSharedStorageAccountName": {
             "value": "dfcdevappsharedstr"
         },
+        "appServiceName": {
+            "value": "dfc-foo-app-careerpath-as-ver"
+        },
+        "functionAppName": {
+            "value": "dfc-foo-app-careerpath-fa-ver"
+        },
         "cosmosDBName": {
             "value": "dfc-dev-app-sharedresources-cdb"
         },
